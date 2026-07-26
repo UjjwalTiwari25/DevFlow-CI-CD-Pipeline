@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy dependency manifests first for better layer caching
 COPY package*.json ./
-RUN npm ci --ignore-scripts
+RUN npm install --ignore-scripts
 
 # Copy Prisma schema and generate client
 COPY prisma ./prisma

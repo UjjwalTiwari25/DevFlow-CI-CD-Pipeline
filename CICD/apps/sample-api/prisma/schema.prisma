@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth & Tasks (Track A) ──────────────────────────────────────────────────
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  password     String
+  name         String
+  tasks        Task[]
+  repositories Repository[]
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  @@map("users")
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String     @db.VarChar(255)
+  description String     @default("") @db.Text
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  dueDate     DateTime?  @map("due_date")
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String     @map("user_id")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  @@index([userId])
+  @@index([status])
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  ARCHIVED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ─── CI/CD Platform (Track B) ────────────────────────────────────────────────
+
+model Repository {
+  id          String        @id @default(uuid())
+  name        String
+  fullName    String        @map("full_name")
+  url         String
+  language    String        @default("JavaScript")
+  branch      String        @default("main")
+  isActive    Boolean       @default(true) @map("is_active")
+  owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String        @map("owner_id")
+  pipelines   PipelineRun[]
+  deployments Deployment[]
+  scans       SecurityScan[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  @@index([ownerId])
+  @@map("repositories")
+}
+
+model PipelineRun {
+  id           String      @id @default(uuid())
+  commitMsg    String      @map("commit_msg")
+  commitSha    String      @map("commit_sha") @db.VarChar(40)
+  branch       String
+  status       RunStatus   @default(QUEUED)
+  trigger      String      @default("push")
+  duration     Int?
+  lintPassed   Boolean?    @map("lint_passed")
+  testsPassed  Boolean?    @map("tests_passed")
+  testCoverage Float?      @map("test_coverage")
+  buildPassed  Boolean?    @map("build_passed")
+  logsUrl      String?     @map("logs_url")
+  repository   Repository  @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  repoId       String      @map("repo_id")
+  startedAt    DateTime    @default(now()) @map("started_at")
+  finishedAt   DateTime?   @map("finished_at")
+  @@index([repoId])
+  @@index([status])
+  @@map("pipeline_runs")
+}
+
+model Deployment {
+  id          String       @id @default(uuid())
+  version     String
+  commitSha   String       @map("commit_sha") @db.VarChar(40)
+  environment String       @default("production")
+  status      DeployStatus @default(PENDING)
+  url         String?
+  duration    Int?
+  triggeredBy String       @default("ci") @map("triggered_by")
+  repository  Repository   @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  repoId      String       @map("repo_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  finishedAt  DateTime?    @map("finished_at")
+  @@index([repoId])
+  @@map("deployments")
+}
+
+model SecurityScan {
+  id             String     @id @default(uuid())
+  scanType       String     @map("scan_type")
+  scanner        String
+  status         ScanStatus @default(PENDING)
+  criticalCount  Int        @default(0) @map("critical_count")
+  highCount      Int        @default(0) @map("high_count")
+  mediumCount    Int        @default(0) @map("medium_count")
+  lowCount       Int        @default(0) @map("low_count")
+  report         String?    @db.Text
+  repository     Repository @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  repoId         String     @map("repo_id")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  @@index([repoId])
+  @@map("security_scans")
+}
+
+enum RunStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+enum DeployStatus {
+  PENDING
+  DEPLOYING
+  LIVE
+  FAILED
+  ROLLED_BACK
+}
+
+enum ScanStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+}

@@ -1,0 +1,60 @@
+@mixin multilineEllipsis($linesCount) {
+  /* stylelint-disable property-no-vendor-prefix, value-no-vendor-prefix */
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $linesCount;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* stylelint-enable property-no-vendor-prefix, value-no-vendor-prefix */
+}
+  
+@mixin customScrollbar($Vsize, $Hsize) {
+  /* width */
+  &::-webkit-scrollbar {
+    height: $Hsize;
+    width: $Vsize;
+  }
+  
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #949494;
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+  
+@mixin width-ext-animation($name, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      width: $from;
+    }
+  
+    100% {
+      width: $to;
+    }
+  }
+}
+  
+  
+  
+@mixin opacity-animation($name, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      opacity: $from;
+    }
+  
+    100% {
+      opacity: $to;
+    }
+  }
+}

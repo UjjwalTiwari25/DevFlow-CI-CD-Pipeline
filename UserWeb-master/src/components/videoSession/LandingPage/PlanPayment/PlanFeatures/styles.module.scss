@@ -1,0 +1,23 @@
+@use '../../../../../styles/' as *;
+
+.planFeatureItemList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-12;
+}
+
+.planFeatureItem {
+  display: flex;
+  gap: $space-8;
+  align-items: center;
+}
+
+.planFeatureItemText {
+  @include font-350-default-regular;
+}
+
+@include themify($themes) {
+  .planFeatureItemText {
+    color: themed('text-primary-main');
+  }
+}

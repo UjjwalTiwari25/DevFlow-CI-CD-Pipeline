@@ -1,0 +1,8 @@
+{
+  "referral_playlist_redeem_access_to_aura_one": "Redeem your {{count}}-day access to Aura",
+  "referral_playlist_redeem_access_to_aura_other": "Redeem your {{count}}-day access to Aura",
+  "referral_playlist_referrer_sent_you_title": "{{referrerName}} shared playlist \"{{playlistName}}\" with you!",
+  "playlist_influencer_name_invited_you_to_join_aura": "{{influencerName}} invited you to join Aura!",
+  "playlist_influencer_limited_time_discount_code_applied": "Your limited-time discount code <0>\"{{influencerCode}}\"</0> has been applied automatically. Get started today.",
+  "playlist_influencer_by": "By {{influencerName}}"
+}

@@ -1,0 +1,82 @@
+@use '../../../../styles/' as *;
+
+.aboutitle {
+  @include font-600-default-semibold;
+
+  color: #2f3237;
+  font-size: 26px;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+
+.aboutItems {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  max-width: 90%;
+}
+
+.aboutItemTitle {
+  @include font-500-default-regular;
+
+  color: #5b657a;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+
+.aboutListItems {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.aboutListItem {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+.aboutItemText {
+  @include font-500-default-regular;
+
+  color: #2f3237;
+  line-height: normal;
+}
+
+.aboutUsWrapper {
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .aboutItemText {
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .aboutItems {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .aboutitle {
+    font-size: 18px;
+  }
+
+  .aboutItems {
+    gap: 38px;
+  }
+
+  .aboutItemTitle {
+    font-size: 16px;
+  }
+
+  .aboutListItem {
+    gap: 16px;
+  }
+  
+  .aboutItemText {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "referral_live_aura_sent_you_live": "Aura lud dich ein, {{liveTitle}} beizutreten",
+  "referral_live_aura_sent_you_live_recording": "Aura lud dich ein, {{liveTitle}} zu sehen",
+  "referral_live_badge_live": "Live",
+  "referral_live_badge_live_replay": "Live-Wiederholung",
+  "referral_live_meta_description": "Hol dir deinen exklusiven Aura-Gästepass und nimm am Live-Event teil {{liveTitle}}  ",
+  "referral_live_meta_title": "Nimm am {{liveTitle}} Live-Event auf Aura teil",
+  "referral_live_recorded_on": "Aufgenommen am {{recordingDate}}",
+  "referral_live_redeem_your_guest_pass_one": "Löse deinen {{count}}-Tages-Gästepass ein",
+  "referral_live_redeem_your_guest_pass_other": "Löse deinen {{count}}-Tages-Gästepass ein",
+  "referral_live_redeem_your_guest_pass_from_one": "Löse deinen {{count}}-Tages-Gästepass bei {{referrerName}} ein.",
+  "referral_live_redeem_your_guest_pass_from_other": "Löse deinen {{count}}-Tages-Gästepass bei {{referrerName}} ein.",
+  "referral_live_referrer_sent_you_live": "{{referrerName}} hat dich eingeladen {{liveTitle}} beizutreten.",
+  "referral_live_referrer_sent_you_live_recording": "{{referrerName}} hat dich eingeladen {{liveTitle}} anzusehen"
+}

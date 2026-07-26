@@ -1,0 +1,144 @@
+@use '../../../../styles' as *;
+
+.container {
+  display: flex;
+  margin-top: 10px;
+  padding: $space-0 $space-24;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+.content {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-20;
+  border-radius: $border-radius-12;
+  padding: 5px;
+}
+
+
+
+.paymentContainer {
+  @include shadow-soft-card-s;
+  width: 100%;
+  background-color: $white-alpha-main;
+  border-radius: $border-radius-12;
+  padding: $space-12 $space-16 $space-20;
+  display: flex;
+  flex-direction: column;
+  gap: $space-20;
+}
+
+.tabContainer {
+  display: flex;
+  gap: $space-8;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  padding: $space-12;
+  border-radius: $border-radius-8;
+  border: 1px solid $gray-alpha-200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(90, 200, 250, 0.05);
+  }
+
+  &.activeTab {
+    background-color: rgba(90, 200, 250, 0.1);
+    border-color: $additional-blue;
+  }
+}
+
+.applePayLabel,
+.cardLabel {
+  @include font-325-default-regular;
+  font-family: 'Proxima Nova', sans-serif;
+  line-height: 1.31;
+  color: $gray-main;
+}
+
+.cardLabel {
+  color: $gray-500;
+}
+
+.applePayLogo {
+  width: 50px;
+}
+
+.cardIcon {
+  width: 24px;
+  color: $gray-main;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-16;
+  width: 100%;
+}
+
+.applePayContent,
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-12;
+  width: 100%;
+  align-items: center;
+}
+
+.pricingInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: $space-6;
+}
+
+
+.appleLogoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.bestOfAppleImage {
+  width: 128.9059295654297px;
+}
+
+.cardForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-16;
+  width: 100%;
+}
+
+.stripeSecure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.stripeSecureImage {
+  height: 25px;
+}
+
+.securedByStripe {
+  width: 26px;
+}
+

@@ -1,0 +1,11 @@
+{
+  "challenge_referral_challenge_duration": "{{duration}}日間チャレンジ",
+  "challenge_referral_header": "{{referrerName}}が Aura の30日間無料トライアルに招待しました",
+  "challenge_referral_subtitle_begin_with_challenge": "{{referrerName}}と新しい{{challengeName}}を始めましょう。",
+  "challenge_referral_subtitle_begin_with_challenge2": "{{referrerName}}と新しい{{challengeName}} チャレンジを始めましょう。",
+  "challenge_referral_subtitle_enjoy_trial": "30日間無料トライアルをお楽しみください",
+  "challenge_referral_subtitle_enjoy_trial_from": "{{referrerName}}からの30日間無料トライアルをお楽しみください",
+  "challenge_referral_trusted_by": "800万人以上のユーザーから信頼されています",
+  "meta_challenge_referral_description": "Aura に参加して30日間ゲストパスをお申し込みください",
+  "meta_challenge_referral_title": "{{challengeName}} - Aura"
+}

@@ -1,0 +1,40 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Configuration
+.env
+.env.*
+!.env.sample
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Dependencies (will be installed fresh in the image)
+node_modules
+npm-debug.log*
+
+# Testing
+tests/
+coverage/
+jest.config.js
+test-results/
+tests-result/
+
+# IDE
+.vscode/
+.idea/
+
+# Documentation
+README.md
+docs/
+
+# ESLint/Prettier
+.eslintcache
+.prettierrc
+eslint.config.js

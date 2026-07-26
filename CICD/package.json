@@ -1,0 +1,24 @@
+{
+  "name": "devflow-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A GitHub-integrated CI/CD platform that automatically tests, lints, security-scans, containerizes, and deploys applications",
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/sample-api",
+    "test": "npm run test --workspace=apps/sample-api",
+    "test:coverage": "npm run test:coverage --workspace=apps/sample-api",
+    "lint": "npm run lint --workspace=apps/sample-api",
+    "lint:fix": "npm run lint:fix --workspace=apps/sample-api",
+    "format": "npm run format --workspace=apps/sample-api",
+    "format:check": "npm run format:check --workspace=apps/sample-api",
+    "docker:up": "docker compose -f infra/docker-compose.yml up -d",
+    "docker:down": "docker compose -f infra/docker-compose.yml down",
+    "docker:build": "docker compose -f infra/docker-compose.yml build"
+  },
+  "workspaces": [
+    "apps/sample-api"
+  ],
+  "keywords": ["cicd", "devops", "pipeline", "docker", "github-actions"],
+  "author": "Ujjwal",
+  "license": "MIT"
+}

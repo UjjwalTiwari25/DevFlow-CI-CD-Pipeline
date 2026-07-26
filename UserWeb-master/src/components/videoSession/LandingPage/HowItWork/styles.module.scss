@@ -1,0 +1,108 @@
+@use '../../../../styles/' as *;
+
+.howItworkTitle {
+  @include font-600-default-regular;
+
+  color: #2f3237;
+  font-size: 26px;
+  line-height: normal;
+}
+
+.howItWorkSteps {
+  display: flex;
+  width: 725px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  padding-bottom: 56px;
+  margin-bottom: 56px;
+  border-bottom: 1px solid rgba(144, 146, 163, 0.2);
+}
+
+.stepContainer {
+  width: 352px;
+  height: 386px;
+  flex-shrink: 0;
+  border-radius: 15.359px;
+  border: 0.96px solid #fff;
+  background: rgba(255, 255, 255, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.stepHeader {
+  padding: 20px 18px 0;
+  display: flex;
+  gap: 12px;
+  flex-direction: row;
+}
+
+.stepNo {
+  @include font-400-default-semibold;
+
+  line-height: normal;
+  font-size: 15px;
+  font-weight: 700;
+  height: 28px;
+  width: 28px;
+  background: linear-gradient(277.58deg, #bdd6d5 5.87%, #bdc7cd 94.13%);
+  color: #fff;
+  border-radius: 28px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.stepDetails {
+  width: calc(100% - 40px);
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.stepTitle {
+  @include font-400-default-semibold;
+
+  line-height: normal;
+  color: #2f3237;
+}
+
+.stepDescription {
+  @include font-325-default-regular;
+
+  font-size: 12.479px;
+  line-height: 135%;
+  letter-spacing: 0.125px;
+  color: #4e545f;
+}
+
+.howItWorkImage {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  bottom: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .howItWorkSteps {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .howItworkTitle {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .howItWorkSteps {
+    margin-top: 16px;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "insufficient_funds": {
+    "name": "insufficient_funds",
+    "header": "Payment failed; insufficient funds",
+    "description": "stripe_error_insufficient_funds"
+  },
+  "do_not_honor": {
+    "name": "do_not_honor",
+    "header": "Payment declined",
+    "description": "stripe_error_do_not_honor"
+  },
+  "transaction_not_allowed": {
+    "name": "transaction_not_allowed",
+    "header": "Payment declined",
+    "description": "stripe_error_transaction_not_allowed"
+  },
+  "blocked_by_stripe_due_to_prev_fail": {
+    "name": "blocked_by_stripe_due_to_prev_fail",
+    "header": "Payment unsuccessful due to previous fail",
+    "description": "stripe_error_blocked_by_stripe"
+  },
+  "incorrect_number": {
+    "name": "incorrect_number",
+    "header": "Invalid card number",
+    "description": "stripe_error_incorrect_number"
+  },
+  "invalid_account": {
+    "name": "invalid_account",
+    "header": "Payment unsuccessful",
+    "description": "stripe_error_inavlid_account"
+  },
+  "no_details_by_bank": {
+    "name": "no_details_by_bank",
+    "header": "Payment declined",
+    "description": "stripe_error_no_details"
+  },
+  "incorrect_cvc": {
+    "name": "incorrect_cvc",
+    "header": "Invalid CVC/CVV",
+    "description": "stripe_error_incorrect_cvc"
+  },
+  "try_again_later": {
+    "name": "try_again_later",
+    "header": "Payment unsuccessful",
+    "description": "stripe_error_try_again_later"
+  },
+  "stolen_card": {
+    "name": "stolen_card",
+    "header": "Payment declined",
+    "description": "stripe_error_stolen_card"
+  },
+  "pickup_card": {
+    "name": "pickup_card",
+    "header": "Payment declined",
+    "description": "stripe_error_pickup_card"
+  },
+  "expired_card": {
+    "name": "expired_card",
+    "header": "Payment error",
+    "description": "stripe_error_expired_card"
+  },
+  "lost_card": {
+    "name": "lost_card",
+    "header": "Payment declined",
+    "description": "stripe_error_lost_card"
+  }
+}

@@ -1,0 +1,86 @@
+@use '../../../../styles/' as *;
+
+.defaultBackground {
+  background: #f7fbfc;
+  position: relative;
+  padding-bottom: 50px;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.opticalBackground {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+
+.signinButton {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 2;
+}
+
+.backgroundCongrats {
+  position: fixed;
+  height: 100vh;
+}
+
+.arrow {
+  width: 7px;
+  height: 13px;
+  margin-top: 5px;
+}
+
+.aura {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.auraText {
+  @include font-400-default-regular;
+  margin-left: 15px;
+  color: $white-alpha-main;
+  letter-spacing: 2.2;
+}
+
+.auraLogoWithText {
+  width: 110px;
+}
+
+.cleanLoginModal {
+  position: relative;
+  z-index: 9999;
+}
+
+@media screen and (max-width: 1024px) {
+  .outerWrap {
+    margin: 0 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .backButton {
+    position: relative;
+    bottom: unset;
+    left: unset;
+  }
+
+  .outerWrap {
+    margin: 0 $space-20;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .outerWrap {
+    padding-top: 10px;
+    padding-bottom: 30px;
+  }
+
+  .aura {
+    gap: 5px;
+    padding: $space-20 0;
+  }
+}

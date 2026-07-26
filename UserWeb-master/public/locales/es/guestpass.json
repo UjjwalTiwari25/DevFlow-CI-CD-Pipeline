@@ -1,0 +1,22 @@
+{
+  "guestpass_access_all_tracks": "Obtén acceso ilimitado a todas las pistas de {{coachName}}",
+  "guestpass_button_redeem": "Utilizar Pase de Invitado",
+  "guestpass_claim_guest_pass_one": "Obtén tu Pase de Invitado de Aura de {{count}} día de {{referrerName}}",
+  "guestpass_claim_guest_pass_other": "Obtén tu Pase de Invitado de Aura de {{count}} días de {{referrerName}}",
+  "guestpass_claim_today_one": "Obtén hoy tu Pase de Invitado de {{count}} día de Aura",
+  "guestpass_claim_today_other": "Obtén hoy tu Pase de Invitado de {{count}} días de Aura",
+  "guestpass_find_peace": "Encuentra la paz y disfruta de un sueño reparador conmigo en Aura",
+  "guestpass_follow_on_aura": "Sigue a {{coachName}} en Aura",
+  "guestpass_header_aura": "AURA",
+  "guestpass_instant_access": "Cuando te registres, obtendrás acceso instantáneo a todas mis pistas en {{specialties}}:",
+  "guestpass_meditations_stories_everything": "Meditaciones, historias, coaching de vida, música, sonidos de la naturaleza... de todo.",
+  "guestpass_personalized_tracks": "Más de 4000 Pistas de Bienestar Personalizadas",
+  "guestpass_reviews": "Más de 20.000 calificaciones de 5 estrellas",
+  "guestpass_top_coaches": "Los Mejores Coaches y Terapeutas del Mundo en una App",
+  "guestpass_tracks_durations": "Pistas de 3 min. a más de 1 hora",
+  "guestpass_unlimited_access": "Disfruta de acceso ilimitado a Aura",
+  "meta_guestpass_description_one": "Únete a Aura hoy y canjea tu Pase de Invitado de {{count}} día de {{coachName}}",
+  "meta_guestpass_description_other": "Únete a Aura hoy y canjea tu Pase de Invitado de {{count}} días de {{coachName}}",
+  "meta_guestpass_title_one": "Pase de Invitado de {{count}} día de {{coachName}} - Aura",
+  "meta_guestpass_title_other": "Pase de Invitado de {{count}} días de {{coachName}} - Aura"
+}

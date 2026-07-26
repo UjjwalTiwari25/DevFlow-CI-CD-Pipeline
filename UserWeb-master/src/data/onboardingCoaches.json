@@ -1,0 +1,26 @@
+[
+  {
+    "name": "onboarding_your_plan_list_item_lauren",
+    "professionalTitle": "onboarding_your_plan_list_item_mindfulness_expert",
+    "country": "onboarding_your_plan_list_item_usa",
+    "subscribers": "100k",
+    "picture": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/channelAuthorPhotos%2FMindful%20Moments.jpg?alt=media&token=b5f9fdd1-b47d-4f7a-88b7-e91e0b89684f",
+    "flag": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/CountryFlags%2Fusa%402x.png?alt=media&token=f46ad3c4-22e8-436a-a516-316faeb734c5"
+  },
+  {
+    "name": "onboarding_your_plan_list_item_cass",
+    "professionalTitle": "onboarding_your_plan_list_item_psychologist",
+    "country": "onboarding_your_plan_list_item_australia",
+    "subscribers": "120k",
+    "picture": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/teacherPhotos%2Fcass_circle.png?alt=media&token=4cddc490-f502-4dec-8ca6-5d3def666867",
+    "flag": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/CountryFlags%2Faustralia%402x.png?alt=media&token=c41e98ae-b684-480d-a919-eb054981fbac"
+  },
+  {
+    "name": "onboarding_your_plan_list_item_glenn",
+    "professionalTitle": "onboarding_your_plan_list_item_therapist",
+    "country": "onboarding_your_plan_list_item_england",
+    "subscribers": "15k",
+    "picture": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/channelAuthorPhotos%2FDiviniti%20Meditation%20%26%20Hypnotherapy.jpeg?alt=media&token=fdba2aef-b318-4a11-a9a0-3caf3b856aee",
+    "flag": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/CountryFlags%2Fengland%402x.png?alt=media&token=d38173ea-fc8e-4bc0-9957-1f0cdcce5889"
+  }
+]

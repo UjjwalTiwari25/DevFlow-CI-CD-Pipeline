@@ -1,0 +1,149 @@
+@use '../../../styles/' as *;
+
+.yourCommunityWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-32;
+}
+
+.yourCommunityLabel {
+  @include font-800-default-semibold;
+}
+
+.coachCommunityCard {
+  @include shadow-soft-card-s;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-24;
+  padding: $space-20;
+  border-radius: $border-radius-16;
+}
+
+.communityInfoHeader {
+  display: flex;
+  gap: $space-24;
+  align-items: center;
+}
+
+.communityImageWrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yourCoachProfileImage {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: $border-radius-16;
+  object-fit: cover;
+}
+
+.communityDetailsWrapper {
+  margin-top: $space-16;
+  display: flex;
+  align-items: center;
+  gap: $space-12;
+}
+
+.communityName {
+  @include font-600-default-semibold;
+  margin-bottom: $space-8;
+}
+
+.subscriberCountWrapper {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.subscriberCount {
+  @include font-400-default-regular;
+}
+
+.communityDescription {
+  @include font-400-default-regular;
+}
+
+.profileIcon {
+  height: 24px;
+  color: #9092a3;
+}
+
+@include themify($themes) {
+  .coachCommunityCard {
+    background-color: themed('background-primary-main');
+  }
+
+  .yourCoachLabel {
+    color: themed('text-primary-main');
+  }
+
+  .communityName {
+    color: themed('text-primary-main');
+  }
+
+  .subscriberCount {
+    color: themed('text-primary-main');
+  }
+
+  .communityDescription {
+    color: themed('text-secondary-500');
+  }
+
+  .mobileIconText {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .yourCommunityWrapper {
+    gap: $space-24;
+  }
+
+  .yourCommunityLabel {
+    @include font-600-default-semibold;
+  }
+
+  .coachCommunityCard {
+    @include shadow-soft-card-s;
+
+    border-radius: $border-radius-12;
+    padding: $space-12;
+    gap: $space-12;
+  }
+
+  .communityInfoHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-16;
+  }
+
+  .communityImageWrapper {
+    width: 100%;
+  }
+
+  .yourCoachProfileImage {
+    width: 100%;
+    border-radius: $space-12;
+  }
+
+  .communityName {
+    @include font-450-default-semibold;
+  }
+
+  .profileIcon {
+    height: 20px;
+    width: 20px;
+  }
+
+  .subscriberCount {
+    @include font-350-default-regular;
+  }
+}

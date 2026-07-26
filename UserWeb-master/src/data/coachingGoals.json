@@ -1,0 +1,64 @@
+{
+  "improveSleep": {
+    "unique": "improveSleep",
+    "isActive": false,
+    "titleKey": "onboarding_coaching_takes_list_item_improve_sleep_title",
+    "title": "Improve Sleep",
+    "buttonTitle": "Improve Sleep",
+    "topicName": "improveSleep",
+    "image": "/static/images/coachingOnboarding/improveSleep.png"
+  },
+  "manageStressAnxiety": {
+    "unique": "manageStressAnxiety",
+    "isActive": false,
+    "title": "Manage stress & anxiety",
+    "buttonTitle": "Manage stress & anxiety",
+    "titleKey": "onboarding_coaching_takes_list_item_manage_stress_anxiety_title",
+    "topicName": "manageStressAnxiety",
+    "image": "/static/images/coachingOnboarding/manageStress.png"
+  },
+  "improveRelationships": {
+    "unique": "improveRelationships",
+    "isActive": false,
+    "titleKey": "onboarding_coaching_takes_list_item_improve_relationships_title",
+    "title": "Improve my relationships",
+    "buttonTitle": "Improve my relationships",
+    "topicName": "improveRelationships",
+    "image": "/static/images/coachingOnboarding/improveRelationship.png"
+  },
+  "increaseWorkPerformance": {
+    "unique": "increaseWorkPerformance",
+    "isActive": false,
+    "titleKey": "onboarding_coaching_takes_list_item_increase_work_performance_title",
+    "title": "Increase work performance",
+    "buttonTitle": "Increase work performance",
+    "topicName": "increaseWorkPerformance",
+    "image": "/static/images/coachingOnboarding/increaseWorkPerformance.png"
+  },
+  "spiritualGuidance": {
+    "unique": "spiritualGuidance",
+    "isActive": false,
+    "buttonTitle": "Spiritual guidance",
+    "title": "Spiritual guidance",
+    "titleKey": "onboarding_coaching_takes_list_item_spiritual_guidance_title",
+    "topicName": "spiritualGuidance",
+    "image": "/static/images/coachingOnboarding/spirtual.png"
+  },
+  "improveMood": {
+    "unique": "improveMood",
+    "isActive": false,
+    "titleKey": "onboarding_coaching_takes_list_item_improve_mood_title",
+    "title": "Improve mood",
+    "buttonTitle": "Improve mood",
+    "topicName": "improveMood",
+    "image": "/static/images/coachingOnboarding/improveMood.png"
+  },
+  "other": {
+    "unique": "other",
+    "isActive": false,
+    "titleKey": "onboarding_coaching_takes_list_item_other_title",
+    "title": "Other",
+    "buttonTitle": "Other",
+    "topicName": "other"
+  }
+}

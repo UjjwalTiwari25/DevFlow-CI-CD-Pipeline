@@ -1,0 +1,80 @@
+@use '../../../styles/' as *;
+
+.horizontalRow {
+  margin: $space-72 auto;
+  border-bottom: 1px solid #000;
+  width: 100%;
+  opacity: 0.1;
+}
+
+.orHorizontalRow {
+  border-bottom: 1px solid #000;
+  width: 100%;
+  opacity: 0.1;
+}
+
+.horizontalRowOr {
+  @include font-400-default-regular;
+  margin: $space-72 auto $space-32;
+  color: #2f3237;
+  display: flex;
+  align-items: center;
+  gap: $space-16;
+  opacity: 0.5;
+}
+
+.courseInfoSection {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-72;
+  align-items: flex-start;
+}
+
+.purchaseCourseSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coursePurchaseCardSection {
+  position: sticky;
+  top: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  .horizontalRow {
+    margin: $space-64 auto 0;
+    border-bottom: 0 solid;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .coursePurchaseCardSection {
+    display: none;
+  }
+
+  .courseInfoSection {
+    flex-direction: column;
+    margin-top: $space-40;
+  }
+
+  .buttonContainer {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px 10px 0 0;
+    position: fixed;
+    padding: $space-20 28px;
+    bottom: $space-0;
+    backdrop-filter: blur(60px);
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 20;
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .mobileOnly {
+    display: none !important;
+  }
+}

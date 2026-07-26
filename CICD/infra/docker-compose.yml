@@ -1,0 +1,43 @@
+services:
+  api:
+    build:
+      context: ../apps/sample-api
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/devflow
+      JWT_SECRET: devflow-local-development-secret-min-32-characters-long
+      LOG_LEVEL: debug
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - devflow-network
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: devflow
+    ports:
+      - '15432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - devflow-network
+
+volumes:
+  pgdata:
+
+networks:
+  devflow-network:
+    driver: bridge

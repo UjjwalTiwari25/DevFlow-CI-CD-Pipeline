@@ -1,0 +1,225 @@
+@use '../../../../../../styles/' as *;
+
+.eventInnerCard {
+  position: absolute;
+  bottom: 56px;
+  width: 256px;
+  max-height: 228px;
+  padding: 10px;
+  @include shadow-soft-card-s;
+  border-radius: $border-radius-10;
+  background-color: $white-alpha-main;
+}
+
+.eventInnerCardImage {
+  width: 100%;
+  height: 127px;
+  border-radius: $border-radius-4;
+  object-fit: cover;
+  position: relative;
+}
+
+.eventInnerCardTitle {
+  @include font-450-default-semibold;
+  font-size: 15px;
+  margin-top: 10px;
+  line-height: 19px;
+}
+
+.eventInnerCardInfo {
+  @include font-350-default-regular;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.eventInnerCardGoing {
+  @include font-350-default-semibold;
+  font-size: 9px;
+  line-height: 11.5px;
+}
+
+.eventInnerCardJoinedButton {
+  @include font-350-default-semibold;
+  width: 61px;
+  font-size: 12px;
+  text-align: center;
+  padding: 9px 13px;
+  border-radius: $border-radius-full;
+  @include shadow-soft-card-s;
+  cursor: pointer;
+}
+
+.eventInnerCardInfoSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eventBadgeWrapper {
+  width: fit-content;
+  @include shadow-soft-card-s;
+  position: absolute;
+  top: 18px;
+  left: 18px;
+}
+
+.eventBadgeLabel {
+  @include font-450-default-semibold;
+  font-size: 9px;
+  line-height: 11.5px;
+  text-align: center;
+  color: $white-alpha-main;
+  border-radius: $border-radius-4 $border-radius-4 0 0;
+  background: linear-gradient(91deg, #fc9192 0.67%, #fc64d2 99.33%);
+  padding: 2px 5px;
+}
+
+.eventBadgeDate {
+  @include font-350-default-semibold;
+  font-size: 10px;
+  text-align: center;
+  padding: 2px 2px 2px 4px;
+}
+
+.eventBadgeDates {
+  background-color: $white-alpha-main;
+  border-radius: 0 0 $border-radius-4 $border-radius-4;
+}
+
+.eventBadgeDay {
+  @include font-350-default-regular;
+  font-size: 9px;
+  text-align: center;
+  line-height: 11.5px;
+}
+
+.eventGoingSection {
+  @include font-300-default-regular;
+
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.clockIcon {
+  color: #9092a3;
+}
+
+.eventGoingPeople {
+  width: 30px;
+}
+
+@include themify($themes) {
+  .eventInnerCardTitle {
+    color: themed('text-primary-main');
+  }
+
+  .eventInnerCardJoinedButton {
+    color: themed('text-primary-main');
+  }
+
+  .eventInnerCardGoing {
+    color: themed('text-primary-main');
+  }
+
+  .eventInnerCardInfo {
+    color: themed('text-secondary-500');
+  }
+
+  .eventBadgeDate {
+    color: themed('text-primary-main');
+  }
+
+  .eventBadgeDay {
+    color: themed('text-secondary-500');
+  }
+  
+  .eventGoingSection {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .eventInnerCard {
+    width: 200px;
+    padding: $space-6;
+    bottom: $space-20;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .eventInnerCard {
+    width: 155px;
+    padding: $space-6;
+    bottom: $space-20;
+  }
+
+  .eventInnerCardImage {
+    height: 76px;
+  }
+
+  .eventInnerCardTitle {
+    font-size: 9px;
+    margin-top: 0;
+  }
+
+  .eventInnerCardInfo {
+    font-size: 6px;
+    line-height: $space-8;
+  }
+
+  .eventInnerCardGoing {
+    font-size: 6px;
+    line-height: 7px;
+  }
+
+  .eventInnerCardJoinedButton {
+    width: 36px;
+    font-size: 7px;
+    line-height: 9px;
+    padding: 5px $space-8;
+    box-shadow: 0 2.969px 11.877px 0.99px rgba(43, 42, 107, 0.17);
+  }
+
+  .eventBadgeWrapper {
+    left: $space-12;
+    top: $space-12;
+    width: 20px;
+  }
+
+  .eventBadgeLabel {
+    font-size: 5.5px;
+    padding: 1px 3px;
+    line-height: 7px;
+    border-radius: 2.5px 2.5px 0 0;
+  }
+
+  .eventBadgeDate {
+    font-size: 6px;
+    line-height: 7.4px;
+  }
+
+  .eventBadgeDay {
+    font-size: 5.5px;
+    line-height: 7px;
+  }
+
+  .eventBadgeDates {
+    border-radius: 0 0 2.5px 2.5px;
+  }
+
+  .eventGoingSection {
+    gap: $space-2;
+    font-size: 8px;
+    line-height: normal;
+  }
+
+  .eventGoingPeople {
+    width: 18px;
+  }
+
+  .clockIcon {
+    height: 10px;
+    width: 10px;
+  }
+}

@@ -1,0 +1,49 @@
+@use '../../../styles/' as *;
+
+.footerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.copyrightText {
+  @include font-400-default-regular;
+
+  color: #5b657a;
+  font-size: 15px;
+}
+
+.contactText {
+  @include font-400-default-regular;
+
+  color: #5b657a;
+  font-size: 15px;
+}
+
+.horizontalRow {
+  border-bottom: 1px solid #000;
+  width: 100%;
+  opacity: 0.1;
+  margin-top: $space-56;
+}
+
+.linkText {
+  text-decoration: underline;
+  color: #5b675a;
+}
+
+.lessMargin {
+  margin-top: 0;
+}
+
+.lessMarginFooterWrapper {
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  .footerWrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

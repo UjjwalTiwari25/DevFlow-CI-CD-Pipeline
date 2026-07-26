@@ -1,0 +1,10 @@
+{
+  "meta_guestpass_description_other": "지금 Aura에 가입하고 {{count}}일 게스트 패스를 받으세요!",
+  "meta_guestpass_title_other": "Aura에서 보낸 {{count}}일 게스트 패스",
+  "referral_name_sent_you_guest_pass_other": "{{referrerName}} 님이 {{count}}일 게스트 패스를 보냈습니다.",
+  "referral_redeem_your_guest_pass_from_aura_other": "지금 {{count}}일 게스트 패스를 사용해 보세요!",
+  "meta_guestpass_description_one": "지금 Aura에 함께하고 {{count}}일 게스트 패스를 받으세요",
+  "meta_guestpass_title_one": "Aura가 드리는 {{count}}일 게스트 패스",
+  "referral_name_sent_you_guest_pass_one": "{{referrerName}}님이 {{count}}일 게스트 패스를 보냈어요",
+  "referral_redeem_your_guest_pass_from_aura_one": "오늘 {{count}}일 게스트 패스를 받으세요"
+}

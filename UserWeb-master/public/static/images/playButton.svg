@@ -1,0 +1,9 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="assets/player bar">
+<foreignObject x="-18.2" y="-18.2" width="96.4" height="96.4"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(9.1px);clip-path:url(#bgblur_0_17845_4946_clip_path);height:100%;width:100%"></div></foreignObject><circle id="Oval" data-figma-bg-blur-radius="18.2" cx="30" cy="30" r="30" fill="#11191E" fill-opacity="0.32"/>
+<path id="Triangle" fill-rule="evenodd" clip-rule="evenodd" d="M38.7456 28.8653C39.5848 29.3898 39.5848 30.6119 38.7456 31.1364L25.7099 39.2838C24.818 39.8412 23.6611 39.2 23.6611 38.1482L23.6611 21.8535C23.6611 20.8018 24.818 20.1606 25.7099 20.718L38.7456 28.8653Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_17845_4946_clip_path" transform="translate(18.2 18.2)"><circle cx="30" cy="30" r="30"/>
+</clipPath></defs>
+</svg>

@@ -1,0 +1,49 @@
+{
+  "gainSkill": {
+    "unique": "gainSkill",
+    "isActive": false,
+    "title": "onboarding_looking_from_coach_list_item_gain_skills_title",
+    "buttonTitle": "Help me gain skills",
+    "topicName": "gainSkill",
+    "image": "/static/images/coachingOnboarding/gainSkill.png"
+  },
+  "talkThroughIssues": {
+    "unique": "talkThroughIssues",
+    "isActive": false,
+    "buttonTitle": "Talk through issues",
+    "title": "onboarding_looking_from_coach_list_item_talk_through_issues_title",
+    "topicName": "talkThroughIssues",
+    "image": "/static/images/coachingOnboarding/talkThroughIssues.png"
+  },
+  "personlizedContent": {
+    "unique": "personlizedContent",
+    "isActive": false,
+    "title": "onboarding_looking_from_coach_list_item_personalized_content_title",
+    "buttonTitle": "Get personalized content recs",
+    "topicName": "personlizedContent",
+    "image": "/static/images/coachingOnboarding/personlizedContent.png"
+  },
+  "weeklyGoals": {
+    "unique": "weeklyGoals",
+    "isActive": false,
+    "title": "onboarding_looking_from_coach_list_item_weekly_goals_title",
+    "buttonTitle": "Set weekly goals",
+    "topicName": "weeklyGoals",
+    "image": "/static/images/coachingOnboarding/weeklyGoals.png"
+  },
+  "understandMyself": {
+    "unique": "understandMyself",
+    "isActive": false,
+    "buttonTitle": "help me understand myself",
+    "title": "onboarding_looking_from_coach_list_item_understand_myself_title",
+    "topicName": "understandMyself",
+    "image": "/static/images/coachingOnboarding/understandMyself.png"
+  },
+  "other": {
+    "unique": "other",
+    "isActive": false,
+    "title": "onboarding_looking_from_coach_list_item_other_title",
+    "buttonTitle": "Other",
+    "topicName": "other"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "challenge_referral_challenge_duration": "{{duration}}일 챌린지",
+  "challenge_referral_header": "{{referrerName}} 님이 Aura의 30일 무료 체험에 초대했습니다.",
+  "challenge_referral_subtitle_begin_with_challenge": "{{referrerName}} 님과 함께 새로운 챌린지({{challengeName}})를 시작해 보세요.",
+  "challenge_referral_subtitle_begin_with_challenge2": "{{referrerName}} 님과 함께 새로운 {{challengeName}} 챌린지를 시작해 보세요.",
+  "challenge_referral_subtitle_enjoy_trial": "30일 무료 체험을 즐겨보세요.",
+  "challenge_referral_subtitle_enjoy_trial_from": "{{referrerName}} 님이 추천한 30일 무료 체험을 즐겨보세요.",
+  "challenge_referral_trusted_by": "8백만여 명이\n신뢰하는 앱",
+  "meta_challenge_referral_description": "지금 Aura에 가입하고 30일 게스트 패스를 받으세요.",
+  "meta_challenge_referral_title": "{{challengeName}} - Aura"
+}

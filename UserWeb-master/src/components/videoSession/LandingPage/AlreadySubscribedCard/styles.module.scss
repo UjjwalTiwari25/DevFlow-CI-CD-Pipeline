@@ -1,0 +1,30 @@
+@use '../../../../styles' as *;
+
+.wrapper {
+  width: 383px;
+  position: relative;
+  border-radius: 16px;
+  padding: 20px;
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  height: max-content;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 85px 0 rgba(1, 14, 29, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  @include font-500-default-semibold;
+
+  margin-top: $space-12;
+  margin-bottom: $space-8;
+  text-align: center;
+}
+
+@include themify($themes) {
+  .title {
+    color: themed('text-primary-main');
+  }
+}

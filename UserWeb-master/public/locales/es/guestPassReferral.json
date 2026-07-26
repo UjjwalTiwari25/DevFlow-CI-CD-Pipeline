@@ -1,0 +1,10 @@
+{
+  "meta_guestpass_description_one": "Únete a Aura ahora y obtén un Pase de Invitado de {{count}} día",
+  "meta_guestpass_description_other": "Únete a Aura ahora y obtén un Pase de Invitado de {{count}} días",
+  "meta_guestpass_title_one": "Pase de Invitado de {{count}} Día de Aura",
+  "meta_guestpass_title_other": "Pase de Invitado de {{count}} Días de Aura",
+  "referral_name_sent_you_guest_pass_one": "{{referrerName}} te envió un Pase de Invitado de {{count}} Día",
+  "referral_name_sent_you_guest_pass_other": "{{referrerName}} te envió un Pase de Invitado de {{count}} Días",
+  "referral_redeem_your_guest_pass_from_aura_one": "Utiliza hoy tu Pase de Invitado de {{count}} día",
+  "referral_redeem_your_guest_pass_from_aura_other": "Utiliza hoy tu Pase de Invitado de {{count}} días"
+}

@@ -1,0 +1,84 @@
+@use '../../../styles/' as *;
+
+.communityLandingPage {
+  max-width: 1210px;
+  position: relative;
+  width: 100%;
+  z-index: 9;
+}
+
+.communityLandingPageContent {
+  padding: 0 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  align-items: center;
+  width: 100%;
+}
+
+.linkTextWrapper {
+  margin-top: $space-8;
+}
+
+.linkText {
+  @include font-600-default-regular;
+  background: linear-gradient(90deg, #4ccaff 0%, #1df5ed 100%);
+  background-clip: text;
+  // -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  text-decoration: none;
+}
+
+.linkText::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, #4ccaff 0%, #1df5ed 100%);
+}
+
+.footerWrapper {
+  width: 100%;
+}
+
+@include themify($themes) {
+  .contactUs {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .buttonContainer {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px 10px 0 0;
+    position: fixed;
+    padding: $space-20 28px;
+    bottom: 0;
+    backdrop-filter: blur(60px);
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1000;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .mobileOnly {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .contactUs {
+    text-align: left;
+    margin: $space-72 0;
+  }
+
+  .communityLandingPageContent {
+    gap: 64px;
+    padding: 0 20px 75px;
+  }
+}

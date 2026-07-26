@@ -1,0 +1,36 @@
+@use '../../../../styles/' as *;
+
+.aboutEventLabel {
+  @include font-800-default-semibold;
+
+  margin-bottom: $space-20;
+}
+
+.aboutEventDescription {
+  @include font-400-default-regular;
+
+  white-space: break-spaces;
+}
+
+@include themify($themes) {
+  .aboutEventLabel {
+    color: themed('text-primary-main');
+  }
+
+  .aboutEventDescription {
+    color: themed('text-secondary-500');
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutEventLabel {
+    @include font-600-default-semibold;
+
+    margin-bottom: $space-24;
+  }
+
+  .aboutEventDescription {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}

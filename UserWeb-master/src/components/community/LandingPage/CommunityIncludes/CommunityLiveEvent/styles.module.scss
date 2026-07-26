@@ -1,0 +1,98 @@
+@use '../../../../../styles/' as *;
+
+.includesCard {
+  @include shadow-soft-card-s;
+  width: calc(50% - 10px);
+  height: 603px;
+  border-radius: $border-radius-16;
+  padding: $space-32;
+  position: relative;
+  background-color: $white-alpha-main;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-8;
+}
+
+.includeLabel {
+  @include font-600-default-semibold;
+}
+
+.includeValue {
+  @include font-325-default-regular;
+  font-size: 15px;
+  line-height: normal;
+  margin-top: $space-4;
+}
+
+.includeDescription {
+  @include multilineEllipsis(3);
+  @include font-400-default-regular;
+}
+
+.cardBody {
+  height: 100%;
+  width: 100%;
+}
+
+.macbookImageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.macbookImage {
+  width: 100%;
+}
+
+@include themify($themes) {
+  .includeLabel {
+    color: themed('text-primary-main');
+  }
+
+  .includeDescription {
+    color: themed('text-secondary-500');
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .includesCard {
+    padding: $space-20;
+    border-radius: $space-16;
+    height: 470px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .includesCard {
+    width: 100%;
+    height: 426px;
+    padding: $space-20;
+    border-radius: $space-16;
+  }
+
+  .cardContainer {
+    gap: $space-16;
+  }
+
+  .includeLabel {
+    @include font-500-default-semibold;
+  }
+
+  .cardInfoWrapper {
+    width: 100%;
+  }
+
+  .cardInfo {
+    padding: $space-20 0 0 $space-20;
+  }
+
+  .includeDescription {
+    @include font-400-default-regular;
+  }
+}

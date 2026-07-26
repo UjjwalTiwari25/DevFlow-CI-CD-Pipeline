@@ -1,0 +1,22 @@
+{
+  "guestpass_access_all_tracks": "Obtenha acesso ilimitado a todas as faixas de {{coachName}}",
+  "guestpass_button_redeem": "Resgatar Cortesia",
+  "guestpass_claim_guest_pass_one": "Resgate sua Cortesia Aura de {{count}} dia enviada por {{coachName}}",
+  "guestpass_claim_guest_pass_other": "Resgate sua Cortesia Aura de {{count}} dias enviada por {{coachName}}",
+  "guestpass_claim_today_one": "Resgate sua Cortesia Aura de {{count}} dia hoje mesmo",
+  "guestpass_claim_today_other": "Resgate sua Cortesia Aura de {{count}} dias hoje mesmo",
+  "guestpass_find_peace": "Encontre paz e tenha um sono reparador usando o Aura",
+  "guestpass_follow_on_aura": "Siga {{coachName}} no Aura",
+  "guestpass_header_aura": "AURA",
+  "guestpass_instant_access": "Ao se inscrever, você terá acesso imediato a todas as minhas faixas sobre {{specialties}}:",
+  "guestpass_meditations_stories_everything": "Meditações, histórias, aconselhamento, música, sons da natureza – um pouco de tudo.",
+  "guestpass_personalized_tracks": " Mais de 4.000 trilhas de bem-estar personalizadas",
+  "guestpass_reviews": "Mais de 20.000 avaliações 5 estrelas",
+  "guestpass_top_coaches": "Os melhores Conselheiros e Terapeutas do mundo em um único aplicativo",
+  "guestpass_tracks_durations": "Faixas de 3 minutos a mais de 1 hora",
+  "guestpass_unlimited_access": "Aproveite o acesso ilimitado ao Aura",
+  "meta_guestpass_description_one": "Registre-se no Aura agora e resgate sua Cortesia de {{count}} dia enviada por {{coachName}}",
+  "meta_guestpass_description_other": "Registre-se no Aura agora e resgate sua Cortesia de {{count}} dias enviada por {{coachName}}",
+  "meta_guestpass_title_one": "Cortesia de {{count}} dia enviada por {{coachName}} — Aura",
+  "meta_guestpass_title_other": "Cortesia de {{count}} dias enviada por {{coachName}} — Aura"
+}

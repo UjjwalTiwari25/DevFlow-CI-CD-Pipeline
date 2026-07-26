@@ -1,0 +1,41 @@
+@use '../../../../styles/' as *;
+
+.coachNameWrapper {
+  display: flex;
+  align-items: center;
+  gap: $space-24;
+}
+
+.coachList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-12;
+}
+
+.hostedBy {
+  @include font-400-default-semibold;
+
+  min-width: 100px;
+}
+
+.alignEventCoaches {
+  display: flex;
+}
+
+@include themify($themes) {
+  .hostedBy {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .coachNameWrapper {
+    flex-direction: column;
+    gap: $space-12;
+    align-items: flex-start;
+  }
+
+  .hostedBy {
+    @include font-400-default-semibold;
+  }
+}

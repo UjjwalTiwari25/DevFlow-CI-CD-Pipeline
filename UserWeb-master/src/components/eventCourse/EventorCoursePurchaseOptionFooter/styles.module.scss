@@ -1,0 +1,9 @@
+@use '../../../styles/' as *;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $space-40;
+  align-items: center;
+}

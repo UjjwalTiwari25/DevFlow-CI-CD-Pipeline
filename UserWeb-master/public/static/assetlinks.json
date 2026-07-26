@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aurahealth",
+      "sha256_cert_fingerprints": [
+        "D3:5F:2D:1F:00:96:80:07:23:0C:02:ED:E9:7B:C3:46:BC:89:A0:B2:70:69:AE:E4:05:4C:0A:A9:19:05:5A:CE",
+        "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"
+      ]
+    }
+  }
+]

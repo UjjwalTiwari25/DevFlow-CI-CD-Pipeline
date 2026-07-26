@@ -1,0 +1,172 @@
+@use '../../../../styles/' as *;
+
+.coachRowInfo {
+  margin-top: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.paymentBackgroundMobile {
+  display: none;
+}
+
+.paymentBackground {
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  width: 380px;
+}
+
+.contentContainer {
+  width: 380px;
+  padding: 0 $space-32;
+  z-index: 2;
+}
+
+.paymentOptionsContainer {
+  position: relative;
+}
+
+.paymentOptions {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  margin-top: 18px;
+  padding: 14px 18px;
+  width: 380px;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.secureCheck {
+  width: 200px;
+  margin-top: 16px;
+}
+
+.sessionInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $space-16;
+}
+
+.sessionInfo {
+  max-width: 185px;
+  display: flex;
+  gap: $space-12;
+  flex-direction: column;
+}
+
+.sessionMonth {
+  @include font-700-default-semibold;
+
+  line-height: normal;
+}
+
+.yourPlanWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: $space-20;
+}
+
+.yourPlanText {
+  @include font-350-default-semibold;
+}
+
+.sessionDiscountText {
+  @include font-500-default-semibold;
+
+  line-height: normal;
+  color: #25bb54;
+}
+
+.priceArea {
+  @include font-350-default-semibold;
+
+  display: flex;
+}
+
+.discountedPrice {
+  text-decoration: line-through;
+}
+
+.planTermsText {
+  @include font-250-default-regular;
+
+  line-height: 120%;
+  width: 380px;
+  z-index: 2;
+  margin-top: 20px;
+  padding: 0 $space-32;
+}
+
+@include themify($themes) {
+  .sessionMonth {
+    color: themed('text-primary-main');
+  }
+
+  .yourPlanText {
+    color: themed('text-primary-main');
+  }
+
+  .discountedPrice {
+    color: themed('text-tertiary-strong-400-main');
+  }
+
+  .priceText {
+    color: themed('text-primary-main');
+  }
+
+  .planTermsText {
+    color: themed('text-tertiary-400');
+
+    a {
+      color: themed('text-tertiary-400');
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .coachRowInfo {
+    margin-top: 30px;
+  }
+
+  .paymentBackgroundMobile {
+    display: block;
+    width: 100vw;
+    position: absolute;
+    height: 100%;
+    bottom: -175px;
+  }
+  
+  .paymentBackground {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .paymentOptionsContainer {
+    width: 100%;
+  }
+
+  .paymentOptions {
+    width: 100%;
+  }
+
+  .contentContainer {
+    width: 100%;
+    padding: 0;
+  }
+
+  .sessionMonth {
+    font-size: 22px;
+  }
+
+  .planTermsText {
+    width: 100%;
+    padding: 0;
+  }
+}

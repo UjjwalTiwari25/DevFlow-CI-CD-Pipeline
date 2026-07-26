@@ -1,0 +1,1011 @@
+/* ── Layout ───────────────────────────────────────────── */
+.gridContainer {
+  position: relative;
+  width: 100%;
+  //max-width: 430px;
+  margin-top: 16px;
+  min-height: 100vh;
+  background: #fff;
+  z-index: 999;
+}
+
+.scroll {
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.closeButton {
+  position: absolute;
+  // Pin to a fixed 36px offset. Before the page opted into viewport-fit=cover
+  // (added to drop error toasts below the Dynamic Island), env(safe-area-inset-top)
+  // resolved to 0, so this button sat at 36px. It's dropped from the calc here so
+  // the button keeps that original position regardless of the inset, without
+  // touching the toast, which react-toastify positions independently.
+  top: 36px;
+  left: 12px;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+}
+
+/* ── Best of Apple Award Winner ──────────────────────── */
+.boaContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.boaBgWrap {
+  position: relative;
+  width: 150px;
+  height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boaFeatherImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 57px;
+  object-fit: contain;
+}
+
+.boaAppleIcon {
+  position: relative;
+  z-index: 1;
+  width: 40px;
+  height: 30px;
+  object-fit: contain;
+  margin-top: -29px;
+}
+
+.boaText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  color: rgba(49, 206, 255, 1);
+  text-align: center;
+  width: 90px;
+  margin: 0;
+  margin-top: -32px;
+}
+
+/* ── Title ────────────────────────────────────────────── */
+.freeTrialH4 {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(0, 0, 0, 1);
+  width: 85%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* ── Subtitle ─────────────────────────────────────────── */
+.freeSubTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  opacity: 0.5;
+  margin: 8px 0 0;
+}
+
+/* ── 50% off gradient pill ────────────────────────────── */
+.pillWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.gradientPill {
+  min-width: 240px;
+  height: 27px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #1df4ed 0%, #4ec8ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.gradientPillText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ── Total due today: $0 ─────────────────────────────── */
+.totalDueTopWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -16px;
+}
+
+.totalDueTopText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  color: rgba(47, 50, 55, 1);
+  margin: 0;
+}
+
+/* ── Timeline ─────────────────────────────────────────── */
+.timelineWrap {
+  display: flex;
+  max-width: 320px;
+  margin: auto;
+  flex-direction: row;
+  padding-left: 10px;
+}
+
+.tlImageCol {
+  flex-shrink: 0;
+  width: 36px;
+  margin-top: 40px;
+}
+
+.tlImage {
+  width: 36px;
+  height: auto;
+  object-fit: contain;
+}
+
+.timelineTextsCol {
+  flex: 1;
+  margin-left: 30px;
+  margin-top: 25px;
+}
+
+.tlTextBlock {
+  min-height: 80px;
+  padding-top: 15px;
+}
+
+.tlTextBlock1 {
+  min-height: 80px;
+  padding-top: 20px;
+}
+
+.tlTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgb(92, 92, 92);
+  margin: 0;
+  display: block;
+}
+
+.tlTitleGreen {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #37f571;
+  margin: 0;
+  display: block;
+}
+
+.tlDesc {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #4e545f;
+  margin: 4px 0 0;
+}
+
+/* ── Line divider ─────────────────────────────────────── */
+.lineDiv {
+  background-color: #9092a3;
+  height: 1px;
+  width: 85%;
+  opacity: 0.2;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Returning user: green gradient total due ─────────── */
+.totalDueGreenText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(90deg, rgba(89, 219, 8, 1), rgba(0, 228, 91, 1));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── View other plans ─────────────────────────────────── */
+.viewOtherPlans {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: 10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.viewOtherPlansText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9092a3;
+}
+
+.viewOtherPlansArrow {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  margin-left: 4px;
+  opacity: 0.5;
+  transition: transform 0.3s ease;
+}
+
+/* ── "Try Aura For:" ──────────────────────────────────── */
+.tryTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(47, 50, 55, 1);
+  margin: 0;
+}
+
+/* ── "How I can cancel?" ──────────────────────────────── */
+.cancelSection {
+  margin: 0 32px;
+  padding: 0;
+}
+
+.cancelTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 600;
+  color: rgba(47, 50, 55, 1);
+  margin: 0;
+}
+
+.cancelBody {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17.55px;
+  color: #636568;
+  margin: 0;
+}
+
+/* ── Plan cards ───────────────────────────────────────── */
+.offerCards {
+  padding: 0 32px;
+}
+
+.sectionHeader {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  line-height: 22px;
+  font-weight: 500;
+  color: rgb(131, 131, 131);
+  margin: 0 0 4px;
+}
+
+.offerCard {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  text-align: left;
+}
+
+.offerCardBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 10, 97, 0.12);
+}
+
+.offerCardContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+}
+
+.offerCardLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.offerTitleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.offerCardTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+  margin-right: 6px;
+}
+
+.greenBadge {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(270deg, #8f0, #1cd98b);
+  border-radius: 13px;
+  padding: 3px 9px;
+  line-height: 14px;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.offerCardSub {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #5b657a;
+}
+
+.radioSelected {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(270deg, #1df4ed, #4ec8ff);
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+}
+
+.radioUnselected {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #c5c6ce;
+  flex-shrink: 0;
+}
+
+/* ── CTA Button ───────────────────────────────────────── */
+.ctaWrap {
+  padding: 0 26px;
+}
+
+.ctaButton {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  border-radius: 40px;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+  animation: ctaScale 3s cubic-bezier(0.42, 0, 1, 0.28) infinite;
+  box-shadow: 0 14px 28px rgba(3, 169, 244, 0.8);
+}
+
+@keyframes ctaScale {
+  0% { transform: scale(0.95); }
+  33% { transform: scale(1.04); }
+
+  50%,
+  100% { transform: scale(1); }
+}
+
+.ctaPulseRing,
+.ctaPulseRing2 {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  border-radius: 50px;
+  border: 1px solid rgba(3, 169, 244, 1);
+  background: transparent;
+  animation: ctaRing 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ctaPulseRing2 {
+  animation-delay: 0.15s;
+}
+
+@keyframes ctaRing {
+  0%,
+  40% { transform: scale(1);
+    opacity: 0; }
+
+  45% { transform: scale(1);
+    opacity: 0.5; }
+
+  60% { transform: scale(1.09);
+    opacity: 0; }
+
+  100% { transform: scale(1.09);
+    opacity: 0; }
+}
+
+.ctaGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 40px;
+  background: linear-gradient(90deg, rgba(29, 244, 237, 1) 0%, rgb(78, 191, 243) 100%);
+  overflow: hidden;
+}
+
+.ctaText {
+  position: relative;
+  z-index: 1;
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+/* ── Offer text below CTA ─────────────────────────────── */
+.offerTextBold {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgb(73, 73, 73);
+  text-align: center;
+  margin: 0;
+  padding: 0 24px;
+}
+
+.offerTextRegular {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #5b657a;
+  text-align: center;
+  margin: 2px 0 0;
+  padding: 0 24px;
+}
+
+/* ── "What if I forget to cancel?" ────────────────────── */
+.forgetWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.forgetText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+}
+
+.forgetLine {
+  height: 1px;
+  margin-top: 1px;
+  width: 165px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Returning user pricing ───────────────────────────── */
+.pricingRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.pricingItemWrap {
+  position: relative;
+  flex: 1;
+  max-width: 120px;
+}
+
+.mostPopularTag {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  width: 120%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.mostPopularText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(0, 155, 227);
+  margin-left: 5px;
+}
+
+.pricingItem {
+  width: 100%;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  min-height: 140px;
+}
+
+.pricingItemTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.pricingItemPrice {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.pricingItemSave {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pricingItemTrial {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.pricingChooseBtn {
+  width: 90%;
+  height: 30px;
+  border-radius: 90px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.pricingChooseText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+}
+
+/* ── Media logos (social proof image) ─────────────────── */
+.mediaLogosWrap {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mediaLogosImg {
+  height: 130px;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* ── Bullet list ──────────────────────────────────────── */
+.bulletList {
+  padding: 0 16px;
+}
+
+.bulletItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.bulletCheckImg {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.bulletText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgb(53, 53, 53);
+  text-align: left;
+  width: 90%;
+}
+
+/* ── Donate (returning user) ──────────────────────────── */
+.donateText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  margin: 0;
+  padding: 0 16px;
+}
+
+/* ── Social proof cards ───────────────────────────────── */
+.socialProofBg {
+  background: radial-gradient(ellipse at 45% 50%, rgba(232, 218, 239, 0.5) 0%, rgba(210, 230, 245, 0.4) 25%, rgba(210, 240, 220, 0.3) 50%, rgba(245, 235, 210, 0.2) 70%, rgba(255, 255, 255, 0) 100%);
+  padding: 80px 30px 50px;
+  margin-top: -50px;
+  margin-bottom: -100px;
+  z-index: -1;
+  position: relative;
+  overflow: hidden;
+}
+
+.socialProofRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.spCard {
+  flex: 1;
+  min-height: 147px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+}
+
+.spIconApple {
+  width: 20px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.spIconLarge {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.spStars {
+  display: flex;
+  flex-direction: row;
+  max-width: 130px;
+  margin-top: 10px;
+  gap: 2px;
+}
+
+.spTitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #4e545f;
+  margin: 17px 0 0;
+  text-align: center;
+}
+
+.spSubtitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9092a3;
+  margin: 5px 0 0;
+  text-align: center;
+}
+
+/* ── Donation row (new user, inside social proof bg) ──── */
+.donateRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: calc(100% - 64px);
+  margin: 0 auto;
+}
+
+.donateIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.donateRowText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  color: rgb(117, 117, 117);
+  margin: 0;
+  margin-left: 15px;
+  // margin-right: 36px;
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+/* ── Reviews ──────────────────────────────────────────── */
+.reviewsHeading {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(47, 50, 55, 1);
+  margin: 0;
+}
+
+.reviewsScroll {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 23px 30px 20px 25px;
+  gap: 20px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.reviewCard {
+  flex-shrink: 0;
+  width: 90%;
+  min-height: 263px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 16px rgba(0, 0, 0, 0.05);
+  padding: 24px 11px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reviewStars {
+  display: flex;
+  flex-direction: row;
+  max-width: 130px;
+  filter: drop-shadow(0 1px 10px rgba(255, 208, 43, 0.6));
+
+  svg {
+    margin-left: -4px;
+    margin-right: 4px;
+  }
+}
+
+.reviewText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+  margin: 19px 0 30px;
+}
+
+.reviewUser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: auto;
+}
+
+.reviewAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.reviewNameWrap {
+  padding-left: 15px;
+}
+
+.reviewName {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: rgba(47, 50, 55, 1);
+  margin: 0;
+}
+
+.reviewSubtitle {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(78, 84, 95, 1);
+  margin: 2px 0 0;
+}
+
+/* ── "No commitments, cancel anytime" ─────────────────── */
+.noCommitmentText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ── Terms ─────────────────────────────────────────────── */
+.termsWrap {
+  margin: 0 20px;
+  text-align: center;
+}
+
+.termsText {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  max-width: 555px;
+  font-weight: 500;
+  color: rgba(78, 78, 78, 0.64);
+  text-align: left;
+  margin: 7px auto 0;
+}
+
+.termsLink {
+  color: rgba(0, 0, 0, 0.64);
+  text-decoration: underline;
+}
+
+/* ── Restore ───────────────────────────────────────────── */
+.restoreWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.restoreBtn {
+  font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.64);
+  background: none;
+  border: 0;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 10px;
+  padding: 0;
+}
+
+/* auraPaywallCTAPosition 'a' (ENGMOB-1908): wrapper for the CTA block when it
+   is relocated to the very bottom of the paywall scroll. Mirrors the native
+   marginBottom on renderBottomCTA. */
+.bottomCta {
+  margin-bottom: 20px;
+}
+
+/* ── Stripe card modal ────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.modalSheet {
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 20px 32px;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modalCardForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

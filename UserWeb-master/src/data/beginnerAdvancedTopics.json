@@ -1,0 +1,44 @@
+{
+  "beginner": {
+    "unique": "beginner",
+    "isActive": false,
+    "title": "Beginner meditation",
+    "buttonTitle": "Beginner meditation",
+    "topicName": "beginner",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fbeginner.png?alt=media&token=8ecbca6a-0b26-4d5f-8c30-0400fee2b004"
+    },
+    "order": 10,
+    "tags": ["beginner"],
+    "query": {
+      "tags": ["beginner"],
+      "overrideDurationFilter": 4,
+      "category": "popular",
+      "useDayBucket": false
+    }
+  },
+  "advanced": {
+    "unique": "advanced",
+    "isActive": false,
+    "title": "Advanced meditation",
+    "buttonTitle": "Advanced meditation",
+    "topicName": "advanced",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fadvanced.png?alt=media&token=fd7dfe12-0a8b-4cfa-becd-8c1e72470fe3"
+    },
+    "order": 10,
+    "tags": ["advanced"],
+    "query": {
+      "tags": ["advanced"],
+      "overrideDurationFilter": 4,
+      "category": "popular",
+      "useDayBucket": false
+    },
+    "madeForYouMix": {
+      "title": "Your Advanced Meditation Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2FadvancedMeditation%402x.png?alt=media&token=cae0b5a3-964f-4283-ac0e-e21a1d2e9cbb"
+      }
+    }
+  }
+}

@@ -1,0 +1,154 @@
+@use '../../../../styles/' as *;
+
+.paymentCard {
+  position: relative;
+  max-width: 400px;
+  background: $white-alpha-main;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: $border-radius-12;
+  padding: $space-24;
+  overflow: hidden;
+}
+
+.communityHeader {
+  text-align: center;
+}
+
+.communityName {
+  @include font-600-default-semibold;
+}
+
+.communityDescription {
+  @include font-350-default-regular;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.acceptCommunityGuidelinesText {
+  @include font-325-default-regular;
+  text-align: center;
+  margin-top: $space-12;
+}
+
+.stripeSecureImageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.stripeSecureImage {
+  width: 200px;
+}
+
+.communityPriceDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: $space-16;
+}
+
+.communityPrice {
+  @include font-400-default-semibold;
+}
+
+.cardInput {
+  @include shadow-medium-xs;
+  border-radius: $border-radius-12;
+  margin-top: $space-20;
+}
+
+.communityLogo {
+  border-radius: $border-radius-10;
+  margin-bottom: $space-12;
+}
+
+.cardHiddenNumber {
+  @include font-400-default-regular;
+  display: flex;
+  align-items: center;
+}
+
+.hiddenDots {
+  font-size: 10px;
+}
+
+.savedCardInput {
+  height: 56px;
+  background: $white-alpha-main;
+  @include shadow-soft-card-s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-12;
+  margin-top: $space-12;
+  cursor: pointer;
+  gap: $space-12;
+}
+
+.changePaymentMethod {
+  @include font-350-default-regular;
+  text-align: center;
+  cursor: pointer;
+  margin-top: $space-16;
+}
+
+.addNewCard {
+  @include font-400-default-regular;
+  height: 56px;
+  background: $white-alpha-main;
+  @include shadow-soft-card-s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-12;
+  margin-top: $space-12;
+  cursor: pointer;
+}
+
+.cardLogo {
+  width: 30px;
+  height: 24px;
+}
+
+@include themify($themes) {
+  .communityPrice {
+    color: themed('text-primary-main');
+  }
+
+  .changePaymentMethod {
+    color: themed('text-primary-main');
+  }
+
+  .addNewCard {
+    color: themed('text-primary-main');
+  }
+
+  .cardHiddenNumber {
+    color: themed('text-primary-main');
+  }
+
+  .acceptCommunityGuidelinesText {
+    color: themed('text-tertiary-400');
+  }
+
+  .communityDescription {
+    color: themed('text-primary-main');
+  }
+
+  .communityName {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .creditCardsImage {
+    width: 100px;
+  }
+}

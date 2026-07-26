@@ -1,0 +1,574 @@
+{
+  "sleep": {
+    "unique": "sleep",
+    "isActive": false,
+    "title": "topic_title_sleep_better",
+    "simplifiedTitle": "Sleep",
+    "buttonTitle": "topic_button_title_sleep_better",
+    "topicCategory": "sleep",
+    "topicName": "topic_name_sleep",
+    "topicKeyword": "Sleep",
+    "onboardingLabel": "onboarding_badge_label_popular",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FSleep.png?alt=media&token=6ca3cb81-c189-4fe5-bc34-d4032b7000ee"
+    },
+    "order": 1,
+    "tags": ["sleep"],
+    "query": { "emotion": "sleep", "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Sleep Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fsleep%402x.png?alt=media&token=2b2c0bde-b842-4ea5-9107-e90d53e05e41"
+      }
+    },
+    "usedFor": "sleeping better",
+    "motivation": "onboarding_motivation_plan_list_item_sleep",
+    "count": "2.8M+",
+    "helpsIn": "onboarding_topic_helps_in_sleep"
+  },
+  "sleepAnxiety": {
+    "unique": "sleepAnxiety",
+    "isActive": false,
+    "buttonTitle": "topic_button_title_calm_anxiety",
+    "title": "topic_title_calm_anxiety",
+    "simplifiedTitle": "Anxiety",
+    "topicCategory": "calmAnxiety",
+    "topicName": "topic_name_anxiety",
+    "topicKeyword": "Anxiety",
+    "onboardingLabel": "onboarding_badge_label_popular",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FAnxiety.png?alt=media&token=d2cba28d-59a2-4aa2-b291-126ea095956f"
+    },
+    "order": 2,
+    "tags": ["anxious"],
+    "query": { "emotion": "anxious", "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Anxiety Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fanxiety%402x.png?alt=media&token=f16e46d0-55a3-4b10-9fef-618424805138"
+      }
+    },
+    "usedFor": "calming anxiety",
+    "motivation": "onboarding_motivation_plan_list_item_anxiety",
+    "count": "2.2M+",
+    "helpsIn": "onboarding_topic_helps_in_sleepAnxiety"
+  },
+  "stress": {
+    "unique": "stress",
+    "isActive": false,
+    "title": "topic_title_stress",
+    "simplifiedTitle": "Stress",
+    "buttonTitle": "topic_button_title_stress",
+    "topicCategory": "stressed",
+    "topicName": "topic_name_stress",
+    "topicKeyword": "Stress",
+    "onboardingLabel": "onboarding_badge_label_popular",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FStress.png?alt=media&token=ef37567f-5f6c-4d0e-9dc7-3d23a2c244b6"
+    },
+    "order": 3,
+    "tags": ["stressed"],
+    "query": { "emotion": "stressed", "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Stress Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fstress%402x.png?alt=media&token=2e452b0a-1962-448e-8bf8-edd31d1c5f48"
+      }
+    },
+    "usedFor": "reducing stress",
+    "motivation": "onboarding_motivation_plan_list_item_stress",
+    "count": "2.2M+",
+    "helpsIn": "onboarding_topic_helps_in_stress"
+  },
+  "happiness": {
+    "unique": "happiness",
+    "isActive": false,
+    "title": "topic_title_happiness",
+    "simplifiedTitle": "Happiness",
+    "buttonTitle": "topic_button_title_happiness",
+    "topicCategory": "happiness",
+    "topicName": "topic_name_happiness",
+    "topicKeyword": "Happiness",
+    "onboardingLabel": "onboarding_topics_badge_recommended",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FHappiness.png?alt=media&token=a83bf9e9-a2d7-4afc-a6b3-cdbe356bf960"
+    },
+    "order": 4,
+    "tags": ["happiness"],
+    "query": { "topic": { "topic": "happiness" }, "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Happiness Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fhappiness%402x.png?alt=media&token=0f199b4b-6796-46df-b232-b3ebd6c4814d"
+      }
+    },
+    "usedFor": "increasing happiness",
+    "motivation": "onboarding_motivation_plan_list_item_motivation",
+    "count": "1.6M+",
+    "helpsIn": "onboarding_topic_helps_in_happiness"
+  },
+  "focus": {
+    "unique": "focus",
+    "isActive": false,
+    "buttonTitle": "topic_button_title_focus",
+    "title": "topic_title_focus",
+    "simplifiedTitle": "Focus",
+    "topicCategory": "focus",
+    "topicName": "topic_name_focus",
+    "topicKeyword": "Focus",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FFocus.png?alt=media&token=6aa48f1f-aca3-4f5c-9642-6cb97b42d190"
+    },
+    "order": 5,
+    "tags": ["focus"],
+    "query": { "topic": { "topic": "focus" }, "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Focus Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Ffocus%402x.png?alt=media&token=223ac7e3-e90e-46b7-855d-b3deba6a595b"
+      }
+    },
+    "usedFor": "improving focus",
+    "motivation": "onboarding_motivation_plan_list_item_focus",
+    "count": "1.2M+",
+    "helpsIn": "onboarding_topic_helps_in_focus"
+  },
+  "morning": {
+    "unique": "morning",
+    "isActive": false,
+    "title": "topic_title_morning",
+    "simplifiedTitle": "Morning Meditation",
+    "buttonTitle": "topic_button_title_morning",
+    "topicCategory": "morning",
+    "topicName": "topic_name_morning",
+    "topicKeyword": "Morning",
+    "onboardingLabel": "onboarding_topics_badge_recommended",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FMorning.png?alt=media&token=0af22b37-afa8-4e6d-b113-c8be4c87f5d4"
+    },
+    "order": 6,
+    "tags": ["morning"],
+    "query": { "topic": { "topic": "morning" }, "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Morning Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmorning%402x.png?alt=media&token=6c5c9388-8917-4aa1-a695-baf69b8ca400"
+      }
+    },
+    "usedFor": "morning meditation",
+    "motivation": "onboarding_motivation_plan_list_item_morning",
+    "count": "736K+",
+    "helpsIn": "onboarding_topic_helps_in_morning"
+  },
+  "mindfulness": {
+    "unique": "mindfulness",
+    "isActive": false,
+    "title": "topic_title_mindfulness",
+    "simplifiedTitle": "Mindfulness",
+    "buttonTitle": "topic_button_title_mindfulness",
+    "topicCategory": "mindfulness",
+    "topicName": "topic_name_mindfulness",
+    "topicKeyword": "Mindfulness",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FMindfulness.png?alt=media&token=c3fba5e0-bf72-4fa3-aa37-6589edb8060d"
+    },
+    "order": 7,
+    "tags": ["mindfulness"],
+    "query": {
+      "overrideContentType": "meditation",
+      "overrideDurationFilter": 4
+    },
+    "madeForYouMix": {
+      "title": "Your Mindfulness Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmindfulness%402x.png?alt=media&token=f6c6d531-2cec-4313-98a8-e797c22d25b2"
+      }
+    },
+    "usedFor": "mindfulness",
+    "motivation": "onboarding_motivation_plan_list_item_mindfulness",
+    "count": "1.2M+",
+    "helpsIn": "onboarding_topic_helps_in_mindfulness"
+  },
+  "healing": {
+    "unique": "healing",
+    "isActive": false,
+    "title": "topic_title_healing",
+    "simplifiedTitle": "Healing",
+    "buttonTitle": "topic_button_title_healing",
+    "buttonTitleChakra": "topic_button_title_chakra_healing",
+    "topicCategory": "healing",
+    "topicName": "topic_name_healing",
+    "topicKeyword": "Healing",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FHealing.png?alt=media&token=da368a65-a143-4978-a665-09257d6259e6"
+    },
+    "order": 8,
+    "tags": ["healing"],
+    "query": { "topic": { "topic": "healing" }, "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Healing Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fhealing%402x.png?alt=media&token=8ee068d8-7cb7-4532-99fe-7e65db2eb9ed"
+      }
+    },
+    "usedFor": "healing",
+    "motivation": "onboarding_motivation_plan_list_item_healing",
+    "count": "1.1M+",
+    "helpsIn": "onboarding_topic_helps_in_healing"
+  },
+  "musicSoothing": {
+    "unique": "musicSoothing",
+    "isActive": false,
+    "title": "topic_title_music_soothing",
+    "simplifiedTitle": "Sounds",
+    "buttonTitle": "topic_button_title_music_soothing",
+    "topicCategory": "soundscape",
+    "topicName": "topic_name_sounds",
+    "topicKeyword": "Soothing Sounds",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FSoothing%20Sounds.png?alt=media&token=d28225b8-7983-4114-b2af-67aa90c619c9"
+    },
+    "order": 9,
+    "query": {
+      "topic": { "topic": "musicSoothing" },
+      "overrideDurationFilter": 4
+    },
+    "madeForYouMix": {
+      "title": "Your Sounds Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fsounds%402x.png?alt=media&token=9a2567ba-2d8d-4b94-81ac-fbac6fc57ead"
+      }
+    },
+    "usedFor": "soothing sounds",
+    "count": "1.2M+",
+    "helpsIn": "onboarding_topic_helps_in_musicSoothing"
+  },
+  "relaxation": {
+    "unique": "relaxation",
+    "isActive": false,
+    "title": "topic_title_relaxation",
+    "simplifiedTitle": "Relaxation",
+    "buttonTitle": "topic_button_title_relaxation",
+    "topicCategory": "relax",
+    "topicName": "topic_name_relaxation",
+    "topicKeyword": "Relaxation",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FRelaxation.png?alt=media&token=c2fd007e-c71f-40cb-94e3-eef0e971bd65"
+    },
+    "order": 8,
+    "tags": ["relax"],
+    "query": {
+      "tags": ["relax"],
+      "overrideDurationFilter": 4
+    },
+    "madeForYouMix": {
+      "title": "Your Relaxation Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Frelaxation%402x.png?alt=media&token=51a8c920-49b2-4eb0-8b1f-ff6a19766687"
+      }
+    },
+    "usedFor": "relaxation",
+    "motivation": "onboarding_motivation_plan_list_item_relaxation",
+    "count": "1.7M+",
+    "helpsIn": "onboarding_topic_helps_in_relaxation"
+  },
+  "parenting": {
+    "unique": "parenting",
+    "isActive": false,
+    "title": "topic_title_parenting",
+    "simplifiedTitle": "Parenting",
+    "buttonTitle": "topic_button_title_parenting",
+    "topicCategory": "parenting",
+    "topicName": "topic_name_parenting",
+    "topicKeyword": "Parenting",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2Fparenting.png?alt=media&token=fb5e8f81-4bfb-4b9f-bf58-8e6ea94aa411"
+    },
+    "order": 10,
+    "tags": ["parenting"],
+    "query": {
+      "tags": ["parenting"],
+      "overrideDurationFilter": 4,
+      "useDayBucket": false
+    },
+    "madeForYouMix": {
+      "title": "Your Parenting Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fparenting%402x.png?alt=media&token=371fc0df-affa-4d53-9c7c-c8163ba9ff7c"
+      }
+    },
+    "usedFor": "parenting",
+    "motivation": "onboarding_motivation_plan_list_item_parenting",
+    "count": "398K+",
+    "helpsIn": "onboarding_topic_helps_in_parenting"
+  },
+  "kids": {
+    "unique": "kids",
+    "isActive": false,
+    "title": "topic_title_kids",
+    "simplifiedTitle": "Kids",
+    "buttonTitle": "topic_button_title_kids",
+    "topicCategory": "kids",
+    "topicName": "topic_name_kids",
+    "topicKeyword": "Kids",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FKids.png?alt=media&token=1b77adc2-00f5-4319-8393-f0f60544eae7"
+    },
+    "order": 11,
+    "tags": ["kids"],
+    "query": {
+      "tags": ["kids"],
+      "overrideDurationFilter": 4,
+      "useDayBucket": false
+    },
+    "madeForYouMix": {
+      "title": "Your Kids Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fkids%402x.png?alt=media&token=3eba2d00-786f-4baa-ab5a-311100c2990d"
+      }
+    },
+    "usedFor": "kids",
+    "motivation": "onboarding_motivation_plan_list_item_kids",
+    "count": "285K+",
+    "helpsIn": "onboarding_topic_helps_in_kids"
+  },
+  "relationships": {
+    "unique": "relationships",
+    "isActive": false,
+    "title": "topic_title_relationships",
+    "simplifiedTitle": "Relationships",
+    "buttonTitle": "topic_button_title_relationships",
+    "topicCategory": "relationships",
+    "topicName": "topic_name_relationship",
+    "topicKeyword": "Relationships",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fsmall%2FLove%20%26%20Relationships.png?alt=media&token=045e183f-c587-48e3-89bc-3c34b3eb442c"
+    },
+    "order": 12,
+    "tags": ["lifeCoachingRelationships"],
+    "query": {
+      "topic": { "topic": "lifeCoachingRelationships" },
+      "overrideDurationFilter": 4
+    },
+    "madeForYouMix": {
+      "title": "Your Relationship & Love Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Flove%402x.png?alt=media&token=ef9be255-c85b-433e-a841-9d7db6bc2f84"
+      }
+    },
+    "usedFor": "love & relationships",
+    "motivation": "onboarding_motivation_plan_list_item_relationships",
+    "count": "965K+",
+    "helpsIn": "onboarding_topic_helps_in_relationships"
+  },
+  "personalGrowth": {
+    "unique": "personalGrowth",
+    "isActive": false,
+    "title": "topic_title_personal_growth",
+    "simplifiedTitle": "Personal Growth",
+    "buttonTitle": "topic_button_title_personal_growth",
+    "topicCategory": "personalGrowth",
+    "topicName": "topic_name_personal_growth",
+    "topicKeyword": "Personal Growth",
+    "img": {
+      "uri": "/static/images/personalGrowth2.png"
+    },
+    "order": 13,
+    "tags": ["lifeCoachingSuccess"],
+    "query": {
+      "topic": { "topic": "lifeCoachingSuccess" },
+      "overrideDurationFilter": 4
+    },
+    "madeForYouMix": {
+      "title": "Your Personal Growth Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2FpersonalGrowth%402x.png?alt=media&token=3e29cbf0-18f0-437b-b6cb-b0f1405c7c0c"
+      }
+    },
+    "usedFor": "personal growth",
+    "motivation": "onboarding_motivation_plan_list_item_personal_growth",
+    "count": "1.1M+",
+    "helpsIn": "onboarding_topic_helps_in_personalGrowth"
+  },
+  "boostEnergy": {
+    "unique": "boostEnergy",
+    "isActive": false,
+    "title": "topic_title_boost_energy",
+    "simplifiedTitle": "Energy",
+    "buttonTitle": "topic_button_title_boost_energy",
+    "topicCategory": "energy",
+    "topicName": "topic_name_boost_energy",
+    "topicKeyword": "Energy",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fothers%2FboostEnergy%402x.png?alt=media&token=bd09f181-342b-4d60-9b61-65dda3eb8d2b"
+    },
+    "tags": ["energy"],
+    "query": { "tags": ["energy"], "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Energy Boost Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmfy%2Fenergy%402x.png?alt=media&token=70b063ba-37fb-4dbe-9c7d-7729e8d31f58"
+      }
+    },
+    "usedFor": "boosting energy",
+    "motivation": "onboarding_motivation_plan_list_item_boost_energy",
+    "count": "1M+",
+    "helpsIn": "onboarding_topic_helps_in_boostEnergy"
+  },
+  "anger": {
+    "unique": "anger",
+    "isActive": false,
+    "title": "topic_title_anger",
+    "simplifiedTitle": "Anger",
+    "buttonTitle": "topic_button_title_anger",
+    "topicCategory": "anger",
+    "topicName": "topic_name_anger",
+    "topicKeyword": "Anger",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fothers%2Fanger%402x.png?alt=media&token=a42f129e-4db8-4df3-8f90-311c806eb3ce"
+    },
+    "tags": ["anger"],
+    "query": { "tags": ["anger"], "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Anger Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmfy%2Fanger%402x.png?alt=media&token=2b6431db-6877-4e63-8205-aac525ad6364"
+      }
+    },
+    "usedFor": "dealing with anger",
+    "motivation": "onboarding_motivation_plan_list_item_anger",
+    "count": "652K+",
+    "helpsIn": "onboarding_topic_helps_in_anger"
+  },
+  "gratitude": {
+    "unique": "gratitude",
+    "isActive": false,
+    "title": "topic_title_gratitude",
+    "simplifiedTitle": "Gratitude",
+    "buttonTitle": "topic_button_title_gratitude",
+    "topicCategory": "gratitude",
+    "topicName": "topic_name_gratitude",
+    "topicKeyword": "Gratitude",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fothers%2Fgratitude.png?alt=media&token=20a56b45-82c1-4a30-b441-dd1fde4ab6e3"
+    },
+    "tags": ["gratitude"],
+    "query": { "tags": ["gratitude"], "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Gratitude Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmfy%2Fgratitude%402x.png?alt=media&token=0fb85da9-e198-43d4-997c-ff5be61a43af"
+      }
+    },
+    "usedFor": "gratitude",
+    "motivation": "onboarding_motivation_plan_list_item_gratitude",
+    "count": "804K+",
+    "helpsIn": "onboarding_topic_helps_in_gratitude"
+  },
+  "yoga": {
+    "unique": "yoga",
+    "isActive": false,
+    "title": "topic_title_yoga",
+    "simplifiedTitle": "Yoga",
+    "buttonTitle": "topic_button_title_yoga",
+    "topicCategory": "yoga",
+    "topicName": "topic_name_yoga",
+    "topicKeyword": "Yoga",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fothers%2Fyoga%26Movement.png?alt=media&token=640027de-caf0-4413-a096-c1feacc93530"
+    },
+    "tags": ["move"],
+    "query": { "tags": ["move"], "overrideDurationFilter": 4 },
+    "madeForYouMix": {
+      "title": "Your Yoga & Movement Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2Fmfy%2Fyoga%402x.png?alt=media&token=b346fd56-f274-4d67-b79f-3bc73eb3a537"
+      }
+    },
+    "usedFor": "yoga & movement",
+    "motivation": "onboarding_motivation_plan_list_item_yoga",
+    "count": "549K+",
+    "helpsIn": "onboarding_topic_helps_in_yoga"
+  },
+  "beginner": {
+    "unique": "beginner",
+    "isActive": false,
+    "title": "topic_title_beginner",
+    "simplifiedTitle": "Beginner meditation",
+    "buttonTitle": "topic_button_title_beginner",
+    "topicCategory": "beginner",
+    "topicName": "topic_name_beginner",
+    "topicKeyword": "Meditation",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fbeginner.png?alt=media&token=8ecbca6a-0b26-4d5f-8c30-0400fee2b004"
+    },
+    "order": 10,
+    "tags": ["beginner"],
+    "query": {
+      "tags": ["beginner"],
+      "overrideDurationFilter": 4,
+      "category": "popular",
+      "useDayBucket": false
+    },
+    "usedFor": "beginner meditation",
+    "motivation": "onboarding_motivation_plan_list_item_beginner",
+    "count": "908K+",
+    "helpsIn": "onboarding_topic_helps_in_beginner"
+  },
+  "advanced": {
+    "unique": "advanced",
+    "isActive": false,
+    "title": "topic_title_advanced",
+    "simplifiedTitle": "Advanced meditation",
+    "buttonTitle": "topic_button_title_advanced",
+    "buttonTitleChakra": "topic_title_advanced_chakra_balancing",
+    "topicCategory": "advanced",
+    "topicName": "topic_name_advanced",
+    "topicKeyword": "Meditation",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2Fadvanced.png?alt=media&token=fd7dfe12-0a8b-4cfa-becd-8c1e72470fe3"
+    },
+    "order": 10,
+    "tags": ["advanced"],
+    "query": {
+      "tags": ["advanced"],
+      "overrideDurationFilter": 4,
+      "category": "popular",
+      "useDayBucket": false
+    },
+    "madeForYouMix": {
+      "title": "Your Advanced Meditation Mix",
+      "img": {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/PersonalizationTopics%2FplaylistCovers%2FadvancedMeditation%402x.png?alt=media&token=cae0b5a3-964f-4283-ac0e-e21a1d2e9cbb"
+      }
+    },
+    "usedFor": "advanced meditation",
+    "motivation": "onboarding_motivation_plan_list_item_advanced",
+    "count": "302K+",
+    "helpsIn": "onboarding_topic_helps_in_advanced"
+  },
+  "selfEsteem": {
+    "unique": "selfEsteem",
+    "isActive": false,
+    "title": "topic_title_self_esteem",
+    "simplifiedTitle": "Self Esteem",
+    "buttonTitle": "topic_button_title_self_esteem",
+    "topicCategory": "selfEsteem",
+    "topicName": "topic_name_self_esteem",
+    "topicKeyword": "Self Esteem",
+    "onboardingLabel": "onboarding_topics_badge_new_topic",
+    "img": {
+      "uri": "https://firebasestorage.googleapis.com/v0/b/firebase-auratech16.appspot.com/o/topics%2FselfEsteem.jpg?alt=media&token=b61edd4e-5a28-42f0-82c7-2e3d8f6f408f"
+    },
+    "order": 14,
+    "tags": ["selfEsteem"],
+    "query": {
+      "tags": ["selfEsteem"],
+      "useDayBucket": false
+    },
+    "usedFor": "self esteem",
+    "motivation": "onboarding_motivation_plan_list_item_self_esteem",
+    "count": "106K+",
+    "helpsIn": "onboarding_topic_helps_in_selfEsteem"
+  }
+}

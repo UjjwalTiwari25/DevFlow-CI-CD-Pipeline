@@ -1,0 +1,10 @@
+{
+  "meta_guestpass_description_other": "Aura に今すぐ登録して、{{count}}日間ゲストパスをお申し込みください",
+  "meta_guestpass_title_other": "Aura の{{count}}日間ゲストパス",
+  "referral_name_sent_you_guest_pass_other": "{{referrerName}}から{{count}}日間ゲストパスが送られました",
+  "referral_redeem_your_guest_pass_from_aura_other": "今すぐ{{count}}日間ゲストパスをご利用ください",
+  "meta_guestpass_description_one": "今すぐ Aura に参加して、{{count}} 日間のゲストパスを受け取りましょう",
+  "meta_guestpass_title_one": "Aura からの {{count}} 日間ゲストパス",
+  "referral_name_sent_you_guest_pass_one": "{{referrerName}} さんから {{count}} 日間のゲストパスが届いています",
+  "referral_redeem_your_guest_pass_from_aura_one": "{{count}} 日間のゲストパスを今すぐ使いましょう"
+}

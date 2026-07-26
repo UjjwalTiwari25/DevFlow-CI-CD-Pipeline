@@ -1,0 +1,342 @@
+@use '../../../../styles/' as *;
+
+.paymentCard {
+  position: relative;
+  min-width: 340px;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px !important;
+}
+
+.auraRingLoader {
+  display: flex;
+  justify-content: center;
+}
+
+.courseHeader {
+  text-align: center;
+}
+
+.originalValueStrike {
+  @include font-400-default-semibold;
+
+  position: relative;
+  color: #9092a3;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background-color: #9092a3;
+    transform: rotate(17deg);
+  }
+}
+
+.courseName {
+  @include font-600-default-semibold;
+
+  color: #2f3237;
+  margin-top: 12px;
+}
+
+.courseDescription {
+  @include font-350-default-regular;
+
+  color: #5b657a;
+}
+
+.closeIcon {
+  position: absolute;
+  top: $space-16;
+  right: $space-16;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: $space-12;
+}
+
+.checkbox {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  position: relative;
+  background: #c5c6ce;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.gradientBackground {
+  background: linear-gradient(277.58deg, #4ec8ff 5.87%, #1df4ed 94.13%);
+  border: 0;
+  box-shadow: 0 0 10px #4ec8ff;
+}
+
+.nonMemberTicketRadio {
+  background-color: #fff;
+  width: 100%;
+  margin-top: $space-12;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-16;
+  box-shadow: 0 4px 26px 0 rgba(43, 42, 107, 0.08);
+  border-radius: $border-radius-12;
+  cursor: pointer;
+}
+
+.nonMemberTicketText {
+  @include font-400-default-regular;
+
+  color: #2f3237;
+  font-size: 18px;
+}
+
+.nonMembersPrice {
+  @include font-400-default-regular;
+
+  color: #9092a3;
+  font-size: 14px;
+}
+
+.joinCommunityRadioWrapper {
+  background-color: #fff;
+  box-shadow: 0 4px 26px 0 rgba(43, 42, 107, 0.08);
+  border-radius: $border-radius-12;
+  cursor: pointer;
+}
+
+.joinCommunityRadio {
+  width: 100%;
+  margin-top: $space-12;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-16;
+}
+
+.joinCommunityText {
+  @include font-600-default-semibold;
+
+  color: #2f3237;
+  font-size: 18px;
+}
+
+.joinCommunityBestValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 99px;
+  max-height: 24px;
+  padding: 10px $space-12;
+  background: linear-gradient(242deg, #9dd400 17.31%, #5ce4b3 82.69%);
+}
+
+.joinCommunityBestValueText {
+  @include font-600-default-semibold;
+
+  color: $white-alpha-main;
+  font-size: 13px;
+}
+
+.horizontalRow {
+  border-bottom: 1px solid #5b657a;
+  width: 100%;
+  opacity: 0.2;
+}
+
+.communityOfferingsSection {
+  padding: $space-0 $space-16;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: $space-16;
+}
+
+.offerTitle {
+  @include font-400-default-regular;
+
+  color: #2f3237;
+  font-size: 16px;
+  line-height: 37px;
+}
+
+.offerValue {
+  @include font-400-default-regular;
+
+  color: #9092a3;
+  font-size: 18px;
+}
+
+.totalValue {
+  padding: $space-12 $space-16 $space-0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: $space-16;
+}
+
+.totalValueText {
+  @include font-600-default-semibold;
+
+  color: #2f3237;
+  font-size: 16px;
+  line-height: 37px;
+}
+
+.yourCost {
+  padding: $space-0 $space-16 $space-12;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: $space-16;
+}
+
+.yourCostText {
+  @include font-600-default-semibold;
+
+  color: #2f3237;
+  font-size: 16px;
+  line-height: 37px;
+}
+
+.totalValueStrike {
+  @include font-600-default-semibold;
+  font-size: 16px;
+  position: relative;
+  color: #ff3b30;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: $space-8;
+    right: $space-8;
+    height: 1.5px;
+    background-color: #ff3b30;
+    transform: rotate(45deg);
+  }
+}
+
+.yourCostPerMonth {
+  @include font-600-default-semibold;
+
+  font-size: 16px;
+  background: linear-gradient(196deg, #9dd400 0%, #5ce4b3 103.24%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardDetailSection {
+  box-shadow: 0 4px 26px 0 rgba(43, 42, 107, 0.08);
+  margin-top: $space-12;
+  border-radius: $border-radius-16;
+  padding: $space-16;
+}
+
+.cardDetailCheckedText {
+  @include font-600-default-semibold;
+
+  font-size: 16px;
+  color: #2f3237;
+}
+
+.creditCardSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-16 $space-0;
+}
+
+.creditCardsImage {
+  width: 140px;
+}
+
+.paymentProtected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-8;
+}
+
+.paymentProtectedIcon {
+  width: 20px;
+}
+
+.paymentProtectedText {
+  @include font-400-default-regular;
+
+  color: #9092a3;
+  font-size: 12px;
+}
+
+.acceptCommunityGuidelinesText {
+  @include font-325-default-regular;
+
+  color: #9092a3;
+  text-align: center;
+  margin-top: $space-16;
+  max-width: 250px;
+}
+
+.stripeSecureImageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: $space-16;
+}
+
+.stripeSecureImage {
+  width: 200px;
+}
+
+.coursePriceDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.coursePrice {
+  @include font-400-default-semibold;
+
+  color: #2f3237;
+  display: flex;
+  gap: 4px;
+}
+
+.discountText {
+  @include font-350-default-regular;
+
+  color: #5b657a;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.discount {
+  background: linear-gradient(196deg, #9dd400 0%, #5ce4b3 103.24%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.cardWrapper {
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  .creditCardsImage {
+    width: 100px;
+  }
+}

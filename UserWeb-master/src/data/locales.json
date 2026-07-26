@@ -1,0 +1,58 @@
+{
+  "en": {
+    "id": "en",
+    "urlPathId": "en",
+    "enabled": true,
+    "title": "locale_en",
+    "name": "English",
+    "logo": "/static/images/localeIcons/en.png"
+  },
+  "es": {
+    "id": "es",
+    "urlPathId": "es",
+    "enabled": true,
+    "title": "locale_es",
+    "name": "Spanish",
+    "logo": "/static/images/localeIcons/es.png"
+  },
+  "fr": {
+    "id": "fr",
+    "urlPathId": "fr",
+    "enabled": true,
+    "title": "locale_fr",
+    "name": "French",
+    "logo": "/static/images/localeIcons/fr.png"
+  },
+  "de": {
+    "id": "de",
+    "urlPathId": "de",
+    "enabled": true,
+    "title": "locale_de",
+    "name": "German",
+    "logo": "/static/images/localeIcons/de.png"
+  },
+  "pt_BR": {
+    "id": "pt_BR",
+    "urlPathId": "pt-br",
+    "enabled": true,
+    "title": "locale_pt_BR",
+    "name": "Portuguese (Brazil)",
+    "logo": "/static/images/localeIcons/pt_br.png"
+  },
+  "ko": {
+    "id": "ko",
+    "urlPathId": "ko",
+    "enabled": true,
+    "title": "locale_ko",
+    "name": "Korean",
+    "logo": "/static/images/localeIcons/kr.png"
+  },
+  "ja": {
+    "id": "ja",
+    "urlPathId": "ja",
+    "enabled": true,
+    "title": "locale_ja",
+    "name": "Japanese",
+    "logo": "/static/images/localeIcons/ja.png"
+  }
+}

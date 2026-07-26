@@ -1,0 +1,41 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# lint caches
+.eslintcache
+.stylelintcache
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+sitemap.xml
+static-sitemap.xml
+# misc
+.DS_Store
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/test-results/
+/tests-result/
+/playwright-report/
+/playwright/.cache/

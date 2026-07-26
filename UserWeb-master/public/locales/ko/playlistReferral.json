@@ -1,0 +1,8 @@
+{
+  "playlist_influencer_by": "작성 - {{influencerName}}",
+  "playlist_influencer_limited_time_discount_code_applied": "기간 한정 할인 코드(<0>\"{{influencerCode}}\"</0>)가 자동으로 적용되었습니다. 지금 바로 시작하세요.",
+  "playlist_influencer_name_invited_you_to_join_aura": "{{influencerName}} 님이 Aura에 가입하도록 초대했습니다!",
+  "referral_playlist_redeem_access_to_aura_other": "Aura {{count}}일 이용권 사용",
+  "referral_playlist_referrer_sent_you_title": "{{referrerName}} 님이 '{{playlistName}}' 재생 목록을 공유했습니다!",
+  "referral_playlist_redeem_access_to_aura_one": "{{count}}일 Aura 이용권을 받으세요"
+}

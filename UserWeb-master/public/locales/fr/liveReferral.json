@@ -1,0 +1,15 @@
+{
+  "referral_live_aura_sent_you_live": "Aura vous a invité à rejoindre {{liveTitle}}",
+  "referral_live_aura_sent_you_live_recording": "Aura vous invite à regarder {{liveTitle}}",
+  "referral_live_badge_live": "Live",
+  "referral_live_badge_live_replay": "Rediffusion en direct",
+  "referral_live_meta_description": "Réclamez votre Aura Guest Pass exclusif et rejoignez l'événement en direct {{liveTitle}}  ",
+  "referral_live_meta_title": "Rejoignez l'événement en direct {{liveTitle}} sur Aura",
+  "referral_live_recorded_on": "Enregistré sur {{recordingDate}}",
+  "referral_live_redeem_your_guest_pass_one": "Réclamez votre Guest pass de {{count}} jour",
+  "referral_live_redeem_your_guest_pass_other": "Réclamez votre Guest pass de {{count}} jours ",
+  "referral_live_redeem_your_guest_pass_from_one": "Réclamez votre Guest pass de {{count}} jour de {{referrerName}}",
+  "referral_live_redeem_your_guest_pass_from_other": "Réclamez votre Guest pass de {{count}} jours de {{referrerName}}",
+  "referral_live_referrer_sent_you_live": "{{referrerName}} vous a invité à rejoindre {{liveTitle}}",
+  "referral_live_referrer_sent_you_live_recording": "{{referrerName}} vous a invité à regarder {{liveTitle}}"
+}

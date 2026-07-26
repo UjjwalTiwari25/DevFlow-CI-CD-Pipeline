@@ -1,0 +1,45 @@
+@use '../../../../styles/' as *;
+
+.gradientGiftIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  width: 56px;
+  background-color: $white-alpha-main;
+  border-radius: 50%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-16;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-12;
+  align-items: center;
+}
+
+.title {
+  @include font-800-default-semibold;
+
+  max-width: 70%;
+  text-align: center;
+}
+
+@include themify($themes) {
+  .title {
+    color: themed('text-primary-main');
+  }
+}
+
+@include smallAndBelow {
+  .title {
+    @include font-600-default-semibold;
+    max-width: 100%;
+  }
+}

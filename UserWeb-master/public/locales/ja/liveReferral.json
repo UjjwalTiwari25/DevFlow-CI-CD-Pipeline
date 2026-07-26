@@ -1,0 +1,15 @@
+{
+  "referral_live_aura_sent_you_live": "Aura が{{liveTitle}}に招待しました",
+  "referral_live_aura_sent_you_live_recording": "Aura が{{liveTitle}}の視聴に招待しました",
+  "referral_live_badge_live": "ライブ",
+  "referral_live_badge_live_replay": "ライブリプレイ",
+  "referral_live_meta_description": "限定の Aura ゲストパスを申し込んで、{{liveTitle}}のライブイベントに参加しましょう  ",
+  "referral_live_meta_title": "Aura で{{liveTitle}}のライブイベント参加しましょう",
+  "referral_live_recorded_on": "収録日 {{recordingDate}}",
+  "referral_live_redeem_your_guest_pass_other": "{{count}}日間ゲストパスをご利用ください",
+  "referral_live_redeem_your_guest_pass_from_other": "{{coachName}}からの{{count}}日間ゲストパスをご利用ください",
+  "referral_live_referrer_sent_you_live": "{{referrerName}}が{{liveTitle}}に招待しました",
+  "referral_live_referrer_sent_you_live_recording": "{{referrerName}}が{{liveTitle}}の視聴に招待しました",
+  "referral_live_redeem_your_guest_pass_one": "{{count}} 日間のゲストパスを使いましょう",
+  "referral_live_redeem_your_guest_pass_from_one": "{{referrerName}} さんからの {{count}} 日間ゲストパスを使いましょう"
+}

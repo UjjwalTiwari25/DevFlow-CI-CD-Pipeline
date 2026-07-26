@@ -1,0 +1,22 @@
+{
+  "guestpass_access_all_tracks": "Get unlimited access to all of {{coachName}}'s tracks",
+  "guestpass_button_redeem": "Redeem Guest Pass",
+  "guestpass_claim_guest_pass_one": "Claim your {{count}}-Day Aura Guest Pass from {{coachName}}",
+  "guestpass_claim_guest_pass_other": "Claim your {{count}}-Day Aura Guest Pass from {{coachName}}",
+  "guestpass_claim_today_one": "Claim your {{count}}-Day Aura Guest Pass Today",
+  "guestpass_claim_today_other": "Claim your {{count}}-Day Aura Guest Pass Today",
+  "guestpass_find_peace": "Find peace & get restful sleep with me on Aura",
+  "guestpass_follow_on_aura": "Follow {{coachName}} on Aura",
+  "guestpass_header_aura": "AURA",
+  "guestpass_instant_access": "When you sign up, you’ll instantly get access to all of my tracks on {{specialties}}:",
+  "guestpass_meditations_stories_everything": "Meditations, stories, life coaching, music, nature sounds - everything.",
+  "guestpass_personalized_tracks": " 4000+ Personalized Wellness Tracks",
+  "guestpass_reviews": "Over 20,000 5-star reviews",
+  "guestpass_top_coaches": "World’s Top Coaches & Therapists in One App",
+  "guestpass_tracks_durations": "Tracks from 3 mins to 1 hour+",
+  "guestpass_unlimited_access": "Enjoy unlimited access to Aura",
+  "meta_guestpass_description_one": "Join Aura now and claim your {{count}}-Day Guest Pass from {{coachName}}",
+  "meta_guestpass_description_other": "Join Aura now and claim your {{count}}-Day Guest Pass from {{coachName}}",
+  "meta_guestpass_title_one": "{{count}} Day Guest Pass from {{coachName}} - Aura",
+  "meta_guestpass_title_other": "{{count}} Day Guest Pass from {{coachName}} - Aura"
+}

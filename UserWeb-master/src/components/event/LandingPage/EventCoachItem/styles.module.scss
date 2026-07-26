@@ -1,0 +1,39 @@
+@use '../../../../styles/' as *;
+
+.hostEventCoach {
+  display: flex;
+  align-items: center;
+  gap: $space-16;
+}
+
+.hostCoachName {
+  @include font-450-default-semibold;
+}
+
+.hostCoachProfessionalTitle {
+  @include font-350-default-regular;
+}
+
+@include themify($themes) {
+  .hostCoachName {
+    color: themed('text-primary-main');
+  }
+
+  .hostCoachProfessionalTitle {
+    color: themed('text-secondary-500');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .hostCoachName {
+    @include font-350-default-semibold;
+  }
+
+  .hostEventCoach {
+    gap: $space-12;
+  }
+
+  .hostCoachProfessionalTitle {
+    @include font-300-default-regular;
+  }
+}

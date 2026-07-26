@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@Tests/*": ["./tests/*"],
+      "@Mocks/*": ["./tests/mocks/*"],
+      "@Server/*": ["./server/*"],
+      "@Icons/*": ["./public/static/icons/*"]
+    }
+  }
+}

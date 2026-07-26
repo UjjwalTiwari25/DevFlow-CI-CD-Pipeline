@@ -1,0 +1,86 @@
+@use '../../../../styles/' as *;
+
+.container {
+  margin-top: 8px;
+}
+
+.offeringsTableDivider {
+  width: 100vw;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  height: 1px;
+  border: 0;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-40;
+  width: 100%;
+}
+
+.moneyBackText {
+  @include font-600-default-semibold;
+
+  margin-top: $space-16;
+  text-align: center;
+}
+
+.moneyBackSubText {
+  @include font-350-default-regular;
+
+  margin-top: $space-8;
+  max-width: 720px;
+  text-align: center;
+}
+
+.moneyBackWrapper {
+  position: relative;
+  margin-top: -32px;
+}
+
+.moneyBackGuaranteeImage {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  border-radius: 99999px;
+  opacity: 0.15;
+  background: conic-gradient(from 90deg at 50.36% 50.36%, #f3ff69 0deg, #ff9473 86.24999821186066deg, #ffadf7 183.75000715255737deg, #84bcff 268.1250071525574deg, #65ff3f 360deg);
+  filter: blur(125px);
+  position: absolute;
+  top: 72px;
+  left: 0;
+  z-index: -1;
+}
+
+@include themify($themes) {
+  .offeringsTableDivider {
+    background-color: themed('border-secondary-transparent-200');
+    color: themed('border-secondary-transparent-200');
+    border-color: themed('border-secondary-transparent-200');
+  }
+
+  .moneyBackText {
+    color: thmed('text-primary-main');
+  }
+
+  .moneyBackSubText {
+    color: themed('text-secondary-500');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .offeringsTableDivider {
+    margin-left: -20px;
+  }
+
+  .contentWrapper {
+    padding: $space-40 $space-16;
+  }
+
+  .moneyBackWrapper {
+    margin-top: unset;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "referral_track_aura_sent_you_track": "Aura enviou {{trackTitle}} para você",
+  "referral_track_duration": "{{duration}} min",
+  "referral_track_meta_description": "Resgate sua Cortesia Aura exclusiva e ouça {{trackName}}",
+  "referral_track_meta_title": "Ouça {{trackName}} no Aura",
+  "referral_track_redeem_your_guest_pass_one": "Resgate sua Cortesia de {{count}} dia",
+  "referral_track_redeem_your_guest_pass_other": "Resgate sua Cortesia de {{count}} dias",
+  "referral_track_redeem_your_guest_pass_from_one": "Resgate sua Cortesia de {{count}} dia enviada por {{referrerName}}",
+  "referral_track_redeem_your_guest_pass_from_other": "Resgate sua Cortesia de {{count}} dias enviada por {{referrerName}}",
+  "referral_track_referrer_sent_you_track": "{{referrerName}} enviou {{trackTitle}} para você"
+}

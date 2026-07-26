@@ -1,0 +1,22 @@
+{
+  "peace": {
+    "title": "Self-confidence",
+    "itemKey": "selfConfidence",
+    "active": false
+  },
+  "gratitude": {
+    "title": "Self-worth",
+    "itemKey": "selfWorth",
+    "active": false
+  },
+  "calm": {
+    "title": "Self-awareness",
+    "itemKey": "selfAwareness",
+    "active": false
+  },
+  "happiness": {
+    "title": "Self-acceptance",
+    "itemKey": "selfAcceptance",
+    "active": false
+  }
+}

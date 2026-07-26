@@ -1,0 +1,48 @@
+@use '../../../../styles/' as *;
+
+.freeEventOrCoursePurchaseContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eventOrCourseTitle {
+  @include font-700-default-semibold;
+}
+
+.eventScheduleDetails {
+  display: flex;
+  align-items: center;
+  gap: $space-16;
+}
+
+.iconColor {
+  color: #9092a3;
+}
+
+.eventScheduleItem {
+  @include font-400-default-semibold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.evntTimezone {
+  @include font-400-default-regular;
+
+  margin-left: 8px;
+}
+
+@include themify($themes) {
+  .eventOrCourseTitle {
+    color: themed('text-primary-main');
+  }
+
+  .eventScheduleItem {
+    color: themed('text-primary-main');
+  }
+
+  .evntTimezone {
+    color: themed('text-tertiary-400');
+  }
+}

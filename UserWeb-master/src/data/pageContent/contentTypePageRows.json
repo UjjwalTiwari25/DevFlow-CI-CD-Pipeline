@@ -1,0 +1,401 @@
+{
+  "meditation": {
+    "key": "meditation",
+    "urlKey":"meditation",
+    "title": "Meditation",
+    "subTitle": "Thousands of guided meditations from the world’s top coaches",
+    "minimalIcon": "/static/images/icons/meditationIcon.png",
+    "fullImage": "/static/images/meditation.webp",
+    "type": "contentType",
+    "pageContent": {
+      "sleepMeditations": {
+        "unique": "sleepMeditations",
+        "title": "Sleep Meditations",
+        "contentType": "tracks",
+        "viewAllPage": "sleep-better",
+        "query": {
+          "emotion": "sleep",
+          "contentType": "meditation",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "popular": {
+        "unique": "popular",
+        "title": "Popular on Aura",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "meditation",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25,
+          "shuffle": true
+        }
+      },
+      "topMeditationsChannels": {
+        "unique": "topMeditationsChannels",
+        "title": "Top Meditation Channels",
+        "viewAllPage": "top-meditations-channels",
+        "contentType": "channels",
+        "order": 1,
+        "query": {
+          "type": "mindfulness",
+          "category": "topSubscribed"
+        }
+      },
+      "new": {
+        "unique": "new",
+        "title": "New",
+        "contentType": "tracks",
+        "query": {
+          "category": "new",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25
+        }
+      },
+      "happiness": {
+        "unique": "happiness",
+        "title": "Happiness Meditations",
+        "contentType": "tracks",
+        "viewAllPage": "increase-happiness",
+        "query": {
+          "topic": "happiness",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "focus": {
+        "unique": "focus",
+        "title": "Focus",
+        "contentType": "tracks",
+        "viewAllPage": "focus-and-productivity",
+        "query": {
+          "topic": "focus",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "calmAnxiety": {
+        "unique": "calmAnxiety",
+        "title": "Calm Anxiety",
+        "contentType": "tracks",
+        "viewAllPage": "calm-anxiety",
+        "query": {
+          "emotion": "anxious",
+          "contentType": "meditation",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "mindfulness": {
+        "unique": "mindfulness",
+        "title": "Mindfulness",
+        "contentType": "tracks",
+        "viewAllPage": "mindfulness",
+        "query": {
+          "topic": "mindfulness",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "reduceStress": {
+        "unique": "reduceStress",
+        "title": "Reduce Stress",
+        "contentType": "tracks",
+        "viewAllPage": "reduce-stress",
+        "query": {
+          "emotion": "stressed",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "contentType": "meditation",
+          "shuffle": true
+        }
+      }
+    }
+  },
+  "lifeCoaching": {
+    "key": "lifeCoaching",
+    "urlKey":"life-coaching",
+    "title": "Life Coaching",
+    "subTitle": "Reach your life's goals with insights & knowledge from experts",
+    "minimalIcon": "/static/images/icons/lifeCoaching.png",
+    "fullImage": "/static/images/coaching.webp",
+    "type": "contentType",
+    "pageContent": {
+      "popular": {
+        "unique": "popular",
+        "title": "Popular on Aura",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "lifeCoaching",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25,
+          "shuffle": true
+        }
+      },
+      "lifeCoachingRelationships": {
+        "unique": "lifeCoachingRelationships",
+        "title": "Love & Relationships",
+        "contentType": "tracks",
+        "query": {
+          "topic": "lifeCoachingRelationships",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25
+        }
+      },
+      "calmAnxiety": {
+        "unique": "calmAnxiety",
+        "title": "Calm Anxiety",
+        "viewAllPage": "calm-anxiety",
+        "contentType": "tracks",
+        "query": {
+          "emotion": "anxious",
+          "contentType": "lifeCoaching",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "new": {
+        "unique": "new",
+        "title": "New",
+        "contentType": "tracks",
+        "query": {
+          "category": "new",
+          "contentType": "lifeCoaching",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25
+        }
+      },
+      "lifeCoachingSuccess": {
+        "unique": "lifeCoachingSuccess",
+        "title": "Personal Growth",
+        "contentType": "tracks",
+        "viewAllPage": "personal-growth-and-success",
+        "query": {
+          "topic": "lifeCoachingSuccess",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "topLifeCoachingChannels": {
+        "unique": "topLifeCoachingChannels",
+        "title": "Top Life Coaching Channels",
+        "viewAllPage": "top-life-coaching-channels",
+        "contentType": "channels",
+        "order": 2,
+        "query": {
+          "type": "lifeCoaching",
+          "category": "topSubscribed"
+        }
+      },
+      "reduceStress": {
+        "unique": "reduceStress",
+        "title": "Mindfulness",
+        "viewAllPage": "reduce-stress",
+        "contentType": "tracks",
+        "query": {
+          "emotion": "stressed",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "contentType": "lifeCoaching",
+          "shuffle": true
+        }
+      },
+      "happiness": {
+        "unique": "happiness",
+        "title": "Happiness",
+        "viewAllPage": "increase-happiness",
+        "contentType": "tracks",
+        "query": {
+          "topic": "happiness",
+          "contentType": "lifeCoaching",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      }
+    }
+  },
+  "story": {
+    "key": "story",
+    "urlKey":"story",
+    "title": "Stories",
+    "subTitle": "Be inspired & empowered with uplifting short stories",
+    "minimalIcon": "/static/images/icons/story.png",
+    "fullImage": "/static/images/stories.webp",
+    "type": "contentType",
+    "pageContent": {
+      "sleepTales": {
+        "unique": "sleepTales",
+        "title": "Sleep Tales",
+        "viewAllPage": "sleep-tales",
+        "contentType": "tracks",
+        "query": {
+          "emotion": "sleep",
+          "contentType": "story",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "bedtime": {
+        "unique": "bedtime",
+        "title": "Bedtime Stories",
+        "viewAllPage": "bedtime-stories",
+        "contentType": "tracks",
+        "query": {
+          "emotion": "sleep",
+          "contentType": "story",
+          "tags": ["bedtime"],
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "topStoryChannels": {
+        "unique": "topStoryChannels",
+        "title": "Top Story Channels",
+        "viewAllPage": "top-stories-channels",
+        "contentType": "channels",
+        "order": 3,
+        "query": {
+          "type": "story",
+          "category": "topSubscribed"
+        }
+      },
+      "inspirationalStories": {
+        "unique": "inspirationalStories",
+        "title": "Inspirational Stories",
+        "viewAllPage": "inspirational-stories",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "story",
+          "tags": ["inspire"],
+          "useDayBucket": false,
+          "limit": 18,
+          "shuffle": true
+        }
+      },
+      "new": {
+        "unique": "new",
+        "title": "New",
+        "contentType": "tracks",
+        "query": {
+          "category": "new",
+          "contentType": "story",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25
+        }
+      },
+      "popular": {
+        "unique": "popular",
+        "title": "Popular on Aura",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "story",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25,
+          "shuffle": true
+        }
+      }
+    }
+  },
+  "natureSounds": {
+    "key": "musicAndSounds",
+    "urlKey":"music-and-sounds",
+    "title": "Music & Sounds",
+    "type": "contentType",
+    "minimalIcon": "/static/images/icons/musicIcon.png",
+    "fullImage": "/static/images/musicSounds.webp"
+  },
+  "therapy": {
+    "key": "therapy",
+    "urlKey":"therapy",
+    "title": "Healthy Mind",
+    "subTitle": "Cognitive Behavioral Theory",
+    "minimalIcon": "/static/images/icons/cbt-icon.png",
+    "fullImage": "/static/images/cbt.jpg",
+    "type": "contentType",
+    "pageContent": {
+      "cbt": {
+        "unique": "cbt",
+        "title": "Cognitive Behavioral Therapy",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "therapy",
+          "tags": ["cognitiveBehavioralTherapy"],
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "dbt": {
+        "unique": "dbt",
+        "title": "Dialectical Behavior Therapy",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "therapy",
+          "tags": ["dialecticalBehaviorTherapy"],
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "topTherapyChannels": {
+        "unique": "topTherapyChannels",
+        "title": "Top Healthy Mind Channels",
+        "contentType": "channels",
+        "order": 3,
+        "query": {
+          "type": "therapy",
+          "category": "topSubscribed"
+        }
+      },
+      "positivePsychology": {
+        "unique": "positivePsychology",
+        "title": "Positive Psychology",
+        "contentType": "tracks",
+        "query": {
+          "contentType": "therapy",
+          "tags": ["positivePsychology"],
+          "useDayBucket": false,
+          "limit": 18
+        }
+      },
+      "new": {
+        "unique": "new",
+        "title": "New",
+        "contentType": "tracks",
+        "query": {
+          "category": "new",
+          "contentType": "therapy",
+          "durationFilter": 4,
+          "useDayBucket": false,
+          "limit": 25
+        }
+      }
+    }
+  }
+}

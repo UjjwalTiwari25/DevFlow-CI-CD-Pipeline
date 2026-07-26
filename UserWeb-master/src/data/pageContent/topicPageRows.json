@@ -1,0 +1,71 @@
+{
+  "meditations": {
+    "unique": "meditations",
+    "title": "Meditations",
+    "contentType": "tracks",
+    "viewAllPage":"meditations",
+    "query": {
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 20,
+      "contentType": "mindfulness"
+    }
+  },
+  "lifeCoaching": {
+    "unique": "lifeCoaching",
+    "title": "Life Coaching",  
+    "viewAllPage":"life-coaching",
+    "contentType": "tracks",
+    "query": {
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 20,
+      "contentType": "lifeCoaching"
+    }
+  },
+  "stories": {
+    "unique": "stories",
+    "title": "Stories",
+    "viewAllPage":"stories",
+    "contentType": "tracks",
+    "query": {
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 20,
+      "contentType": "story"
+    }
+  },
+  "music": {
+    "unique": "music",
+    "title": "Music",
+    "viewAllPage":"music",
+    "contentType": "tracks",
+    "query": {
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 20,
+      "contentType": "music"
+    }
+  },
+  "new": {
+    "unique": "new",
+    "title": "New",
+    "contentType": "tracks",
+    "query": {
+      "category": "new",
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 20
+    }
+  },
+  "popular": {
+    "unique": "popular",
+    "title": "Popular",
+    "contentType": "tracks",
+    "query": {
+      "overrideDurationFilter": 4,
+      "useDayBucket": false,
+      "limit": 34
+    }
+  }
+}

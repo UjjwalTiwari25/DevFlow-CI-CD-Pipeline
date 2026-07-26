@@ -1,0 +1,8 @@
+{
+  "playlist_influencer_by": "By {{influencerName}}",
+  "playlist_influencer_limited_time_discount_code_applied": "期間限定の割引コード <0>\"{{influencerCode}}\"<0>が自動的に適用されました。今すぐ始めましょう。",
+  "playlist_influencer_name_invited_you_to_join_aura": "{{influencerName}}が Aura に招待しました！",
+  "referral_playlist_redeem_access_to_aura_other": "Aura への{{count}}日間アクセスをご利用ください",
+  "referral_playlist_referrer_sent_you_title": "{{referrerName}}がプレイリスト: {{playlistName}}を共有しました！",
+  "referral_playlist_redeem_access_to_aura_one": "{{count}} 日間の Aura アクセスを使いましょう"
+}

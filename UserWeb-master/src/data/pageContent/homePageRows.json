@@ -1,0 +1,126 @@
+{
+  "exploreAura": {
+    "unique": "exploreAura",
+    "title": "Explore Aura",
+    "contentType": "exploreAura",
+    "query": {}
+  },
+  "sleep": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "popularMeditations": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "topMeditationsChannels": {
+    "unique": "topMeditationsChannels",
+    "title": "Top Meditation Channels",
+    "contentType": "channels",
+    "viewAllPage": "top-meditations-channels",
+    "query": {
+      "type": "mindfulness",
+      "category": "topSubscribed"
+    }
+  },
+  "calmAnxiety": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "topStoriesChannels": {
+    "unique": "topStoriesChannels",
+    "title": "Top Stories Channels",
+    "viewAllPage": "top-stories-channels",
+    "contentType": "channels",
+    "query": {
+      "type": "story",
+      "category": "topSubscribed"
+    }
+  },
+  "happiness": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "focus": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "stress": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "morning": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "topLifeCoachingChannels": {
+    "unique": "topLifeCoachingChannels",
+    "title": "Top Life Coaching Channels",
+    "contentType": "channels",
+    "viewAllPage": "top-life-coaching-channels",
+    "query": {
+      "type": "lifeCoaching",
+      "category": "topSubscribed"
+    }
+  },
+  "mindfulness": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "healing": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "musicSoothing": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "relaxation": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "parenting": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "kids": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "relationships": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "personalGrowth": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "energy": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "anger": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "gratitude": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "yoga": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "advanced": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "beginner": {
+    "contentType": "tracks",
+    "query": {}
+  },
+  "newMeditations": {
+    "contentType": "tracks",
+    "query": {}
+  }
+}

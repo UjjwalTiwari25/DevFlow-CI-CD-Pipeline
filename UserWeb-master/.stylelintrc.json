@@ -1,0 +1,9 @@
+{
+  "ignoreFiles": ["**/*.js"],
+  "extends": "stylelint-config-sass-guidelines",
+  "rules": {
+    "selector-max-id": null,
+    "scss/at-mixin-pattern": null,
+    "selector-class-pattern": "[a-zA-Z]+"
+  }
+}

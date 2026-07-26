@@ -1,0 +1,18 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9C8CA87JCB.com.AuraMobile",
+        "paths": [
+          "/track/*",
+          "/coaches/*/series/*",
+          "/challenges/*",
+          "/refer/aura-social/*",
+          "/refer/*/playlist/*",
+          "/deeplink/*"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+@use '../../../../styles/' as *;
+
+.eventAttendeeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-4;
+  max-width: 60px;
+}
+
+.attendeeUserName {
+  @include font-350-default-regular;
+  @include multilineEllipsis(1);
+
+  text-align: center;
+}
+
+@include themify($themes) {
+  .attendeeUserName {
+    color: themed('text-secondary-500');
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .attendeeUserName {
+    @include font-275-default-regular;
+  }
+}

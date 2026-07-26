@@ -1,0 +1,122 @@
+@use '../../../../styles/' as *;
+
+.contentContainer {
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  display: flex;
+  gap: $space-40;
+  margin: 56px 0;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  align-items: center;
+}
+
+.courseInfoHeader {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.courseName {
+  @include font-900-default-semibold;
+
+  font-size: 38px;
+  line-height: normal;
+  margin-bottom: 12px;
+}
+
+.courseSummary {
+  @include font-450-default-regular;
+
+  margin-bottom: $space-20;
+}
+
+.coursePreviewImageWrapper {
+  width: 48%;
+  height: 365px;
+}
+
+.coursePreviewImage {
+  border-radius: $border-radius-16;
+  width: 100%;
+  height: 365px;
+  object-fit: cover;
+}
+
+@include themify($themes) {
+  .courseName {
+    color: themed('text-primary-main');
+  }
+
+  .courseSummary {
+    color: themed('text-primary-main');
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .coursePreviewImageWrapper {
+    width: 48%;
+    height: 242px;
+  }
+
+  .coursePreviewImage {
+    border-radius: $border-radius-16;
+    width: 100%;
+    height: 242px;
+    object-fit: cover;
+  }
+
+  .courseInfoHeader {
+    padding-bottom: $space-0;
+    margin-bottom: $space-0;
+  }
+
+  .courseNameWrapper {
+    width: 100%;
+  }
+
+  .courseSummary {
+    @include font-400-default-regular;
+  }
+}
+
+@include smallAndBelow {
+  .courseInfoHeader {
+    width: 100%;
+  }
+  
+  .contentContainer {
+    margin-top: $space-20;
+    flex-direction: column-reverse;
+    gap: $space-24;
+    margin-bottom: $space-40;
+  }
+
+  .coursePreviewImageWrapper {
+    width: 100%;
+    height: 223px;
+  }
+
+  .coursePreviewImage {
+    border-radius: $border-radius-16;
+    height: 223px;
+    object-fit: cover;
+  }
+
+  .courseName {
+    @include font-700-default-semibold;
+
+    margin-bottom: $space-8;
+  }
+
+  .ctaButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

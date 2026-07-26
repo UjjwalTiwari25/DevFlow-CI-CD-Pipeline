@@ -1,0 +1,9 @@
+{
+  "referral_button_get_started": "시작하기",
+  "referral_header_claim_guest_pass": "{{trial}}일 게스트 패스를 받으세요!",
+  "referral_header_claim_guest_pass_from": "{{referrerName}} 님이 제공한 {{trial}}일 게스트 패스를 받으세요!",
+  "referral_meta_description": "지금 Aura에 가입하고 {{trial}}일 게스트 패스를 받으세요!",
+  "referral_meta_title": "{{trial}}일 게스트 패스 - Aura",
+  "referral_subtitle_take_care": "Aura로 <strong>감정</strong>을 관리하고, 편안한 <strong>수면</strong>을 취하며, <strong>최고의 자신</strong>이 되어보세요.",
+  "referral_subtitle_take_care2": "Aura로 감정을 관리하고, 편안한 수면을 취하며, 최고의 자신이 되어보세요."
+}

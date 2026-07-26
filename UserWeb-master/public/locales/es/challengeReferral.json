@@ -1,0 +1,11 @@
+{
+  "challenge_referral_challenge_duration": "Desafío de {{duration}} días",
+  "challenge_referral_header": "{{referrerName}} te invita a experimentar la prueba gratis de 30 días de Aura",
+  "challenge_referral_subtitle_begin_with_challenge": "Comienza nuestro nuevo {{challengeName}} con {{referrerName}}.",
+  "challenge_referral_subtitle_begin_with_challenge2": "Comienza nuestro nuevo Desafío {{challengeName}} con {{referrerName}}.",
+  "challenge_referral_subtitle_enjoy_trial": "Disfruta de 30 días de prueba gratis",
+  "challenge_referral_subtitle_enjoy_trial_from": "Disfruta de 30 días de prueba gratis de parte de {{referrerName}}",
+  "challenge_referral_trusted_by": "Más de 8 millones de personas confían en nosotros",
+  "meta_challenge_referral_description": "Únete a Aura ahora y consigue tu Pase de Invitado de 30 días",
+  "meta_challenge_referral_title": "{{challengeName}} - Aura"
+}

@@ -1,0 +1,177 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2.1
+jobs:
+  test:
+    docker:
+      # specify the version you desire here
+      - image: cimg/node:24.18.0
+    environment:
+      ESLINT_CACHE: '.eslintcache'
+      STYLELINT_CACHE: '.stylelintcache'
+    working_directory: ~/app
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - app-dependencies-{{ checksum "package.json" }}
+      - restore_cache:
+          keys:
+            - app-eslint
+      - restore_cache:
+          keys:
+            - app-stylelint
+      - run:
+          name: Check npm version
+          command: npm --version
+      - run:
+          name: Install the modules
+          command: npm install
+      - run:
+          name: Run lint on the code
+          command: npm run lint:cache
+      - run:
+          name: Run stylelint on the code
+          command: npm run lint-scss:cache
+      # cache
+      - save_cache:
+          name: Store dependencies cache
+          key: app-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - save_cache:
+          name: Store eslint cache
+          key: app-eslint
+          paths:
+            - $ESLINT_CACHE
+      - save_cache:
+          name: Store stylelint cache
+          key: app-stylelint
+          paths:
+            - $STYLELINT_CACHE
+      # run tests!
+      - run:
+          name: Run tests
+          command: npm test
+      - store_test_results:
+          path: tests-result
+
+  test-e2e:
+    docker:
+      # specify the version you desire here
+      - image: mcr.microsoft.com/playwright:v1.61.1-jammy
+    working_directory: ~/app
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - app-test-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Check npm version
+          command: npm --version
+      - run:
+          name: Install the modules
+          command: npm install
+      # cache
+      - run:
+          name: Build server for e2e tests
+          command: npm run build:test
+      - save_cache:
+          name: Store dependencies cache
+          key: app-test-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            - .next/cache
+      # run e2e tests - wait for server to be up - retry 10 times with 5 seconds delay
+      - run:
+          name: Run server and execute e2e tests
+          command: |
+            npm run serve:test &
+            curl -4 --retry-delay 5 --retry 10  --retry-connrefused http://localhost:3000 && npm run test:e2e
+      - store_test_results:
+          path: tests-result
+      - store_artifacts:
+          path: test-results
+
+  # https://circleci.com/docs/2.0/google-auth/
+  # https://circleci.com/docs/2.0/google-container-engine/
+  # https://cloud.google.com/container-registry/docs/pushing
+  push:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Save the Account key to a text file
+          command: echo ${GCP_ACCOUNT_KEY} > ${HOME}/gcp-account-key.text
+      - run:
+          name: Decode the Service Account
+          command: base64 -i ${HOME}/gcp-account-key.text -d > ${HOME}/gcp-account-key.json
+      - run:
+          name: Set the project
+          command: gcloud --quiet config set project ${GCP_PROJECT}
+      - run:
+          name: Activate the account
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcp-account-key.json
+      - run:
+          name: Configure Doker auth
+          command: gcloud auth configure-docker ${GCP_LOCATION}
+      - run:
+          name: Build the docker
+          command: >
+            docker build --rm=false 
+            --build-arg NEXT_PUBLIC_APP_DOMAIN 
+            --build-arg NEXT_PUBLIC_AURA_SERVICES_URL 
+            --build-arg NEXT_PUBLIC_AURA_WEB_URL 
+            --build-arg NEXT_PUBLIC_BRANCH_KEY 
+            --build-arg NEXT_PUBLIC_BUGSNAG_KEY 
+            --build-arg NEXT_PUBLIC_CDN_FIREBASE_URL
+            --build-arg NEXT_PUBLIC_CLARITY_APP_ID
+            --build-arg NEXT_PUBLIC_FIREBASE_API_KEY 
+            --build-arg NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN 
+            --build-arg NEXT_PUBLIC_FIREBASE_DATABASE_URL 
+            --build-arg NEXT_PUBLIC_FIREBASE_PROJECT_ID 
+            --build-arg NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET 
+            --build-arg NEXT_PUBLIC_GEOLOCATION_DB_KEY 
+            --build-arg NEXT_PUBLIC_GOOGLE_CALENDAR_AUTH_CLIENT_ID 
+            --build-arg NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID 
+            --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID
+            --build-arg NEXT_PUBLIC_LOGGER_LEVEL 
+            --build-arg NEXT_PUBLIC_LOGGER_USE_JSON 
+            --build-arg NEXT_PUBLIC_MIXPANEL_TOKEN 
+            --build-arg NEXT_PUBLIC_PIXEL_ANDROID_ID 
+            --build-arg NEXT_PUBLIC_PIXEL_ID 
+            --build-arg NEXT_PUBLIC_PIXEL_IOS_ID
+            --build-arg NEXT_PUBLIC_STRIPE_KEY
+            --build-arg NEXT_PUBLIC_TIKTOK_PIXEL_ID 
+            --build-arg NEXT_PUBLIC_USER_WEB_TOKEN
+            --build-arg PACKAGE_AUTH_TOKEN
+            -t ${GCP_LOCATION}/${GCP_PROJECT}/${GCP_REPOSITORY}/${SERVICE_NAME}:$CIRCLE_TAG .
+      - run:
+          name: Push the image
+          command: docker push ${GCP_LOCATION}/${GCP_PROJECT}/${GCP_REPOSITORY}/${SERVICE_NAME}:$CIRCLE_TAG
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test:
+          filters: # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - test-e2e:
+          filters: # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - push:
+          requires:
+            - test
+            - test-e2e
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

@@ -1,0 +1,14 @@
+@use '../../../styles/' as *;
+
+.paymentModal {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: $space-16;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  overflow: auto;
+
+}

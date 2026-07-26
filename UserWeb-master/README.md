@@ -1,6 +1,6 @@
 # User Web
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AuraHealth/UserWeb/tree/master.svg?style=svg&circle-token=d22f3c4e4f5845d91f8777156b86f08d0c165121)](https://dl.circleci.com/status-badge/redirect/gh/AuraHealth/UserWeb/tree/master)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AuraHealth/UserWeb/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/AuraHealth/UserWeb/tree/master)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Purpose

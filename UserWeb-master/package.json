@@ -109,7 +109,7 @@
       }
     }
   },
-  "description": "[![CircleCI](https://circleci.com/gh/AuraHealth/UserWeb.svg?style=svg&circle-token=a7f651171bba831f994ab48e0875d401f7eab49d)](https://circleci.com/gh/AuraHealth/UserWeb) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)",
+  "description": "[![CircleCI](https://circleci.com/gh/AuraHealth/UserWeb.svg?style=svg)](https://circleci.com/gh/AuraHealth/UserWeb) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)",
   "main": "next.config.js",
   "repository": {
     "type": "git",

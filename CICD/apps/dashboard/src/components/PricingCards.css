@@ -9,8 +9,8 @@
 .pricing-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 24px;
   position: relative;
   transition: all 0.3s ease;
   display: flex;
@@ -59,10 +59,10 @@
   right: 16px;
   background: var(--gradient-1);
   color: white;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 16px;
   letter-spacing: 1px;
 }
 
@@ -72,13 +72,18 @@
 }
 
 .pricing-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  margin: 0 auto 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  margin: 0 auto 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pricing-icon svg {
+  width: 22px;
+  height: 22px;
 }
 
 .pricing-icon.basic {
@@ -97,61 +102,63 @@
 }
 
 .pricing-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .pricing-desc {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
-  min-height: 42px;
+  min-height: 38px;
 }
 
 .pricing-price {
   text-align: center;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 800;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
 .currency {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-muted);
   margin-top: 8px;
 }
 
 .period {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-muted);
   align-self: flex-end;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .pricing-features {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 14px;
+  margin-bottom: 24px;
   flex: 1;
 }
 
 .feature-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 10px;
+  font-size: 13px;
   font-weight: 500;
 }
 
 .feature-icon {
   color: var(--text-muted);
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }
 
 .feature-icon.premium-icon {
@@ -159,10 +166,10 @@
 }
 
 .pricing-btn {
-  padding: 14px;
-  font-size: 15px;
+  padding: 12px;
+  font-size: 14px;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: 10px;
   margin-top: auto;
 }
 
@@ -177,8 +184,9 @@
 @media (max-width: 1024px) {
   .pricing-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
     padding: 0 16px;
+    max-width: 400px;
   }
   .pricing-card.premium {
     transform: none;

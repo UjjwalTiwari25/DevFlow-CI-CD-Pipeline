@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { authenticate } = require('../middlewares/auth');
+const { enforceUsageLimits } = require('../middlewares/usage');
 const ds = require('../services/dashboardService');
 
 const router = Router();
@@ -14,7 +15,7 @@ router.get('/stats', wrap(async (req, res) => {
 router.get('/repositories', wrap(async (req, res) => {
   res.json({ status: 'success', data: await ds.getRepositories(req.user.id) });
 }));
-router.post('/repositories', wrap(async (req, res) => {
+router.post('/repositories', enforceUsageLimits, wrap(async (req, res) => {
   const repo = await ds.createRepository(req.user.id, req.body);
   res.status(201).json({ status: 'success', data: repo });
 }));

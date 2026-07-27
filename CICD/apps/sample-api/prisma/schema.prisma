@@ -10,14 +10,15 @@ datasource db {
 // ─── Auth & Tasks (Track A) ──────────────────────────────────────────────────
 
 model User {
-  id           String       @id @default(uuid())
-  email        String       @unique
+  id           String        @id @default(uuid())
+  email        String        @unique
   password     String
   name         String
   tasks        Task[]
   repositories Repository[]
-  createdAt    DateTime     @default(now()) @map("created_at")
-  updatedAt    DateTime     @updatedAt @map("updated_at")
+  subscription Subscription?
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
   @@map("users")
 }
 
@@ -149,4 +150,33 @@ enum ScanStatus {
   RUNNING
   PASSED
   FAILED
+}
+
+// ─── SaaS & Billing (Phase 2) ────────────────────────────────────────────────
+
+model Subscription {
+  id               String    @id @default(uuid())
+  userId           String    @unique @map("user_id")
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan             PlanType  @default(FREE)
+  status           SubStatus @default(TRIAL)
+  stripeCustomerId String?   @unique @map("stripe_customer_id")
+  trialEndsAt      DateTime  @map("trial_ends_at")
+  currentPeriodEnd DateTime? @map("current_period_end")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  @@map("subscriptions")
+}
+
+enum PlanType {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubStatus {
+  TRIAL
+  ACTIVE
+  PAST_DUE
+  CANCELED
 }

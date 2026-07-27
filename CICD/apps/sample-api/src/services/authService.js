@@ -22,12 +22,22 @@ async function register({ email, password, name }) {
   // Hash password
   const hashedPassword = await bcrypt.hash(password, config.BCRYPT_SALT_ROUNDS);
 
-  // Create user
+  const thirtyDaysFromNow = new Date();
+  thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+
+  // Create user and start free trial
   const user = await prisma.user.create({
     data: {
       email: email.toLowerCase(),
       password: hashedPassword,
       name,
+      subscription: {
+        create: {
+          plan: 'FREE',
+          status: 'TRIAL',
+          trialEndsAt: thirtyDaysFromNow
+        }
+      }
     },
     select: {
       id: true,

@@ -35,9 +35,9 @@ async function register({ email, password, name }) {
         create: {
           plan: 'FREE',
           status: 'TRIAL',
-          trialEndsAt: thirtyDaysFromNow
-        }
-      }
+          trialEndsAt: thirtyDaysFromNow,
+        },
+      },
     },
     select: {
       id: true,

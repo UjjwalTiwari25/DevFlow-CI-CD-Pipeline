@@ -51,9 +51,7 @@ describe('Task Endpoints', () => {
       prisma.task.findMany.mockResolvedValue([mockTask]);
       prisma.task.count.mockResolvedValue(1);
 
-      const res = await request(app)
-        .get('/api/tasks')
-        .set('Authorization', `Bearer ${authToken}`);
+      const res = await request(app).get('/api/tasks').set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(200);
       expect(res.body.status).toBe('success');
@@ -69,9 +67,7 @@ describe('Task Endpoints', () => {
     });
 
     it('should reject invalid token', async () => {
-      const res = await request(app)
-        .get('/api/tasks')
-        .set('Authorization', 'Bearer invalid-token');
+      const res = await request(app).get('/api/tasks').set('Authorization', 'Bearer invalid-token');
 
       expect(res.status).toBe(401);
     });

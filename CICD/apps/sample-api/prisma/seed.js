@@ -15,15 +15,43 @@ async function main() {
 
   // User
   const user = await prisma.user.create({
-    data: { email: 'saloni@devflow.ai', password: await bcrypt.hash('Password123!', 12), name: 'Saloni Ambatkar' },
+    data: {
+      email: 'saloni@devflow.ai',
+      password: await bcrypt.hash('Password123!', 12),
+      name: 'Saloni Ambatkar',
+    },
   });
   console.log(`✅ User: ${user.email}`);
 
   // Repos
   const repos = await Promise.all([
-    prisma.repository.create({ data: { name: 'sample-api', fullName: 'saloni/sample-api', url: 'https://github.com/saloni/sample-api', language: 'JavaScript', ownerId: user.id } }),
-    prisma.repository.create({ data: { name: 'dashboard', fullName: 'saloni/dashboard', url: 'https://github.com/saloni/dashboard', language: 'JavaScript', ownerId: user.id } }),
-    prisma.repository.create({ data: { name: 'auth-service', fullName: 'saloni/auth-service', url: 'https://github.com/saloni/auth-service', language: 'TypeScript', ownerId: user.id } }),
+    prisma.repository.create({
+      data: {
+        name: 'sample-api',
+        fullName: 'saloni/sample-api',
+        url: 'https://github.com/saloni/sample-api',
+        language: 'JavaScript',
+        ownerId: user.id,
+      },
+    }),
+    prisma.repository.create({
+      data: {
+        name: 'dashboard',
+        fullName: 'saloni/dashboard',
+        url: 'https://github.com/saloni/dashboard',
+        language: 'JavaScript',
+        ownerId: user.id,
+      },
+    }),
+    prisma.repository.create({
+      data: {
+        name: 'auth-service',
+        fullName: 'saloni/auth-service',
+        url: 'https://github.com/saloni/auth-service',
+        language: 'TypeScript',
+        ownerId: user.id,
+      },
+    }),
   ]);
   console.log(`✅ Repositories: ${repos.length}`);
 
@@ -45,8 +73,40 @@ async function main() {
     ['fix: rate limiter window calculation', '5b9c0d1'],
     ['ci: add CodeQL SAST analysis', '6c0d1e2'],
   ];
-  const statuses = ['SUCCESS', 'SUCCESS', 'SUCCESS', 'SUCCESS', 'FAILED', 'SUCCESS', 'SUCCESS', 'RUNNING', 'SUCCESS', 'SUCCESS', 'SUCCESS', 'SUCCESS', 'QUEUED', 'SUCCESS', 'SUCCESS'];
-  const branches = ['main', 'main', 'develop', 'main', 'feature/rate-limit', 'main', 'main', 'fix/cors', 'main', 'main', 'hotfix/sql', 'main', 'feature/webhooks', 'develop', 'main'];
+  const statuses = [
+    'SUCCESS',
+    'SUCCESS',
+    'SUCCESS',
+    'SUCCESS',
+    'FAILED',
+    'SUCCESS',
+    'SUCCESS',
+    'RUNNING',
+    'SUCCESS',
+    'SUCCESS',
+    'SUCCESS',
+    'SUCCESS',
+    'QUEUED',
+    'SUCCESS',
+    'SUCCESS',
+  ];
+  const branches = [
+    'main',
+    'main',
+    'develop',
+    'main',
+    'feature/rate-limit',
+    'main',
+    'main',
+    'fix/cors',
+    'main',
+    'main',
+    'hotfix/sql',
+    'main',
+    'feature/webhooks',
+    'develop',
+    'main',
+  ];
 
   const now = Date.now();
   const pipelines = [];
@@ -54,16 +114,28 @@ async function main() {
     const startedAt = new Date(now - i * 3600000 - Math.random() * 1800000);
     const duration = 120 + Math.floor(Math.random() * 120);
     const s = statuses[i];
-    pipelines.push(await prisma.pipelineRun.create({
-      data: {
-        commitMsg: commits[i][0], commitSha: commits[i][1], branch: branches[i],
-        status: s, trigger: i === 12 ? 'manual' : 'push', duration: s === 'QUEUED' || s === 'RUNNING' ? null : duration,
-        lintPassed: s !== 'QUEUED', testsPassed: s === 'SUCCESS' || s === 'RUNNING' ? true : s === 'FAILED' ? false : null,
-        testCoverage: s === 'SUCCESS' ? 85 + Math.random() * 10 : null,
-        buildPassed: s === 'SUCCESS', repoId: repos[i % repos.length].id,
-        startedAt, finishedAt: s === 'SUCCESS' || s === 'FAILED' ? new Date(startedAt.getTime() + duration * 1000) : null,
-      },
-    }));
+    pipelines.push(
+      await prisma.pipelineRun.create({
+        data: {
+          commitMsg: commits[i][0],
+          commitSha: commits[i][1],
+          branch: branches[i],
+          status: s,
+          trigger: i === 12 ? 'manual' : 'push',
+          duration: s === 'QUEUED' || s === 'RUNNING' ? null : duration,
+          lintPassed: s !== 'QUEUED',
+          testsPassed: s === 'SUCCESS' || s === 'RUNNING' ? true : s === 'FAILED' ? false : null,
+          testCoverage: s === 'SUCCESS' ? 85 + Math.random() * 10 : null,
+          buildPassed: s === 'SUCCESS',
+          repoId: repos[i % repos.length].id,
+          startedAt,
+          finishedAt:
+            s === 'SUCCESS' || s === 'FAILED'
+              ? new Date(startedAt.getTime() + duration * 1000)
+              : null,
+        },
+      })
+    );
   }
   console.log(`✅ Pipeline runs: ${pipelines.length}`);
 
@@ -82,8 +154,13 @@ async function main() {
   for (const d of deployData) {
     await prisma.deployment.create({
       data: {
-        version: d.version, commitSha: d.sha, status: d.status, duration: d.dur,
-        environment: 'production', triggeredBy: 'ci', repoId: repos[d.repo || 0].id,
+        version: d.version,
+        commitSha: d.sha,
+        status: d.status,
+        duration: d.dur,
+        environment: 'production',
+        triggeredBy: 'ci',
+        repoId: repos[d.repo || 0].id,
         createdAt: new Date(now - d.ago),
         finishedAt: d.status !== 'PENDING' ? new Date(now - d.ago + d.dur * 1000) : null,
       },
@@ -104,7 +181,9 @@ async function main() {
       const passed = Math.random() > 0.1;
       await prisma.securityScan.create({
         data: {
-          scanType: sc.type, scanner: sc.scanner, status: passed ? 'PASSED' : 'FAILED',
+          scanType: sc.type,
+          scanner: sc.scanner,
+          status: passed ? 'PASSED' : 'FAILED',
           criticalCount: passed ? 0 : Math.floor(Math.random() * 2),
           highCount: passed ? 0 : Math.floor(Math.random() * 3),
           mediumCount: Math.floor(Math.random() * 5),
@@ -117,11 +196,24 @@ async function main() {
   console.log(`✅ Security scans: ${repos.length * scanners.length}`);
 
   // Tasks
-  const tasks = ['Setup CI pipeline', 'Add Docker multi-stage build', 'Configure Trivy scanning', 'Write integration tests', 'Deploy to Render', 'Add CodeQL analysis'];
+  const tasks = [
+    'Setup CI pipeline',
+    'Add Docker multi-stage build',
+    'Configure Trivy scanning',
+    'Write integration tests',
+    'Deploy to Render',
+    'Add CodeQL analysis',
+  ];
   const taskStatuses = ['DONE', 'DONE', 'DONE', 'DONE', 'IN_PROGRESS', 'TODO'];
   for (let i = 0; i < tasks.length; i++) {
     await prisma.task.create({
-      data: { title: tasks[i], description: `Task ${i + 1} for DevFlow AI`, status: taskStatuses[i], priority: i < 3 ? 'HIGH' : 'MEDIUM', userId: user.id },
+      data: {
+        title: tasks[i],
+        description: `Task ${i + 1} for DevFlow AI`,
+        status: taskStatuses[i],
+        priority: i < 3 ? 'HIGH' : 'MEDIUM',
+        userId: user.id,
+      },
     });
   }
   console.log(`✅ Tasks: ${tasks.length}`);
@@ -129,4 +221,6 @@ async function main() {
   console.log('\n🎉 Seed complete! Login with: saloni@devflow.ai / Password123!');
 }
 
-main().catch(console.error).finally(() => prisma.$disconnect());
+main()
+  .catch(console.error)
+  .finally(() => prisma.$disconnect());

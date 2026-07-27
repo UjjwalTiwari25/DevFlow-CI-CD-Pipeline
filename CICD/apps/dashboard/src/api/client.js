@@ -16,10 +16,16 @@ export function clearToken() {
 async function request(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (authToken) headers.Authorization = `Bearer ${authToken}`;
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'Request failed');
-  return data;
+  
+  window.dispatchEvent(new Event('req_start'));
+  try {
+    const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Request failed');
+    return data;
+  } finally {
+    window.dispatchEvent(new Event('req_end'));
+  }
 }
 
 // Auth

@@ -1,6 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
 const { logger } = require('../utils/logger');
-const crypto = require('crypto');
 
 const prisma = new PrismaClient();
 
@@ -9,14 +8,14 @@ const { pipelineQueue } = require('../utils/queue');
 const handleGithubPush = async (req, res, next) => {
   try {
     const event = req.headers['x-github-event'];
-    
+
     // We only care about push events for CI/CD
     if (event !== 'push') {
       return res.status(200).json({ message: 'Event ignored' });
     }
 
     const payload = req.body;
-    
+
     // Extract key details from the GitHub webhook payload
     const repoFullName = payload.repository.full_name;
     const branch = payload.ref.replace('refs/heads/', '');
@@ -45,7 +44,7 @@ const handleGithubPush = async (req, res, next) => {
         branch: branch,
         status: 'QUEUED',
         trigger: 'webhook',
-      }
+      },
     });
 
     logger.info(`Pipeline ${pipelineRun.id} queued for ${repoFullName} in database`);
@@ -54,14 +53,14 @@ const handleGithubPush = async (req, res, next) => {
     await pipelineQueue.add('run-pipeline', {
       pipelineId: pipelineRun.id,
       repoUrl: repo.url,
-      commitSha: headCommit.id
+      commitSha: headCommit.id,
     });
 
     logger.info(`Pipeline ${pipelineRun.id} added to BullMQ for execution`);
 
     return res.status(202).json({
       message: 'Pipeline queued successfully',
-      pipelineId: pipelineRun.id
+      pipelineId: pipelineRun.id,
     });
   } catch (error) {
     logger.error('Error handling GitHub webhook', { error: error.message });
@@ -70,5 +69,5 @@ const handleGithubPush = async (req, res, next) => {
 };
 
 module.exports = {
-  handleGithubPush
+  handleGithubPush,
 };

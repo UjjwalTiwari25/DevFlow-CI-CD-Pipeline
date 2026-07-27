@@ -12,6 +12,7 @@ import Repositories from './pages/Repositories';
 import Health from './pages/Health';
 import SettingsPage from './pages/Settings';
 import Billing from './pages/Billing';
+import GlobalLoader from './components/GlobalLoader';
 
 function PrivateRoute({ children }) {
   return getToken() ? children : <Navigate to="/login" />;
@@ -20,6 +21,7 @@ function PrivateRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <GlobalLoader />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />

@@ -19,6 +19,6 @@
     "apps/sample-api"
   ],
   "keywords": ["cicd", "devops", "pipeline", "docker", "github-actions"],
-  "author": "Ujjwal",
+  "author": "Saloni Ambatkar",
   "license": "MIT"
 }

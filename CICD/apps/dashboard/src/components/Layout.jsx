@@ -1,28 +1,36 @@
-import { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, GitBranch, Rocket, Shield, FolderGit2, Activity, Settings, LogOut, Menu, X, Zap } from 'lucide-react';
 import { clearToken } from '../api/client';
 
 const links = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/pipelines', icon: GitBranch, label: 'Pipelines' },
-  { to: '/deployments', icon: Rocket, label: 'Deployments' },
-  { to: '/security', icon: Shield, label: 'Security' },
-  { to: '/repositories', icon: FolderGit2, label: 'Repositories' },
-  { to: '/health', icon: Activity, label: 'Health' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/dashboard/pipelines', icon: GitBranch, label: 'Pipelines' },
+  { to: '/dashboard/deployments', icon: Rocket, label: 'Deployments' },
+  { to: '/dashboard/security', icon: Shield, label: 'Security' },
+  { to: '/dashboard/repositories', icon: FolderGit2, label: 'Repositories' },
+  { to: '/dashboard/health', icon: Activity, label: 'Health' },
+  { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 
 export default function Layout() {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const user = JSON.parse(localStorage.getItem('devflow_user') || '{}');
 
   const handleLogout = () => { clearToken(); navigate('/login'); };
 
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="layout">
-      <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+      {mobileOpen && <div className="mobile-overlay" onClick={() => setMobileOpen(false)} />}
+      <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-brand">
             <div className="brand-icon">D</div>
@@ -34,7 +42,7 @@ export default function Layout() {
         </div>
         <nav className="sidebar-nav">
           {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.to === '/'} className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
+            <NavLink key={l.to} to={l.to} end={l.to === '/dashboard'} className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
               <l.icon size={20} />
               {!collapsed && <span>{l.label}</span>}
             </NavLink>
@@ -48,7 +56,7 @@ export default function Layout() {
       <div className="layout-main">
         <header className="topbar">
           <div className="topbar-left">
-            <button className="mobile-toggle" onClick={() => setCollapsed(!collapsed)}><Menu size={20} /></button>
+            <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}><Menu size={20} /></button>
           </div>
           <div className="topbar-right">
             <div className="system-status"><span className="status-dot live" /> All Systems Operational</div>
@@ -56,7 +64,7 @@ export default function Layout() {
         </header>
         <main className="page-content"><Outlet /></main>
         <footer className="app-footer">
-          <span>© 2025 DevFlow AI — Built by Ujjwal</span>
+          <span>© 2025 DevFlow AI — Built by Saloni Ambatkar</span>
           <span>v1.4.2</span>
         </footer>
       </div>

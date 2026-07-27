@@ -46,7 +46,7 @@ export default function Pipelines() {
         <div className="data-table">
           <div className="table-header six-col"><div>Commit</div><div>Repository</div><div>Branch</div><div>Status</div><div>Duration</div><div>Actions</div></div>
           {data.pipelines.map((p) => (
-            <div className="table-row six-col" key={p.id} onClick={() => navigate(`/pipelines/${p.id}`)}>
+            <div className="table-row six-col" key={p.id} onClick={() => navigate(`/dashboard/pipelines/${p.id}`)}>
               <div className="cell-primary"><span className="cell-title">{p.commitMsg}</span><span className="cell-sub">{p.commitSha.slice(0, 7)} · {timeAgo(p.startedAt)}</span></div>
               <div className="cell-sub">{p.repository?.name}</div>
               <div><span className="branch-badge"><GitBranch size={12} /> {p.branch}</span></div>

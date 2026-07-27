@@ -11,7 +11,7 @@ This repository contains the user web application to browse and play content fro
 
 Name | Email | Slack
 -|-|-
-Rohan Agarwal | rohanx96@gmail.com | @rohanx96
+Ujjwal Tiwari| ujjwaltiwari153@gmail.com | 
 
 ## Environment Variables
 

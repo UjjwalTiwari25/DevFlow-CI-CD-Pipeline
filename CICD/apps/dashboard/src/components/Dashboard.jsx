@@ -244,7 +244,7 @@ export function TechStack({ items }) {
 export function Footer() {
   return (
     <footer className="footer">
-      <span>© 2025 DevFlow AI — Built by <a href="#">Ujjwal</a></span>
+      <span>© 2025 DevFlow AI — Built by <a href="#">Saloni Ambatkar</a></span>
       <span>v1.4.2 · <a href="#">GitHub</a> · <a href="#">Docs</a></span>
     </footer>
   );

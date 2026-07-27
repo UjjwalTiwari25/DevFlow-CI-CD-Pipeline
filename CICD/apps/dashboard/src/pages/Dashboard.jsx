@@ -48,12 +48,12 @@ export default function Dashboard() {
 
       <div className="section-header">
         <div className="section-title"><GitBranch size={20} /> Recent Pipelines</div>
-        <button className="btn" onClick={() => navigate('/pipelines')}>View All</button>
+        <button className="btn" onClick={() => navigate('/dashboard/pipelines')}>View All</button>
       </div>
       <div className="data-table">
         <div className="table-header four-col"><div>Commit</div><div>Branch</div><div>Status</div><div>Duration</div></div>
         {pipelines.map((p) => (
-          <div className="table-row four-col" key={p.id} onClick={() => navigate(`/pipelines/${p.id}`)}>
+          <div className="table-row four-col" key={p.id} onClick={() => navigate(`/dashboard/pipelines/${p.id}`)}>
             <div className="cell-primary"><span className="cell-title">{p.commitMsg}</span><span className="cell-sub">{p.commitSha.slice(0, 7)}</span></div>
             <div><span className="branch-badge"><GitBranch size={12} /> {p.branch}</span></div>
             <div><span className={`status-badge ${p.status.toLowerCase()}`}><span className="dot" />{p.status}</span></div>

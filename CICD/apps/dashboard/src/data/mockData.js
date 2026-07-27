@@ -9,7 +9,7 @@ export const pipelineRuns = [
     status: 'success',
     duration: '2m 34s',
     time: '2 minutes ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
   {
     id: 'run-002',
@@ -19,7 +19,7 @@ export const pipelineRuns = [
     status: 'success',
     duration: '2m 18s',
     time: '45 minutes ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
   {
     id: 'run-003',
@@ -29,7 +29,7 @@ export const pipelineRuns = [
     status: 'running',
     duration: '1m 52s',
     time: '1 hour ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
   {
     id: 'run-004',
@@ -39,7 +39,7 @@ export const pipelineRuns = [
     status: 'success',
     duration: '3m 01s',
     time: '3 hours ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
   {
     id: 'run-005',
@@ -49,7 +49,7 @@ export const pipelineRuns = [
     status: 'failed',
     duration: '1m 47s',
     time: '5 hours ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
   {
     id: 'run-006',
@@ -59,7 +59,7 @@ export const pipelineRuns = [
     status: 'success',
     duration: '2m 42s',
     time: '8 hours ago',
-    author: 'ujjwal',
+    author: 'saloni',
   },
 ];
 

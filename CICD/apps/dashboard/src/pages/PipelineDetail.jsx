@@ -12,7 +12,7 @@ export default function PipelineDetail() {
   const [p, setP] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => { getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/pipelines')); }, [id]);
+  useEffect(() => { getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); }, [id]);
 
   if (!p) return <div className="page-loading">Loading...</div>;
 
@@ -23,13 +23,13 @@ export default function PipelineDetail() {
     return i === 0 ? 'active' : 'pending';
   });
 
-  const handleRerun = async () => { await rerunPipeline(id); navigate('/pipelines'); };
+  const handleRerun = async () => { await rerunPipeline(id); navigate('/dashboard/pipelines'); };
 
   return (
     <div className="page">
       <div className="page-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button className="btn icon-btn" onClick={() => navigate('/pipelines')}><ArrowLeft size={18} /></button>
+          <button className="btn icon-btn" onClick={() => navigate('/dashboard/pipelines')}><ArrowLeft size={18} /></button>
           <div><h1>Pipeline Detail</h1><p className="subtitle">{p.commitSha.slice(0, 7)} · {p.repository?.name}</p></div>
         </div>
         <button className="btn btn-primary" onClick={handleRerun}><RefreshCw size={14} /> Re-run Pipeline</button>

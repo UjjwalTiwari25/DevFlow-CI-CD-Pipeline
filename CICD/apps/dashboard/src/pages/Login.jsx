@@ -18,7 +18,7 @@ export default function Login() {
       const res = isRegister ? await register(form) : await login(form);
       setToken(res.data.accessToken);
       localStorage.setItem('devflow_user', JSON.stringify(res.data.user));
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -58,7 +58,6 @@ export default function Login() {
           {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
           <button onClick={() => { setIsRegister(!isRegister); setError(''); }}>{isRegister ? 'Sign In' : 'Register'}</button>
         </p>
-        <div className="login-hint">Demo: ujjwal@devflow.ai / Password123</div>
       </div>
     </div>
   );

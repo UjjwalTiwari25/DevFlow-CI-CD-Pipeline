@@ -275,6 +275,8 @@ body { font-family: var(--font-sans); background: var(--bg-primary); color: var(
 @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
 
 /* ── Responsive ── */
+.mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 150; backdrop-filter: blur(4px); }
+
 @media (max-width: 1024px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .panels-grid, .detail-grid, .settings-grid { grid-template-columns: 1fr; }
@@ -282,11 +284,18 @@ body { font-family: var(--font-sans); background: var(--bg-primary); color: var(
   .six-col > :nth-child(5), .six-col > :nth-child(6) { display: none; }
   .repo-form { grid-template-columns: 1fr 1fr; }
 }
+
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.collapsed { transform: translateX(-100%); }
+  .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+  .sidebar.mobile-open { transform: translateX(0); }
   .layout-main { margin-left: 0 !important; }
   .mobile-toggle { display: block; }
   .four-col { grid-template-columns: 2fr 1fr 1fr; }
   .four-col > :nth-child(4) { display: none; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .page-header h1 { font-size: 22px; }
+  .topbar { padding: 0 16px; }
+  .page-content { padding: 16px; }
+  .health-status-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .repo-form { grid-template-columns: 1fr; }
 }

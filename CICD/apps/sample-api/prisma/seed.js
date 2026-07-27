@@ -15,15 +15,15 @@ async function main() {
 
   // User
   const user = await prisma.user.create({
-    data: { email: 'ujjwal@devflow.ai', password: await bcrypt.hash('Password123', 12), name: 'Ujjwal' },
+    data: { email: 'saloni@devflow.ai', password: await bcrypt.hash('Password123!', 12), name: 'Saloni Ambatkar' },
   });
   console.log(`✅ User: ${user.email}`);
 
   // Repos
   const repos = await Promise.all([
-    prisma.repository.create({ data: { name: 'sample-api', fullName: 'ujjwal/sample-api', url: 'https://github.com/ujjwal/sample-api', language: 'JavaScript', ownerId: user.id } }),
-    prisma.repository.create({ data: { name: 'dashboard', fullName: 'ujjwal/dashboard', url: 'https://github.com/ujjwal/dashboard', language: 'JavaScript', ownerId: user.id } }),
-    prisma.repository.create({ data: { name: 'auth-service', fullName: 'ujjwal/auth-service', url: 'https://github.com/ujjwal/auth-service', language: 'TypeScript', ownerId: user.id } }),
+    prisma.repository.create({ data: { name: 'sample-api', fullName: 'saloni/sample-api', url: 'https://github.com/saloni/sample-api', language: 'JavaScript', ownerId: user.id } }),
+    prisma.repository.create({ data: { name: 'dashboard', fullName: 'saloni/dashboard', url: 'https://github.com/saloni/dashboard', language: 'JavaScript', ownerId: user.id } }),
+    prisma.repository.create({ data: { name: 'auth-service', fullName: 'saloni/auth-service', url: 'https://github.com/saloni/auth-service', language: 'TypeScript', ownerId: user.id } }),
   ]);
   console.log(`✅ Repositories: ${repos.length}`);
 
@@ -126,7 +126,7 @@ async function main() {
   }
   console.log(`✅ Tasks: ${tasks.length}`);
 
-  console.log('\n🎉 Seed complete! Login with: ujjwal@devflow.ai / Password123');
+  console.log('\n🎉 Seed complete! Login with: saloni@devflow.ai / Password123!');
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());

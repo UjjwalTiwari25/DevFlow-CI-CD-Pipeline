@@ -227,4 +227,4 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for operational procedures including:
 
 ## 📄 License
 
-MIT © Ujjwal
+MIT © Saloni Ambatkar

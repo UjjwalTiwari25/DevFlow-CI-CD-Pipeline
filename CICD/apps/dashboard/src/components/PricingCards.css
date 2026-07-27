@@ -27,10 +27,12 @@
   transition: background 0.3s ease;
 }
 
-.pricing-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--border-hover);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+@media (hover: hover) {
+  .pricing-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--border-hover);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .pricing-card.premium {
@@ -44,9 +46,11 @@
   background: var(--gradient-1);
 }
 
-.pricing-card.premium:hover {
-  transform: scale(1.05) translateY(-8px);
-  box-shadow: 0 16px 48px var(--accent-glow);
+@media (hover: hover) {
+  .pricing-card.premium:hover {
+    transform: scale(1.05) translateY(-8px);
+    box-shadow: 0 16px 48px var(--accent-glow);
+  }
 }
 
 .premium-badge {
@@ -179,7 +183,9 @@
   .pricing-card.premium {
     transform: none;
   }
-  .pricing-card.premium:hover {
-    transform: translateY(-8px);
+  @media (hover: hover) {
+    .pricing-card.premium:hover {
+      transform: translateY(-8px);
+    }
   }
 }

@@ -21,7 +21,7 @@ export default function Layout() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('devflow_user') || '{}');
 
-  const handleLogout = () => { clearToken(); navigate('/login'); };
+  const handleLogout = () => { clearToken(); navigate('/'); };
 
   // Close mobile sidebar on route change
   useEffect(() => {

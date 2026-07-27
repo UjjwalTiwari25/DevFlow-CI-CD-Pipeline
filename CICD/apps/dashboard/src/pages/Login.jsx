@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Zap } from 'lucide-react';
 import { login, register, setToken } from '../api/client';
 
@@ -9,6 +9,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +19,12 @@ export default function Login() {
       const res = isRegister ? await register(form) : await login(form);
       setToken(res.data.accessToken);
       localStorage.setItem('devflow_user', JSON.stringify(res.data.user));
-      navigate('/dashboard');
+      const plan = searchParams.get('plan');
+      if (plan) {
+        navigate(`/dashboard/billing?plan=${plan}`);
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.message);
     } finally {

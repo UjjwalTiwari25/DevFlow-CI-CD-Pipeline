@@ -6,10 +6,25 @@ export default function GlobalLoader() {
 
   useEffect(() => {
     let requests = 0;
-    const start = () => { requests++; setLoading(true); };
+    let fallbackTimer = null;
+    
+    const start = () => { 
+      requests++; 
+      setLoading(true); 
+      
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      fallbackTimer = setTimeout(() => {
+        requests = 0;
+        setLoading(false);
+      }, 15000);
+    };
+    
     const end = () => { 
       requests = Math.max(0, requests - 1); 
-      if (requests === 0) setLoading(false); 
+      if (requests === 0) {
+        setLoading(false); 
+        if (fallbackTimer) clearTimeout(fallbackTimer);
+      }
     };
     
     window.addEventListener('req_start', start);
@@ -17,6 +32,7 @@ export default function GlobalLoader() {
     return () => {
       window.removeEventListener('req_start', start);
       window.removeEventListener('req_end', end);
+      if (fallbackTimer) clearTimeout(fallbackTimer);
     };
   }, []);
 

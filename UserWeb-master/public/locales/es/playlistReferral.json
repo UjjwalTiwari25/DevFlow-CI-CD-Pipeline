@@ -1,8 +1,0 @@
-{
-  "playlist_influencer_by": "De {{influencerName}}",
-  "playlist_influencer_limited_time_discount_code_applied": "Tu código de descuento por tiempo limitado <0>\"{{influencerCode}}\"</0> se ha aplicado automáticamente. Empieza hoy mismo.",
-  "playlist_influencer_name_invited_you_to_join_aura": "¡{{influencerName}} te invitó a unirte a Aura!",
-  "referral_playlist_redeem_access_to_aura_one": "Obtén {{count}} día de acceso a Aura",
-  "referral_playlist_redeem_access_to_aura_other": "Obtén {{count}} días de acceso a Aura",
-  "referral_playlist_referrer_sent_you_title": "¡{{referrerName}} compartió la lista de reproducción \"{{playlistName}}\" contigo!"
-}

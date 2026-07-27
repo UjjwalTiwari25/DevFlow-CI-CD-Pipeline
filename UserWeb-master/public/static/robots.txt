@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://web.aurahealth.io/sitemap.xml

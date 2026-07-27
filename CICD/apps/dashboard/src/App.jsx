@@ -11,7 +11,6 @@ import Security from './pages/Security';
 import Repositories from './pages/Repositories';
 import Health from './pages/Health';
 import SettingsPage from './pages/Settings';
-import Billing from './pages/Billing';
 import GlobalLoader from './components/GlobalLoader';
 
 function PrivateRoute({ children }) {
@@ -33,7 +32,6 @@ export default function App() {
           <Route path="security" element={<Security />} />
           <Route path="repositories" element={<Repositories />} />
           <Route path="health" element={<Health />} />
-          <Route path="billing" element={<Billing />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>

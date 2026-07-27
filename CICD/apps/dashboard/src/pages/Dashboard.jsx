@@ -30,9 +30,9 @@ export default function Dashboard() {
 
       <div className="stats-grid">
         {[
-          { icon: CheckCircle2, color: 'green', value: stats?.totalRuns || 0, label: 'Total Runs', trend: '+12%', up: true },
-          { icon: Activity, color: 'blue', value: `${stats?.successRate || 0}%`, label: 'Success Rate', trend: '+2.1%', up: true },
-          { icon: Clock, color: 'yellow', value: formatDuration(stats?.avgDuration), label: 'Avg Duration', trend: '-8s', up: false },
+          { icon: CheckCircle2, color: 'green', value: stats?.totalRuns || 0, label: 'Total Runs' },
+          { icon: Activity, color: 'blue', value: `${stats?.successRate || 0}%`, label: 'Success Rate' },
+          { icon: Clock, color: 'yellow', value: formatDuration(stats?.avgDuration), label: 'Avg Duration' },
           { icon: Zap, color: 'purple', value: stats?.deploysToday || 0, label: 'Deploys Today' },
         ].map((s, i) => (
           <div className="stat-card" key={i}>

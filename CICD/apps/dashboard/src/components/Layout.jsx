@@ -10,6 +10,7 @@ const links = [
   { to: '/dashboard/security', icon: Shield, label: 'Security' },
   { to: '/dashboard/repositories', icon: FolderGit2, label: 'Repositories' },
   { to: '/dashboard/health', icon: Activity, label: 'Health' },
+  { to: '/dashboard/billing', icon: Zap, label: 'Billing' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 

@@ -7,16 +7,22 @@ export default function Repositories() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: '', fullName: '', url: '', language: 'JavaScript' });
+  const [error, setError] = useState(null);
 
-  const load = () => { setLoading(true); getRepos().then((r) => setRepos(r.data)).finally(() => setLoading(false)); };
+  const load = () => { setLoading(true); setError(null); getRepos().then((r) => setRepos(r.data)).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await createRepo(form);
-    setForm({ name: '', fullName: '', url: '', language: 'JavaScript' });
-    setShowForm(false);
-    load();
+    setError(null);
+    try {
+      await createRepo(form);
+      setForm({ name: '', fullName: '', url: '', language: 'JavaScript' });
+      setShowForm(false);
+      load();
+    } catch (err) {
+      setError(err.message || 'Failed to create repository');
+    }
   };
 
   const handleDelete = async (id) => { await deleteRepo(id); load(); };
@@ -33,6 +39,7 @@ export default function Repositories() {
 
       {showForm && (
         <div className="panel" style={{ marginBottom: 20 }}>
+          {error && <div style={{ padding: 12, marginBottom: 16, background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 6 }}>{error}</div>}
           <form onSubmit={handleCreate} className="repo-form">
             <div className="form-group"><label>Name</label><input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="my-api" /></div>
             <div className="form-group"><label>Full Name</label><input required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} placeholder="username/my-api" /></div>

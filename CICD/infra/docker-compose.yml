@@ -35,8 +35,23 @@ services:
     networks:
       - devflow-network
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '16379:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - devflow-network
+
 volumes:
   pgdata:
+  redisdata:
 
 networks:
   devflow-network:

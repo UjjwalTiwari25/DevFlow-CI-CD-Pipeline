@@ -43,18 +43,20 @@ export default function Pipelines() {
       </div>
 
       {loading ? <div className="page-loading">Loading...</div> : (
-        <div className="data-table">
-          <div className="table-header six-col"><div>Commit</div><div>Repository</div><div>Branch</div><div>Status</div><div>Duration</div><div>Actions</div></div>
-          {data.pipelines.map((p) => (
-            <div className="table-row six-col" key={p.id} onClick={() => navigate(`/dashboard/pipelines/${p.id}`)}>
-              <div className="cell-primary"><span className="cell-title">{p.commitMsg}</span><span className="cell-sub">{p.commitSha.slice(0, 7)} · {timeAgo(p.startedAt)}</span></div>
-              <div className="cell-sub">{p.repository?.name}</div>
-              <div><span className="branch-badge"><GitBranch size={12} /> {p.branch}</span></div>
-              <div><span className={`status-badge ${p.status.toLowerCase()}`}><span className="dot" />{p.status}</span></div>
-              <div className="cell-mono">{formatDuration(p.duration)}</div>
-              <div><button className="btn sm" onClick={(e) => handleRerun(e, p.id)}><RefreshCw size={12} /> Re-run</button></div>
-            </div>
-          ))}
+        <div className="data-table-wrapper">
+          <div className="data-table">
+            <div className="table-header six-col"><div>Commit</div><div>Repository</div><div>Branch</div><div>Status</div><div>Duration</div><div>Actions</div></div>
+            {data.pipelines.map((p) => (
+              <div className="table-row six-col" key={p.id} onClick={() => navigate(`/dashboard/pipelines/${p.id}`)}>
+                <div className="cell-primary"><span className="cell-title">{p.commitMsg}</span><span className="cell-sub">{p.commitSha.slice(0, 7)} · {timeAgo(p.startedAt)}</span></div>
+                <div className="cell-sub">{p.repository?.name}</div>
+                <div><span className="branch-badge"><GitBranch size={12} /> {p.branch}</span></div>
+                <div><span className={`status-badge ${p.status.toLowerCase()}`}><span className="dot" />{p.status}</span></div>
+                <div className="cell-mono">{formatDuration(p.duration)}</div>
+                <div><button className="btn sm" onClick={(e) => handleRerun(e, p.id)}><RefreshCw size={12} /> Re-run</button></div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

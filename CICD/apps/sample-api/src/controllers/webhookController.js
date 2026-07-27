@@ -1,8 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
-const logger = require('../utils/logger');
+const { logger } = require('../utils/logger');
 const crypto = require('crypto');
 
 const prisma = new PrismaClient();
+
+const { pipelineQueue } = require('../utils/queue');
 
 const handleGithubPush = async (req, res, next) => {
   try {
@@ -46,12 +48,16 @@ const handleGithubPush = async (req, res, next) => {
       }
     });
 
-    logger.info(`Pipeline ${pipelineRun.id} queued for ${repoFullName}`);
+    logger.info(`Pipeline ${pipelineRun.id} queued for ${repoFullName} in database`);
 
-    // 3. (Optional Track B Async task) Simulate pipeline execution
-    // In a real app, this would push an event to a queue (e.g. Redis/BullMQ).
-    // For DevFlow, we will simulate the pipeline run asynchronously.
-    simulatePipelineExecution(pipelineRun.id);
+    // 3. Enqueue the pipeline job in BullMQ
+    await pipelineQueue.add('run-pipeline', {
+      pipelineId: pipelineRun.id,
+      repoUrl: repo.url,
+      commitSha: headCommit.id
+    });
+
+    logger.info(`Pipeline ${pipelineRun.id} added to BullMQ for execution`);
 
     return res.status(202).json({
       message: 'Pipeline queued successfully',
@@ -62,42 +68,6 @@ const handleGithubPush = async (req, res, next) => {
     next(error);
   }
 };
-
-// Simulated CI Worker
-async function simulatePipelineExecution(pipelineId) {
-  try {
-    // 1. Mark as running
-    await prisma.pipelineRun.update({
-      where: { id: pipelineId },
-      data: { status: 'RUNNING' }
-    });
-    
-    // 2. Simulate build time (e.g., 3-8 seconds)
-    const durationMs = Math.floor(Math.random() * 5000) + 3000;
-    await new Promise(resolve => setTimeout(resolve, durationMs));
-
-    // 3. Determine outcome (mostly success)
-    const isSuccess = Math.random() > 0.1;
-    
-    await prisma.pipelineRun.update({
-      where: { id: pipelineId },
-      data: { 
-        status: isSuccess ? 'SUCCESS' : 'FAILED',
-        finishedAt: new Date(),
-        duration: Math.floor(durationMs / 1000),
-        lintPassed: true,
-        testsPassed: isSuccess,
-        testCoverage: isSuccess ? Math.floor(Math.random() * 20) + 80 : Math.floor(Math.random() * 40) + 40,
-        buildPassed: isSuccess,
-        logsUrl: 'https://logs.devflow.ai/simulated'
-      }
-    });
-    
-    logger.info(`Simulated pipeline ${pipelineId} completed with status: ${isSuccess ? 'SUCCESS' : 'FAILED'}`);
-  } catch (error) {
-    logger.error(`Simulated pipeline ${pipelineId} crashed`, { error: error.message });
-  }
-}
 
 module.exports = {
   handleGithubPush

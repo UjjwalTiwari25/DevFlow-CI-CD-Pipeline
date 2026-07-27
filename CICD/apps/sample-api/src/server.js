@@ -2,6 +2,7 @@ const app = require('./app');
 const { config } = require('./config');
 const { logger } = require('./utils/logger');
 const { disconnectDB } = require('./models/prisma');
+require('./workers/pipelineWorker');
 
 const server = app.listen(config.PORT, () => {
   logger.info(

@@ -45,24 +45,26 @@ export default function Security() {
       </div>
 
       {loading ? <div className="page-loading">Loading...</div> : (
-        <div className="data-table">
-          <div className="table-header six-col"><div>Scanner</div><div>Repository</div><div>Type</div><div>Status</div><div>Vulnerabilities</div><div>Date</div></div>
-          {data.scans.map((s) => (
-            <div className="table-row six-col" key={s.id}>
-              <div className="cell-primary"><span className="cell-title">{scanIcons[s.scanType]} {s.scanner}</span></div>
-              <div className="cell-sub">{s.repository?.name}</div>
-              <div><span className="branch-badge">{s.scanType}</span></div>
-              <div><span className={`status-badge ${s.status === 'PASSED' ? 'success' : s.status === 'FAILED' ? 'failed' : 'running'}`}><span className="dot" />{s.status}</span></div>
-              <div className="vuln-counts">
-                {s.criticalCount > 0 && <span className="vuln critical">{s.criticalCount}C</span>}
-                {s.highCount > 0 && <span className="vuln high">{s.highCount}H</span>}
-                {s.mediumCount > 0 && <span className="vuln medium">{s.mediumCount}M</span>}
-                {s.lowCount > 0 && <span className="vuln low">{s.lowCount}L</span>}
-                {!s.criticalCount && !s.highCount && !s.mediumCount && !s.lowCount && <span className="vuln clean">Clean</span>}
+        <div className="data-table-wrapper">
+          <div className="data-table">
+            <div className="table-header six-col"><div>Scanner</div><div>Repository</div><div>Type</div><div>Status</div><div>Vulnerabilities</div><div>Date</div></div>
+            {data.scans.map((s) => (
+              <div className="table-row six-col" key={s.id}>
+                <div className="cell-primary"><span className="cell-title">{scanIcons[s.scanType]} {s.scanner}</span></div>
+                <div className="cell-sub">{s.repository?.name}</div>
+                <div><span className="branch-badge">{s.scanType}</span></div>
+                <div><span className={`status-badge ${s.status === 'PASSED' ? 'success' : s.status === 'FAILED' ? 'failed' : 'running'}`}><span className="dot" />{s.status}</span></div>
+                <div className="vuln-counts">
+                  {s.criticalCount > 0 && <span className="vuln critical">{s.criticalCount}C</span>}
+                  {s.highCount > 0 && <span className="vuln high">{s.highCount}H</span>}
+                  {s.mediumCount > 0 && <span className="vuln medium">{s.mediumCount}M</span>}
+                  {s.lowCount > 0 && <span className="vuln low">{s.lowCount}L</span>}
+                  {!s.criticalCount && !s.highCount && !s.mediumCount && !s.lowCount && <span className="vuln clean">Clean</span>}
+                </div>
+                <div className="cell-sub">{new Date(s.createdAt).toLocaleDateString()}</div>
               </div>
-              <div className="cell-sub">{new Date(s.createdAt).toLocaleDateString()}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -40,20 +40,22 @@ export default function Deployments() {
       </div>
 
       {loading ? <div className="page-loading">Loading...</div> : (
-        <div className="data-table">
-          <div className="table-header six-col"><div>Version</div><div>Repository</div><div>Environment</div><div>Status</div><div>Triggered</div><div>Actions</div></div>
-          {data.deployments.map((d) => (
-            <div className="table-row six-col" key={d.id}>
-              <div className="cell-primary"><span className="cell-title">{d.version}</span><span className="cell-sub">{d.commitSha.slice(0, 7)}</span></div>
-              <div className="cell-sub">{d.repository?.name}</div>
-              <div><span className="branch-badge">{d.environment}</span></div>
-              <div><span className={`status-badge ${statusColors[d.status]}`}><span className="dot" />{d.status}</span></div>
-              <div className="cell-sub">{d.triggeredBy} · {new Date(d.createdAt).toLocaleString()}</div>
-              <div>
-                {d.status === 'LIVE' && <button className="btn sm danger" onClick={(e) => handleRollback(e, d.id)}><RotateCcw size={12} /> Rollback</button>}
+        <div className="data-table-wrapper">
+          <div className="data-table">
+            <div className="table-header six-col"><div>Version</div><div>Repository</div><div>Environment</div><div>Status</div><div>Triggered</div><div>Actions</div></div>
+            {data.deployments.map((d) => (
+              <div className="table-row six-col" key={d.id}>
+                <div className="cell-primary"><span className="cell-title">{d.version}</span><span className="cell-sub">{d.commitSha.slice(0, 7)}</span></div>
+                <div className="cell-sub">{d.repository?.name}</div>
+                <div><span className="branch-badge">{d.environment}</span></div>
+                <div><span className={`status-badge ${statusColors[d.status]}`}><span className="dot" />{d.status}</span></div>
+                <div className="cell-sub">{d.triggeredBy} · {new Date(d.createdAt).toLocaleString()}</div>
+                <div>
+                  {d.status === 'LIVE' && <button className="btn sm danger" onClick={(e) => handleRollback(e, d.id)}><RotateCcw size={12} /> Rollback</button>}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

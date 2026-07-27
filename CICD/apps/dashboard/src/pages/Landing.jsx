@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Rocket, Shield, Zap, ArrowRight, Globe, Code, CheckCircle, Cpu, GitMerge, Lock, Menu, X } from 'lucide-react';
-import PricingCards from '../components/PricingCards';
 import './Landing.css';
 
 export default function Landing() {
@@ -19,7 +18,6 @@ export default function Landing() {
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
         <div className={`landing-nav-links ${mobileMenuOpen ? 'open' : ''}`}>
-          <a href="#pricing" className="nav-text-link" style={{ marginRight: '24px', color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 600, transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}>Pricing</a>
           <Link to="/login" className="hero-btn secondary nav-btn" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
           <Link to="/login" className="hero-btn primary nav-btn" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
         </div>
@@ -146,17 +144,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="section-pricing" id="pricing" style={{ padding: '100px 0', background: 'var(--bg-secondary)' }}>
-        <div className="container">
-          <h2 className="section-title text-center" style={{ justifyContent: 'center', fontSize: '36px', marginBottom: '16px' }}>
-            Simple, Transparent Pricing
-          </h2>
-          <p className="section-description text-center max-w-md mx-auto" style={{ marginBottom: '64px' }}>
-            Choose the perfect plan for your continuous delivery needs. Scale your infrastructure dynamically as your team grows.
-          </p>
-          <PricingCards onUpgrade={(plan) => navigate('/login?plan=' + plan)} />
-        </div>
-      </section>
+
 
       <section className="section-cta">
         <div className="cta-content">

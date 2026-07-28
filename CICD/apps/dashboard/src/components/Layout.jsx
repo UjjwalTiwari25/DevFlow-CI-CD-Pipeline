@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, GitBranch, Rocket, Shield, FolderGit2, Activity, Settings, LogOut, Menu, X, Zap } from 'lucide-react';
 import { clearToken, logout } from '../api/client';
+import GlobalLoader from './GlobalLoader';
 
 const links = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -49,11 +50,12 @@ export default function Layout() {
           ))}
         </nav>
         <div className="sidebar-footer">
-          {!collapsed && <div className="sidebar-user"><div className="user-avatar">{(user.name || 'U')[0]}</div><div><div className="user-name">{user.name || 'User'}</div><div className="user-email">{user.email || ''}</div></div></div>}
+          {!collapsed && <div className="sidebar-user"><div className="user-avatar">{(user.name || 'U')[0]}</div><div style={{ minWidth: 0, overflow: 'hidden' }}><div className="user-name text-truncate">{user.name || 'User'}</div><div className="user-email text-truncate">{user.email || ''}</div></div></div>}
           <button className="sidebar-link" onClick={handleLogout}><LogOut size={20} />{!collapsed && <span>Logout</span>}</button>
         </div>
       </aside>
-      <div className="layout-main">
+      <div className="layout-main" style={{ position: 'relative' }}>
+        <GlobalLoader />
         <header className="topbar">
           <div className="topbar-left">
             <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}><Menu size={20} /></button>

@@ -10,6 +10,7 @@ export default function Dashboard() {
   const [pipelines, setPipelines] = useState([]);
   const [deploys, setDeploys] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,10 +18,20 @@ export default function Dashboard() {
       getStats().then((r) => setStats(r.data)),
       getPipelines('limit=5').then((r) => setPipelines(r.data.pipelines)),
       getDeployments('limit=5').then((r) => setDeploys(r.data.deployments)),
-    ]).catch(() => {}).finally(() => setLoading(false));
+    ]).catch((err) => {
+      setError(err.message || 'Failed to load dashboard data. Please try again.');
+    }).finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="page-loading">Loading dashboard...</div>;
+  if (error) return (
+    <div className="page">
+      <div className="page-header"><div><h1>Dashboard</h1><p className="subtitle">Overview of your CI/CD platform</p></div></div>
+      <div style={{ padding: 16, background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8 }}>
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
     <div className="page">

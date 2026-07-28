@@ -40,12 +40,7 @@ export default function GlobalLoader() {
 
   return (
     <div className="global-loader-overlay">
-      <div className="modern-loader">
-        <div className="loader-ring"></div>
-        <div className="loader-ring"></div>
-        <div className="loader-ring"></div>
-        <div className="loader-core"></div>
-      </div>
+      <div className="modern-loader"></div>
     </div>
   );
 }

@@ -10,11 +10,12 @@ const REFRESH_COOKIE_OPTIONS = {
 };
 
 async function githubLogin(req, res) {
-  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${config.GITHUB_CLIENT_ID}&scope=repo,user:email`;
+  const clientId = config.GITHUB_CLIENT_ID || process.env.GITHUB_CLIENT_ID || "Ov23liJagrJuYVuH85kI"; // fallback to known local client id
+  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo,user:email`;
   res.redirect(redirectUri);
 }
 
-async function githubCallback(req, res, next) {
+async function githubCallback(req, res) {
   try {
     const { code } = req.query;
     if (!code) {
@@ -28,8 +29,8 @@ async function githubCallback(req, res, next) {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        client_id: config.GITHUB_CLIENT_ID,
-        client_secret: config.GITHUB_CLIENT_SECRET,
+        client_id: config.GITHUB_CLIENT_ID || process.env.GITHUB_CLIENT_ID,
+        client_secret: config.GITHUB_CLIENT_SECRET || process.env.GITHUB_CLIENT_SECRET,
         code,
       }),
     });

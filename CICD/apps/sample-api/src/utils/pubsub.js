@@ -8,7 +8,10 @@ const emitter = new EventEmitter();
 
 // Listen to all events published to "devflow_events"
 redisSubscriber.subscribe('devflow_events', (err) => {
-  if (err) console.error('Failed to subscribe to devflow_events', err);
+  if (err) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to subscribe to devflow_events', err);
+  }
 });
 
 redisSubscriber.on('message', (channel, message) => {
@@ -22,6 +25,7 @@ redisSubscriber.on('message', (channel, message) => {
       // Emit globally
       emitter.emit('global', data);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error('Failed to parse pubsub message', e);
     }
   }

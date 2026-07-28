@@ -79,12 +79,14 @@ const pipelineWorker = new Worker(
         throw err;
       }
 
+      const cdCmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"`;
+      
       const stages = [
         { name: 'Checkout', cmd: `git clone "${repoUrl}.git" . && git checkout "${commitSha}"` },
-        { name: 'Install', cmd: `if [ -d "frontend" ]; then cd frontend && npm install; else npm install; fi` },
-        { name: 'Lint', cmd: `if [ -d "frontend" ]; then cd frontend && npm run lint --if-present; else npm run lint --if-present; fi` },
-        { name: 'Test', cmd: `if [ -d "frontend" ]; then cd frontend && npm run test --if-present; else npm run test --if-present; fi` },
-        { name: 'Build', cmd: `if [ -d "frontend" ]; then cd frontend && npm run build --if-present; else npm run build --if-present; fi` },
+        { name: 'Install', cmd: `${cdCmd}; npm install` },
+        { name: 'Lint', cmd: `${cdCmd}; npm run lint --if-present` },
+        { name: 'Test', cmd: `${cdCmd}; npm run test --if-present` },
+        { name: 'Build', cmd: `${cdCmd}; npm run build --if-present` },
       ];
 
       let buildPassed = true;
@@ -139,8 +141,8 @@ const pipelineWorker = new Worker(
           });
           
           let auditJson = '';
-          const auditExitCode = await new Promise(resolve => {
-            const cmd = `if [ -d "frontend" ]; then cd frontend && npm audit --json || true; else npm audit --json || true; fi`;
+          await new Promise(resolve => {
+            const cmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; npm audit --json || true`;
             const child = spawn('sh', ['-c', cmd], { cwd: scanDir });
             child.stdout.on('data', data => { auditJson += data.toString(); });
             child.on('close', code => resolve(code));
@@ -148,7 +150,7 @@ const pipelineWorker = new Worker(
           fs.rmSync(scanDir, { recursive: true, force: true });
 
           let parsedAudit = null;
-          try { parsedAudit = JSON.parse(auditJson); } catch(e) {}
+          try { parsedAudit = JSON.parse(auditJson); } catch(e) { /* ignore */ }
 
           const vulns = parsedAudit?.metadata?.vulnerabilities || { info: 0, low: 0, moderate: 0, high: 0, critical: 0 };
           

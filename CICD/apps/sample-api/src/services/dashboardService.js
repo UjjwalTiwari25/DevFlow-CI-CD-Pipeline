@@ -17,6 +17,7 @@ async function getGithubRepositories(userId) {
 
   if (!res.ok) {
     const errText = await res.text();
+    // eslint-disable-next-line no-console
     console.error('GitHub API Error (Repos):', res.status, errText);
     throw new Error('Failed to fetch repositories from GitHub');
   }
@@ -122,6 +123,7 @@ async function createRepository(userId, data) {
     });
     if (!res.ok) {
       const errText = await res.text();
+      // eslint-disable-next-line no-console
       console.error('Failed to register webhook:', errText);
       throw new Error(`Failed to register webhook: ${errText}`);
     }
@@ -154,6 +156,7 @@ async function triggerPipeline(repoId, userId) {
 
   if (!res.ok) {
     const errText = await res.text();
+    // eslint-disable-next-line no-console
     console.error('Failed to fetch latest commit:', errText);
     throw new Error('Failed to fetch latest commit from GitHub');
   }

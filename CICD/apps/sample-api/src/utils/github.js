@@ -1,4 +1,3 @@
-const { config } = require('../config');
 
 async function reportCommitStatus(token, fullName, sha, state, description, targetUrl = null) {
   try {
@@ -19,9 +18,11 @@ async function reportCommitStatus(token, fullName, sha, state, description, targ
       })
     });
     if (!res.ok) {
+      // eslint-disable-next-line no-console
       console.error(`Failed to report GitHub status: ${await res.text()}`);
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error reporting GitHub status:', error);
   }
 }

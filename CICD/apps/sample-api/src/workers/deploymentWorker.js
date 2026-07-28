@@ -45,10 +45,12 @@ const deploymentWorker = new Worker(
       const workDir = path.join(os.tmpdir(), `deployment-${deploymentId}`);
       fs.mkdirSync(workDir, { recursive: true });
 
+      const cdCmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"`;
+      
       const stages = [
         { name: 'Checkout', cmd: `git clone "${repoUrl}.git" . && git checkout "${commitSha}"` },
-        { name: 'Install', cmd: `if [ -d "frontend" ]; then cd frontend && npm install; else npm install; fi` },
-        { name: 'Build', cmd: `if [ -d "frontend" ]; then cd frontend && npm run build --if-present; else npm run build --if-present; fi` },
+        { name: 'Install', cmd: `${cdCmd}; npm install` },
+        { name: 'Build', cmd: `${cdCmd}; npm run build --if-present` },
       ];
 
       let deployPassed = true;
@@ -60,7 +62,7 @@ const deploymentWorker = new Worker(
           exitCode = await new Promise((resolve) => {
             const child = spawn('sh', ['-c', stage.cmd], { cwd: workDir });
             child.on('close', code => resolve(code));
-            child.on('error', err => resolve(1));
+            child.on('error', () => resolve(1));
           });
         } catch (e) {
           exitCode = 1;

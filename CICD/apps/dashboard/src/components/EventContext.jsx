@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getToken } from '../api/client';
 
 const EventContext = createContext();
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://cicd-i4ud.onrender.com';
 
 export function EventProvider({ children }) {
   const [lastEvent, setLastEvent] = useState(null);

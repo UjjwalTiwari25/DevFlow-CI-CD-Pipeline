@@ -98,34 +98,32 @@ async function createRepository(userId, data) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   
   const webhookSecret = crypto.randomBytes(32).toString('hex');
-  const apiUrl = process.env.API_URL || process.env.RENDER_EXTERNAL_URL || 'https://api.devflow.app';
+  const apiUrl = process.env.API_URL || process.env.RENDER_EXTERNAL_URL || 'https://cicd-i4ud.onrender.com';
 
   if (user && user.githubAccessToken) {
-    try {
-      const res = await fetch(`https://api.github.com/repos/${repoData.fullName}/hooks`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${user.githubAccessToken}`,
-          Accept: 'application/vnd.github.v3+json',
-          'X-GitHub-Api-Version': '2022-11-28',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: 'web',
-          active: true,
-          events: ['push'],
-          config: {
-            url: `${apiUrl}/api/webhooks/github`,
-            content_type: 'json',
-            secret: webhookSecret
-          }
-        })
-      });
-      if (!res.ok) {
-        console.error('Failed to register webhook:', await res.text());
-      }
-    } catch (e) {
-      console.error('Webhook registration error:', e);
+    const res = await fetch(`https://api.github.com/repos/${repoData.fullName}/hooks`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user.githubAccessToken}`,
+        Accept: 'application/vnd.github.v3+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: 'web',
+        active: true,
+        events: ['push'],
+        config: {
+          url: `${apiUrl}/api/webhooks/github`,
+          content_type: 'json',
+          secret: webhookSecret
+        }
+      })
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Failed to register webhook:', errText);
+      throw new Error(`Failed to register webhook: ${errText}`);
     }
   }
 
@@ -136,6 +134,52 @@ async function deleteRepository(repoId, userId) {
   const repo = await prisma.repository.findFirst({ where: { id: repoId, ownerId: userId } });
   if (!repo) throw new Error('Repository not found');
   return prisma.repository.delete({ where: { id: repoId } });
+}
+
+async function triggerPipeline(repoId, userId) {
+  const repo = await prisma.repository.findFirst({ where: { id: repoId, ownerId: userId } });
+  if (!repo) throw new Error('Repository not found or access denied');
+  
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || !user.githubAccessToken) throw new Error('GitHub token not found');
+
+  const res = await fetch(`https://api.github.com/repos/${repo.fullName}/commits?per_page=1`, {
+    headers: {
+      Authorization: `Bearer ${user.githubAccessToken}`,
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'DevFlow-AI-App',
+      'X-GitHub-Api-Version': '2022-11-28',
+    }
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error('Failed to fetch latest commit:', errText);
+    throw new Error('Failed to fetch latest commit from GitHub');
+  }
+  const commits = await res.json();
+  if (!commits.length) throw new Error('No commits found in repository');
+  
+  const latestCommit = commits[0];
+  
+  const run = await prisma.pipelineRun.create({
+    data: {
+      commitMsg: latestCommit.commit.message,
+      commitSha: latestCommit.sha,
+      branch: repo.branch || 'main',
+      trigger: 'manual',
+      repoId: repo.id,
+      status: 'QUEUED',
+    },
+  });
+
+  await pipelineQueue.add('run-pipeline', {
+    pipelineId: run.id,
+    repoUrl: repo.url,
+    commitSha: run.commitSha,
+  });
+
+  return run;
 }
 
 async function getPipelines(userId, query = {}) {
@@ -405,4 +449,5 @@ module.exports = {
   getHealthStatus,
   getGithubRepositories,
   getPipelineLogs,
+  triggerPipeline,
 };

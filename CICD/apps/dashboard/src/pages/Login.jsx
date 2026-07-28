@@ -40,7 +40,7 @@ export default function Login() {
   }, [location, navigate]);
 
   const handleGithubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/github`;
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://cicd-i4ud.onrender.com'}/api/auth/github`;
   };
 
   return (

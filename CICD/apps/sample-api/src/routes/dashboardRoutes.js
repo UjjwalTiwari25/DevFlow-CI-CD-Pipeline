@@ -66,6 +66,13 @@ router.delete(
     res.json({ status: 'success', message: 'Repository deleted' });
   })
 );
+router.post(
+  '/repositories/:id/trigger',
+  wrap(async (req, res) => {
+    const run = await ds.triggerPipeline(req.params.id, req.user.id);
+    res.status(201).json({ status: 'success', data: run });
+  })
+);
 
 router.get(
   '/pipelines',

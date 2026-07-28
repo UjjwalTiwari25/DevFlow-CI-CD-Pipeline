@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://cicd-i4ud.onrender.com';
 
 let authToken = localStorage.getItem('devflow_token') || null;
 
@@ -97,6 +97,7 @@ export const getRepos = () => request('/api/dashboard/repositories');
 export const getGithubRepos = () => request('/api/dashboard/github/repos');
 export const createRepo = (body) => request('/api/dashboard/repositories', { method: 'POST', body: JSON.stringify(body) });
 export const deleteRepo = (id) => request(`/api/dashboard/repositories/${id}`, { method: 'DELETE' });
+export const triggerPipeline = (id) => request(`/api/dashboard/repositories/${id}/trigger`, { method: 'POST' });
 export const getPipelines = (q = '') => request(`/api/dashboard/pipelines?${q}`);
 export const getPipeline = (id) => request(`/api/dashboard/pipelines/${id}`);
 export const getPipelineLogs = (id) => request(`/api/dashboard/pipelines/${id}/logs`);

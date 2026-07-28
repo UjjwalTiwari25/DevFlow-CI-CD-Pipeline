@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, GitBranch, RefreshCw, CheckCircle2, XCircle, Clock, FileText } from 'lucide-react';
-import { getPipeline, rerunPipeline } from '../api/client';
+import { ArrowLeft, GitBranch, RefreshCw, CheckCircle2, XCircle, Clock, FileText, Copy } from 'lucide-react';
+import { getPipeline, rerunPipeline, getPipelineLogs } from '../api/client';
+import { useAppEvents } from '../components/EventContext';
 
 function formatDuration(s) { return s ? `${Math.floor(s / 60)}m ${s % 60}s` : '—'; }
 
@@ -12,21 +13,23 @@ export default function PipelineDetail() {
   const [p, setP] = useState(null);
   const navigate = useNavigate();
 
-  const load = () => { getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); };
+  const [logs, setLogs] = useState([]);
+
+  const load = () => { 
+    getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); 
+    getPipelineLogs(id).then((r) => setLogs(r.data)).catch(() => {});
+  };
+  const { lastEvent } = useAppEvents();
+
   useEffect(() => { 
     load();
-    const interval = setInterval(() => load(), 5000);
-    return () => clearInterval(interval);
   }, [id]);
 
-  if (!p) return <div className="page-loading">Loading...</div>;
+  useEffect(() => {
+    if (lastEvent && lastEvent.pipelineId === id) load();
+  }, [lastEvent, id]);
 
-  const stepStates = steps.map((_, i) => {
-    if (p.status === 'SUCCESS') return 'done';
-    if (p.status === 'FAILED') return i <= 4 ? 'done' : i === 5 ? 'failed' : 'pending';
-    if (p.status === 'RUNNING') return i <= 3 ? 'done' : i === 4 ? 'active' : 'pending';
-    return i === 0 ? 'active' : 'pending';
-  });
+  if (!p) return <div className="page-loading">Loading...</div>;
 
   const handleRerun = async () => { await rerunPipeline(id); navigate('/dashboard/pipelines'); };
 
@@ -57,19 +60,60 @@ export default function PipelineDetail() {
         <div className="panel">
           <div className="panel-title"><CheckCircle2 size={18} /> Pipeline Steps</div>
           <div className="step-list">
-            {steps.map((name, i) => (
-              <div className={`step-item ${stepStates[i]}`} key={name}>
-                <div className={`step-icon ${stepStates[i]}`}>
-                  {stepStates[i] === 'done' ? <CheckCircle2 size={16} /> : stepStates[i] === 'failed' ? <XCircle size={16} /> : stepStates[i] === 'active' ? <Clock size={16} /> : <span className="step-num">{i + 1}</span>}
+            {(p.steps && p.steps.length > 0) ? p.steps.map((step, i) => {
+              const state = step.status === 'SUCCESS' ? 'done' : step.status === 'FAILED' ? 'failed' : step.status === 'RUNNING' ? 'active' : 'pending';
+              return (
+                <div className={`step-item ${state}`} key={step.id}>
+                  <div className={`step-icon ${state}`}>
+                    {state === 'done' ? <CheckCircle2 size={16} /> : state === 'failed' ? <XCircle size={16} /> : state === 'active' ? <Clock size={16} /> : <span className="step-num">{i + 1}</span>}
+                  </div>
+                  <span className="step-name">{step.name}</span>
+                  <span className={`step-status ${state}`}>{state}</span>
                 </div>
-                <span className="step-name">{name}</span>
-                <span className={`step-status ${stepStates[i]}`}>{stepStates[i]}</span>
-              </div>
-            ))}
+              );
+            }) : (
+              <div style={{ color: 'var(--text-secondary)' }}>No step data available.</div>
+            )}
           </div>
         </div>
       </div>
 
+      {logs.length > 0 && (
+        <div className="panel" style={{ marginTop: 20 }}>
+          <div className="panel-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span><FileText size={18} style={{ display: 'inline', marginRight: 8 }}/> Pipeline Logs</span>
+            <button 
+              className="btn" 
+              style={{ padding: '4px 10px', fontSize: '12px' }}
+              onClick={() => {
+                const text = logs.map(l => `[${l.name}]\n${l.logChunk || ''}`).join('\n\n');
+                navigator.clipboard.writeText(text);
+              }}
+            >
+              <Copy size={12} /> Copy logs
+            </button>
+          </div>
+          <div style={{
+            background: '#111827', 
+            color: '#e5e7eb',
+            padding: '16px',
+            borderRadius: '6px',
+            maxHeight: '400px',
+            overflowY: 'auto',
+            fontFamily: 'monospace',
+            whiteSpace: 'pre-wrap',
+            fontSize: '13px'
+          }}>
+            {logs.map(log => (
+              <div key={log.name} style={{ marginBottom: 12 }}>
+                <div style={{ fontWeight: 'bold', color: '#60a5fa', marginBottom: 4 }}>--- {log.name} ---</div>
+                <div>{log.logChunk || 'No output.'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
       <div className="panels-grid" style={{ marginTop: 20 }}>
         <div className="panel">
           <div className="panel-title">Test Results</div>

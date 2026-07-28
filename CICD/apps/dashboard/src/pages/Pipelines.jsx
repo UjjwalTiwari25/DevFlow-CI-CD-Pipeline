@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GitBranch, RefreshCw, Filter } from 'lucide-react';
 import { getPipelines, rerunPipeline } from '../api/client';
+import { useAppEvents } from '../components/EventContext';
 
 function formatDuration(s) { return s ? `${Math.floor(s / 60)}m ${s % 60}s` : '—'; }
 function timeAgo(d) { const s = Math.floor((Date.now() - new Date(d)) / 1000); if (s < 60) return `${s}s ago`; if (s < 3600) return `${Math.floor(s / 60)}m ago`; if (s < 86400) return `${Math.floor(s / 3600)}h ago`; return `${Math.floor(s / 86400)}d ago`; }
@@ -18,11 +19,15 @@ export default function Pipelines() {
     getPipelines(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 
+  const { lastEvent } = useAppEvents();
+
   useEffect(() => { 
     load(); 
-    const interval = setInterval(() => load(data.pagination.page || 1, true), 5000);
-    return () => clearInterval(interval);
   }, [filter, data.pagination.page]);
+
+  useEffect(() => {
+    if (lastEvent) load(data.pagination.page || 1, true);
+  }, [lastEvent]);
 
   const handleRerun = async (e, id) => {
     e.stopPropagation();

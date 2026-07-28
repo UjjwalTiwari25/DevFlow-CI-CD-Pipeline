@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Activity, Clock, Zap, ArrowUpRight, ArrowDownRight, GitBranch, Shield, Rocket } from 'lucide-react';
 import { getStats, getPipelines, getDeployments } from '../api/client';
+import { useAppEvents } from '../components/EventContext';
 
 function formatDuration(s) { return s ? `${Math.floor(s / 60)}m ${s % 60}s` : '—'; }
 
@@ -24,11 +25,15 @@ export default function Dashboard() {
     }).finally(() => { if (!silently) setLoading(false); });
   };
 
+  const { lastEvent } = useAppEvents();
+
   useEffect(() => {
     load();
-    const interval = setInterval(() => load(true), 5000);
-    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (lastEvent) load(true);
+  }, [lastEvent]);
 
   if (loading) return <div className="page-loading">Loading dashboard...</div>;
   if (error) return (

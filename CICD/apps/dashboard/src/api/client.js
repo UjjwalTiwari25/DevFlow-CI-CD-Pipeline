@@ -96,6 +96,7 @@ export const createRepo = (body) => request('/api/dashboard/repositories', { met
 export const deleteRepo = (id) => request(`/api/dashboard/repositories/${id}`, { method: 'DELETE' });
 export const getPipelines = (q = '') => request(`/api/dashboard/pipelines?${q}`);
 export const getPipeline = (id) => request(`/api/dashboard/pipelines/${id}`);
+export const getPipelineLogs = (id) => request(`/api/dashboard/pipelines/${id}/logs`);
 export const rerunPipeline = (id) => request(`/api/dashboard/pipelines/${id}/rerun`, { method: 'POST' });
 export const getDeployments = (q = '') => request(`/api/dashboard/deployments?${q}`);
 export const triggerDeploy = (repoId) => request(`/api/dashboard/deployments/trigger/${repoId}`, { method: 'POST' });

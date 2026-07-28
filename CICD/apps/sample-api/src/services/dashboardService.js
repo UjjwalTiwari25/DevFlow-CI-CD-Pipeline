@@ -1,4 +1,5 @@
 const { prisma } = require('../models/prisma');
+const { pipelineQueue } = require('../utils/queue');
 
 async function getGithubRepositories(userId) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -137,14 +138,29 @@ async function getPipelines(userId, query = {}) {
 async function getPipelineById(pipelineId) {
   return prisma.pipelineRun.findUnique({
     where: { id: pipelineId },
-    include: { repository: { select: { name: true, fullName: true, url: true } } },
+    include: { 
+      repository: { select: { name: true, fullName: true, url: true } },
+      steps: { orderBy: { startedAt: 'asc' } }
+    },
   });
 }
 
+async function getPipelineLogs(pipelineId) {
+  const steps = await prisma.pipelineStep.findMany({
+    where: { pipelineRunId: pipelineId },
+    orderBy: { startedAt: 'asc' },
+    select: { name: true, logChunk: true, status: true, exitCode: true }
+  });
+  return steps;
+}
+
 async function rerunPipeline(pipelineId) {
-  const original = await prisma.pipelineRun.findUnique({ where: { id: pipelineId } });
+  const original = await prisma.pipelineRun.findUnique({ 
+    where: { id: pipelineId },
+    include: { repository: true } 
+  });
   if (!original) throw new Error('Pipeline not found');
-  return prisma.pipelineRun.create({
+  const run = await prisma.pipelineRun.create({
     data: {
       commitMsg: `Re-run: ${original.commitMsg}`,
       commitSha: original.commitSha,
@@ -154,6 +170,14 @@ async function rerunPipeline(pipelineId) {
       status: 'QUEUED',
     },
   });
+
+  await pipelineQueue.add('run-pipeline', {
+    pipelineId: run.id,
+    repoUrl: original.repository.url,
+    commitSha: run.commitSha,
+  });
+
+  return run;
 }
 
 async function getDeployments(userId, query = {}) {
@@ -284,4 +308,5 @@ module.exports = {
   getSecurityScans,
   getHealthStatus,
   getGithubRepositories,
+  getPipelineLogs,
 };

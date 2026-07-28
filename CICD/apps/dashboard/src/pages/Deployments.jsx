@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Rocket, RefreshCw, RotateCcw, Filter } from 'lucide-react';
 import { getDeployments, triggerDeploy, rollbackDeploy, getRepos } from '../api/client';
+import { useAppEvents } from '../components/EventContext';
 
 export default function Deployments() {
   const [data, setData] = useState({ deployments: [], pagination: {} });
@@ -14,12 +15,16 @@ export default function Deployments() {
     getDeployments(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 
+  const { lastEvent } = useAppEvents();
+
   useEffect(() => { 
     load(); 
     getRepos().then((r) => setRepos(r.data)); 
-    const interval = setInterval(() => load(data.pagination.page || 1, true), 5000);
-    return () => clearInterval(interval);
   }, [filter, data.pagination.page]);
+
+  useEffect(() => {
+    if (lastEvent) load(data.pagination.page || 1, true);
+  }, [lastEvent]);
 
   const handleDeploy = async (repoId) => { await triggerDeploy(repoId); load(); };
   const handleRollback = async (e, id) => { e.stopPropagation(); await rollbackDeploy(id); load(); };

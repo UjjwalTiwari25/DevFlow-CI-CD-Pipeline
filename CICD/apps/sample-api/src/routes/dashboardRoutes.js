@@ -7,6 +7,29 @@ const router = Router();
 router.use(authenticate);
 
 const wrap = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+const { emitter } = require('../utils/pubsub');
+
+router.get('/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  // Send initial connected event
+  res.write(`data: ${JSON.stringify({ type: 'connected' })}\n\n`);
+
+  const listener = (data) => {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  };
+
+  emitter.on(`user:${req.user.id}`, listener);
+  emitter.on('global', listener);
+
+  req.on('close', () => {
+    emitter.off(`user:${req.user.id}`, listener);
+    emitter.off('global', listener);
+  });
+});
 
 router.get(
   '/stats',
@@ -56,6 +79,13 @@ router.get(
     const pipeline = await ds.getPipelineById(req.params.id);
     if (!pipeline) return res.status(404).json({ status: 'error', message: 'Pipeline not found' });
     res.json({ status: 'success', data: pipeline });
+  })
+);
+router.get(
+  '/pipelines/:id/logs',
+  wrap(async (req, res) => {
+    const logs = await ds.getPipelineLogs(req.params.id);
+    res.json({ status: 'success', data: logs });
   })
 );
 router.post(

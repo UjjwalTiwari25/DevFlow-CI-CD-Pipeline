@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { getToken } from './api/client';
+import { EventProvider } from './components/EventContext';
 import Layout from './components/Layout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -23,7 +24,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<PrivateRoute><Layout /></PrivateRoute>}>
+        <Route path="/dashboard" element={<PrivateRoute><EventProvider><Layout /></EventProvider></PrivateRoute>}>
           <Route index element={<Dashboard />} />
           <Route path="pipelines" element={<Pipelines />} />
           <Route path="pipelines/:id" element={<PipelineDetail />} />

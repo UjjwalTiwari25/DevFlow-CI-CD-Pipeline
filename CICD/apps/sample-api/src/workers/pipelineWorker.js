@@ -8,119 +8,153 @@ const path = require('path');
 
 const prisma = new PrismaClient();
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
+const { publishEvent } = require('../utils/pubsub');
 
 // ─── Input Validation ────────────────────────────────────────────────────────
-// Validates that a commit SHA is exactly 40 hex characters (full SHA-1)
 const COMMIT_SHA_REGEX = /^[a-f0-9]{40}$/;
-// Validates that a repo URL matches a GitHub HTTPS clone URL pattern
 const REPO_URL_REGEX = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/;
 
 function validatePipelineInputs(repoUrl, commitSha) {
   if (!COMMIT_SHA_REGEX.test(commitSha)) {
-    throw new Error(
-      `Invalid commit SHA: must be 40 hex characters, got "${String(commitSha).substring(0, 50)}"`
-    );
+    throw new Error(`Invalid commit SHA: must be 40 hex characters, got "${String(commitSha).substring(0, 50)}"`);
   }
   if (!REPO_URL_REGEX.test(repoUrl)) {
-    throw new Error(
-      `Invalid repository URL: must be a GitHub HTTPS URL, got "${String(repoUrl).substring(0, 100)}"`
-    );
+    throw new Error(`Invalid repository URL: must be a GitHub HTTPS URL, got "${String(repoUrl).substring(0, 100)}"`);
   }
 }
-
-// ─── Build Script ────────────────────────────────────────────────────────────
-// The build script is a static template — repo URL and commit SHA are passed
-// as environment variables, NEVER interpolated into the shell string.
-const BUILD_SCRIPT = `
-set -euo pipefail
-apk add --no-cache git
-git clone "$REPO_URL.git" /app
-cd /app
-git checkout "$COMMIT_SHA"
-if [ -f "frontend/package.json" ]; then
-  cd frontend
-  npm install
-  npm run build
-elif [ -f "package.json" ]; then
-  npm install
-fi
-echo "Build completed successfully."
-`;
 
 const pipelineWorker = new Worker(
   'pipeline-queue',
   async (job) => {
     const { pipelineId, repoUrl, commitSha } = job.data;
     const startTime = Date.now();
-    let logs = 'Starting Docker container for pipeline execution...\n\n';
 
     try {
-      // ── Validate inputs BEFORE doing anything ──
       validatePipelineInputs(repoUrl, commitSha);
+
+      const pipelineRun = await prisma.pipelineRun.findUnique({
+        where: { id: pipelineId },
+        include: { repository: true }
+      });
+      const userId = pipelineRun.repository.ownerId;
 
       await prisma.pipelineRun.update({
         where: { id: pipelineId },
         data: { status: 'RUNNING' },
       });
+      publishEvent(userId, 'pipeline_updated', { pipelineId });
 
-      logs += 'Pulling node:24-alpine image...\n';
-      await new Promise((resolve, reject) => {
-        docker.pull('node:24-alpine', (err, stream) => {
-          if (err) return reject(err);
-          docker.modem.followProgress(stream, (err, res) => (err ? reject(err) : resolve(res)));
-        });
+      const setupStep = await prisma.pipelineStep.create({
+        data: {
+          name: 'Setup Container',
+          status: 'RUNNING',
+          pipelineRunId: pipelineId,
+        }
       });
 
-      logs += 'Creating isolated build container...\n';
+      let setupLogs = 'Pulling node:24-alpine image...\n';
+      try {
+        await new Promise((resolve, reject) => {
+          docker.pull('node:24-alpine', (err, stream) => {
+            if (err) return reject(err);
+            docker.modem.followProgress(stream, (err, res) => (err ? reject(err) : resolve(res)));
+          });
+        });
+        setupLogs += 'Image pulled successfully.\n';
+      } catch (err) {
+        setupLogs += `Error pulling image: ${err.message}\n`;
+        await prisma.pipelineStep.update({
+          where: { id: setupStep.id },
+          data: { status: 'FAILED', finishedAt: new Date(), logChunk: setupLogs }
+        });
+        throw err;
+      }
+
+      setupLogs += 'Creating isolated build container...\n';
       const container = await docker.createContainer({
         Image: 'node:24-alpine',
-        // Use array-form Cmd — no shell interpolation of user input
-        Cmd: ['sh', '-c', BUILD_SCRIPT],
+        Cmd: ['tail', '-f', '/dev/null'], // Keep container alive
         Tty: false,
-        // Pass untrusted values as environment variables, not shell args
         Env: [`REPO_URL=${repoUrl}`, `COMMIT_SHA=${commitSha}`],
-        // ── Container hardening (mitigates #3 — Docker socket risk) ──
         HostConfig: {
-          Memory: 512 * 1024 * 1024, // 512 MB max
-          MemorySwap: 512 * 1024 * 1024, // No swap
+          Memory: 512 * 1024 * 1024,
+          MemorySwap: 512 * 1024 * 1024,
           CpuPeriod: 100000,
-          CpuQuota: 50000, // 50% of one CPU
-          PidsLimit: 256, // Prevent fork bombs
-          ReadonlyRootfs: false, // Builds need to write
-          NetworkMode: 'none', // No network access during build
-          SecurityOpt: ['no-new-privileges'], // Prevent privilege escalation
-          AutoRemove: false, // We remove manually after collecting logs
+          CpuQuota: 50000,
+          PidsLimit: 256,
+          ReadonlyRootfs: false,
+          NetworkMode: 'bridge', // Need network for git clone and npm install
+          SecurityOpt: ['no-new-privileges'],
+          AutoRemove: false,
         },
       });
 
       await container.start();
-
-      const stream = await container.logs({
-        follow: true,
-        stdout: true,
-        stderr: true,
+      setupLogs += 'Container started.\n';
+      await prisma.pipelineStep.update({
+        where: { id: setupStep.id },
+        data: { status: 'SUCCESS', finishedAt: new Date(), logChunk: setupLogs }
       });
 
-      stream.on('data', (chunk) => {
-        // Docker multiplexing header is 8 bytes, so we slice it
-        logs += chunk.toString('utf8').substring(8);
-      });
+      const stages = [
+        { name: 'Checkout', cmd: `apk add --no-cache git && git clone "$REPO_URL.git" /app && cd /app && git checkout "$COMMIT_SHA"` },
+        { name: 'Install', cmd: `cd /app && if [ -d "frontend" ]; then cd frontend; fi && npm install` },
+        { name: 'Lint', cmd: `cd /app && if [ -d "frontend" ]; then cd frontend; fi && npm run lint --if-present` },
+        { name: 'Test', cmd: `cd /app && if [ -d "frontend" ]; then cd frontend; fi && npm run test --if-present` },
+        { name: 'Build', cmd: `cd /app && if [ -d "frontend" ]; then cd frontend; fi && npm run build --if-present` },
+      ];
 
-      const data = await container.wait();
-      const exitCode = data.StatusCode;
-      const buildPassed = exitCode === 0;
+      let buildPassed = true;
 
-      logs += `\nContainer exited with code ${exitCode}\n`;
+      for (const stage of stages) {
+        if (!buildPassed) break; // Skip remaining steps if one fails
 
-      await container.remove();
+        const stepRecord = await prisma.pipelineStep.create({
+          data: {
+            name: stage.name,
+            status: 'RUNNING',
+            pipelineRunId: pipelineId,
+          }
+        });
+
+        const exec = await container.exec({
+          Cmd: ['sh', '-c', stage.cmd],
+          AttachStdout: true,
+          AttachStderr: true,
+        });
+
+        const stream = await exec.start({ detach: false });
+        let stepLogs = '';
+
+        stream.on('data', (chunk) => {
+          stepLogs += chunk.toString('utf8').substring(8);
+        });
+
+        await new Promise((resolve) => {
+          stream.on('end', resolve);
+        });
+
+        const inspect = await exec.inspect();
+        const exitCode = inspect.ExitCode;
+
+        if (exitCode !== 0) {
+          buildPassed = false;
+        }
+
+        await prisma.pipelineStep.update({
+          where: { id: stepRecord.id },
+          data: {
+            status: exitCode === 0 ? 'SUCCESS' : 'FAILED',
+            finishedAt: new Date(),
+            exitCode: exitCode,
+            logChunk: stepLogs,
+          }
+        });
+      }
+
+      await container.remove({ force: true });
 
       const durationMs = Date.now() - startTime;
-
-      const logsPath = path.join(process.cwd(), '..', '..', 'tmp_builds', `${pipelineId}.log`);
-      if (!fs.existsSync(path.dirname(logsPath))) {
-        fs.mkdirSync(path.dirname(logsPath), { recursive: true });
-      }
-      fs.writeFileSync(logsPath, logs);
 
       await prisma.pipelineRun.update({
         where: { id: pipelineId },
@@ -128,19 +162,18 @@ const pipelineWorker = new Worker(
           status: buildPassed ? 'SUCCESS' : 'FAILED',
           finishedAt: new Date(),
           duration: Math.floor(durationMs / 1000),
-          lintPassed: buildPassed,
+          lintPassed: buildPassed, // We can remove these later, keeping them for backward compatibility
           testsPassed: buildPassed,
           buildPassed: buildPassed,
-          logsUrl: logsPath,
         },
       });
+      publishEvent(userId, 'pipeline_updated', { pipelineId });
 
       logger.info(
         `Pipeline ${pipelineId} finished inside Docker with status ${buildPassed ? 'SUCCESS' : 'FAILED'}`
       );
     } catch (err) {
       logger.error(`Docker pipeline ${pipelineId} crashed`, { error: err.message });
-      logs += `\nError:\n${err.message}`;
 
       await prisma.pipelineRun.update({
         where: { id: pipelineId },
@@ -150,6 +183,9 @@ const pipelineWorker = new Worker(
           duration: Math.floor((Date.now() - startTime) / 1000),
         },
       });
+      
+      const p = await prisma.pipelineRun.findUnique({ where: { id: pipelineId }, include: { repository: true } });
+      if (p) publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId });
     }
   },
   { connection }

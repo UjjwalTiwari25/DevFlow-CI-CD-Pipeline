@@ -93,9 +93,25 @@ model PipelineRun {
   repoId       String      @map("repo_id")
   startedAt    DateTime    @default(now()) @map("started_at")
   finishedAt   DateTime?   @map("finished_at")
+  steps        PipelineStep[]
   @@index([repoId])
   @@index([status])
   @@map("pipeline_runs")
+}
+
+model PipelineStep {
+  id            String      @id @default(uuid())
+  name          String
+  status        RunStatus   @default(QUEUED)
+  startedAt     DateTime    @default(now()) @map("started_at")
+  finishedAt    DateTime?   @map("finished_at")
+  exitCode      Int?        @map("exit_code")
+  logChunk      String?     @db.Text @map("log_chunk")
+  pipelineRun   PipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+  pipelineRunId String      @map("pipeline_run_id")
+
+  @@index([pipelineRunId])
+  @@map("pipeline_steps")
 }
 
 model Deployment {

@@ -28,7 +28,11 @@ export default function Repositories() {
         const res = await getGithubRepos();
         setGithubRepos(res.data);
       } catch (err) {
-        setError('Failed to fetch repositories from GitHub');
+        if (err.message?.toLowerCase().includes('token')) {
+          setError('Your GitHub session has expired. Please logout and login again.');
+        } else {
+          setError('Failed to fetch repositories from GitHub. Ensure your deployment is updated and try again.');
+        }
       } finally {
         setLoadingGithub(false);
       }
@@ -65,26 +69,35 @@ export default function Repositories() {
         <div className="panel" style={{ marginBottom: 20 }}>
           {error && <div style={{ padding: 12, marginBottom: 16, background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 6 }}>{error}</div>}
           {loadingGithub ? (
-            <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading repositories from GitHub...</div>
+            <div style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+              <RefreshCw size={24} className="spin" style={{ marginBottom: '10px' }} />
+              <p>Fetching your repositories from GitHub...</p>
+            </div>
           ) : (
-            <form onSubmit={handleCreate} className="repo-form" style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
-              <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><GithubIcon size={14} /> Select a GitHub Repository</label>
-                <select 
-                  onChange={(e) => {
-                    const repo = githubRepos.find(r => r.fullName === e.target.value);
-                    setForm(repo);
-                  }}
-                  value={form?.fullName || ''}
-                  style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                >
-                  <option value="" disabled>Select repository...</option>
-                  {githubRepos.map(r => (
-                    <option key={r.fullName} value={r.fullName}>{r.fullName}</option>
-                  ))}
-                </select>
+            <form onSubmit={handleCreate} className="repo-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', fontSize: '14px', fontWeight: '500' }}>
+                  <GithubIcon size={16} /> Select a GitHub Repository to Connect
+                </label>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                  <select 
+                    onChange={(e) => {
+                      const repo = githubRepos.find(r => r.fullName === e.target.value);
+                      setForm(repo);
+                    }}
+                    value={form?.fullName || ''}
+                    style={{ flex: 1, padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    <option value="" disabled>Choose a repository...</option>
+                    {githubRepos.map(r => (
+                      <option key={r.fullName} value={r.fullName}>{r.fullName}</option>
+                    ))}
+                  </select>
+                  <button type="submit" className="btn btn-primary" disabled={!form} style={{ padding: '12px 24px', height: '45px' }}>
+                    <Plus size={16} /> Connect Repo
+                  </button>
+                </div>
               </div>
-              <button type="submit" className="btn btn-primary" disabled={!form} style={{ padding: '10px 16px' }}><Plus size={14} /> Connect</button>
             </form>
           )}
         </div>

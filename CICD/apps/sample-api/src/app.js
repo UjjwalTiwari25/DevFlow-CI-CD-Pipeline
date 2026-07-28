@@ -16,11 +16,13 @@ const app = express();
 // ─── Security Middleware ──────────────────────────────────────────────────────
 app.use(helmet());
 
-// ─── CORS — explicit origin allowlist in production (#9) ──────────────────────
-const corsOrigin =
-  config.NODE_ENV === 'production'
-    ? (config.CORS_ORIGIN === '*' ? config.FRONTEND_URL : config.CORS_ORIGIN).split(',').map((o) => o.trim())
-    : config.CORS_ORIGIN;
+// ─── CORS — explicit origin allowlist ──────────────────────
+const rawOrigin = (config.CORS_ORIGIN === '*' && config.FRONTEND_URL) ? config.FRONTEND_URL : config.CORS_ORIGIN;
+const corsOrigin = rawOrigin.split(',').map((o) => {
+  let url = o.trim();
+  if (url.endsWith('/')) url = url.slice(0, -1);
+  return url;
+});
 
 app.use(
   cors({

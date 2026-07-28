@@ -8,10 +8,16 @@ async function getGithubRepositories(userId) {
     headers: {
       Authorization: `Bearer ${user.githubAccessToken}`,
       Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'DevFlow-AI-App',
+      'X-GitHub-Api-Version': '2022-11-28',
     }
   });
 
-  if (!res.ok) throw new Error('Failed to fetch repositories from GitHub');
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error('GitHub API Error (Repos):', res.status, errText);
+    throw new Error('Failed to fetch repositories from GitHub');
+  }
   const repos = await res.json();
   
   return repos.map(r => ({

@@ -42,7 +42,10 @@ async function githubCallback(req, res, next) {
     }
 
     const userRes = await fetch('https://api.github.com/user', {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { 
+        Authorization: `Bearer ${accessToken}`,
+        'User-Agent': 'DevFlow-AI-App'
+      },
     });
     
     const userData = await userRes.json();

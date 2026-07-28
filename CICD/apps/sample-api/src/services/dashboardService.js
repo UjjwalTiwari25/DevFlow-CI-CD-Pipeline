@@ -92,7 +92,8 @@ async function getRepositories(userId) {
 }
 
 async function createRepository(userId, data) {
-  return prisma.repository.create({ data: { ...data, ownerId: userId } });
+  const { id, ...repoData } = data; // Strip GitHub's numeric ID
+  return prisma.repository.create({ data: { ...repoData, ownerId: userId } });
 }
 
 async function deleteRepository(repoId, userId) {

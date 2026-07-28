@@ -1,23 +1,41 @@
 import { useEffect, useState } from 'react';
-import { FolderGit2, Plus, Trash2, ExternalLink, RefreshCw } from 'lucide-react';
-import { getRepos, createRepo, deleteRepo } from '../api/client';
+import { FolderGit2, Plus, Trash2, ExternalLink, RefreshCw, Github } from 'lucide-react';
+import { getRepos, getGithubRepos, createRepo, deleteRepo } from '../api/client';
 
 export default function Repositories() {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ name: '', fullName: '', url: '', language: 'JavaScript' });
+  const [githubRepos, setGithubRepos] = useState([]);
+  const [loadingGithub, setLoadingGithub] = useState(false);
+  const [form, setForm] = useState(null);
   const [error, setError] = useState(null);
 
   const load = () => { setLoading(true); setError(null); getRepos().then((r) => setRepos(r.data)).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
 
+  const handleShowForm = async () => {
+    setShowForm(!showForm);
+    if (!showForm && githubRepos.length === 0) {
+      setLoadingGithub(true);
+      try {
+        const res = await getGithubRepos();
+        setGithubRepos(res.data);
+      } catch (err) {
+        setError('Failed to fetch repositories from GitHub');
+      } finally {
+        setLoadingGithub(false);
+      }
+    }
+  };
+
   const handleCreate = async (e) => {
     e.preventDefault();
+    if (!form) return;
     setError(null);
     try {
       await createRepo(form);
-      setForm({ name: '', fullName: '', url: '', language: 'JavaScript' });
+      setForm(null);
       setShowForm(false);
       load();
     } catch (err) {
@@ -32,7 +50,7 @@ export default function Repositories() {
       <div className="page-header">
         <div><h1>Repositories</h1><p className="subtitle">{repos.length} connected repositories</p></div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}><Plus size={14} /> Add Repository</button>
+          <button className="btn btn-primary" onClick={handleShowForm}><Plus size={14} /> Add Repository</button>
           <button className="btn" onClick={load}><RefreshCw size={14} /></button>
         </div>
       </div>
@@ -40,13 +58,29 @@ export default function Repositories() {
       {showForm && (
         <div className="panel" style={{ marginBottom: 20 }}>
           {error && <div style={{ padding: 12, marginBottom: 16, background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 6 }}>{error}</div>}
-          <form onSubmit={handleCreate} className="repo-form">
-            <div className="form-group"><label>Name</label><input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="my-api" /></div>
-            <div className="form-group"><label>Full Name</label><input required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} placeholder="username/my-api" /></div>
-            <div className="form-group"><label>URL</label><input required value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://github.com/..." /></div>
-            <div className="form-group"><label>Language</label><select value={form.language} onChange={(e) => setForm({ ...form, language: e.target.value })}><option>JavaScript</option><option>TypeScript</option><option>Python</option><option>Go</option><option>Rust</option></select></div>
-            <button type="submit" className="btn btn-primary"><Plus size={14} /> Create</button>
-          </form>
+          {loadingGithub ? (
+            <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading repositories from GitHub...</div>
+          ) : (
+            <form onSubmit={handleCreate} className="repo-form" style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+              <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Github size={14} /> Select a GitHub Repository</label>
+                <select 
+                  onChange={(e) => {
+                    const repo = githubRepos.find(r => r.fullName === e.target.value);
+                    setForm(repo);
+                  }}
+                  value={form?.fullName || ''}
+                  style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
+                >
+                  <option value="" disabled>Select repository...</option>
+                  {githubRepos.map(r => (
+                    <option key={r.fullName} value={r.fullName}>{r.fullName}</option>
+                  ))}
+                </select>
+              </div>
+              <button type="submit" className="btn btn-primary" disabled={!form} style={{ padding: '10px 16px' }}><Plus size={14} /> Connect</button>
+            </form>
+          )}
         </div>
       )}
 

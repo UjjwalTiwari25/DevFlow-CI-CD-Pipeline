@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 const { config } = require('./config');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
@@ -14,13 +15,24 @@ const app = express();
 
 // ─── Security Middleware ──────────────────────────────────────────────────────
 app.use(helmet());
+
+// ─── CORS — explicit origin allowlist in production (#9) ──────────────────────
+const corsOrigin =
+  config.NODE_ENV === 'production'
+    ? config.CORS_ORIGIN.split(',').map((o) => o.trim())
+    : config.CORS_ORIGIN;
+
 app.use(
   cors({
-    origin: config.CORS_ORIGIN,
+    origin: corsOrigin,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Required for httpOnly cookies
   })
 );
+
+// ─── Cookie Parser (for refresh token cookies — #4, #9) ───────────────────────
+app.use(cookieParser());
 
 // ─── Global Rate Limiter ──────────────────────────────────────────────────────
 const globalLimiter = rateLimit({
@@ -36,7 +48,16 @@ const globalLimiter = rateLimit({
 app.use(globalLimiter);
 
 // ─── Body Parsing ─────────────────────────────────────────────────────────────
-app.use(express.json({ limit: '10kb' }));
+// The `verify` callback captures the raw body buffer so that the HMAC webhook
+// verification middleware (#2) can compute the signature over the original bytes.
+app.use(
+  express.json({
+    limit: '10kb',
+    verify: (req, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────

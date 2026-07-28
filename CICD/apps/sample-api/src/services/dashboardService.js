@@ -1,5 +1,29 @@
 const { prisma } = require('../models/prisma');
 
+async function getGithubRepositories(userId) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || !user.githubAccessToken) throw new Error('GitHub token not found');
+
+  const res = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', {
+    headers: {
+      Authorization: `Bearer ${user.githubAccessToken}`,
+      Accept: 'application/vnd.github.v3+json',
+    }
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch repositories from GitHub');
+  const repos = await res.json();
+  
+  return repos.map(r => ({
+    id: r.id,
+    name: r.name,
+    fullName: r.full_name,
+    url: r.html_url,
+    language: r.language || 'Unknown',
+  }));
+}
+
+
 async function getStats(userId) {
   const repos = await prisma.repository.findMany({
     where: { ownerId: userId },
@@ -252,4 +276,5 @@ module.exports = {
   rollbackDeployment,
   getSecurityScans,
   getHealthStatus,
+  getGithubRepositories,
 };

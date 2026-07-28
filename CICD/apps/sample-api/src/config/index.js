@@ -9,12 +9,23 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url().default('postgresql://postgres:postgres@localhost:5432/devflow'),
   JWT_SECRET: z.string().min(32).default('devflow-ai-jwt-secret-change-in-production-min32chars'),
   JWT_EXPIRES_IN: z.string().default('15m'),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
   BCRYPT_SALT_ROUNDS: z.coerce.number().default(12),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   CORS_ORIGIN: z.string().default('*'),
+
+  GITHUB_WEBHOOK_SECRET: z.string().min(1).optional(),
+
+  // ─── GitHub OAuth ────────────────────────────────────────────────────────────
+  GITHUB_CLIENT_ID: z.string().optional(),
+  GITHUB_CLIENT_SECRET: z.string().optional(),
+  FRONTEND_URL: z.string().default('http://localhost:5173'),
+
+  // ─── Redis (#6) ────────────────────────────────────────────────────────────
+  // Environment-driven Redis connection instead of hardcoded localhost:16379
+  REDIS_URL: z.string().optional(),
 });
 
 let config;

@@ -8,10 +8,7 @@ const config = {
     '!src/server.js',
     '!src/config/**',
     '!src/models/prisma.js',
-    '!src/workers/**',
-    '!src/services/dashboardService.js',
-    '!src/middlewares/usage.js',
-    '!src/utils/queue.js',
+    // Workers and queue are now tested — no longer excluded
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'text-summary', 'lcov', 'clover'],

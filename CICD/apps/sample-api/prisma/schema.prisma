@@ -7,18 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ─── Auth & Tasks (Track A) ──────────────────────────────────────────────────
+// ─── Auth — GitHub OAuth ─────────────────────────────────────────────────────
 
 model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  password     String
-  name         String
-  tasks        Task[]
-  repositories Repository[]
-  subscription Subscription?
-  createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt @map("updated_at")
+  id                String        @id @default(uuid())
+  email             String        @unique
+  name              String
+  avatarUrl         String?       @map("avatar_url")
+  githubId          Int           @unique @map("github_id")
+  githubUsername     String        @map("github_username")
+  githubAccessToken String        @map("github_access_token")
+  tasks             Task[]
+  repositories      Repository[]
+  subscription      Subscription?
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
   @@map("users")
 }
 
@@ -52,7 +55,7 @@ enum Priority {
   URGENT
 }
 
-// ─── CI/CD Platform (Track B) ────────────────────────────────────────────────
+// ─── CI/CD Platform ──────────────────────────────────────────────────────────
 
 model Repository {
   id          String        @id @default(uuid())
@@ -152,7 +155,7 @@ enum ScanStatus {
   FAILED
 }
 
-// ─── SaaS & Billing (Phase 2) ────────────────────────────────────────────────
+// ─── SaaS & Billing ──────────────────────────────────────────────────────────
 
 model Subscription {
   id               String    @id @default(uuid())

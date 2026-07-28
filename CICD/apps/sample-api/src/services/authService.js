@@ -1,36 +1,31 @@
-const bcrypt = require('bcryptjs');
 const { prisma } = require('../models/prisma');
 const { generateAccessToken, generateRefreshToken, verifyToken } = require('../utils/jwt');
-const { ConflictError, UnauthorizedError } = require('../utils/errors');
-const { config } = require('../config');
+const { UnauthorizedError } = require('../utils/errors');
 
-/**
- * Register a new user.
- * @param {object} data - { email, password, name }
- * @returns {object} { user, accessToken, refreshToken }
- */
-async function register({ email, password, name }) {
-  // Check if user already exists
-  const existingUser = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-  });
-
-  if (existingUser) {
-    throw new ConflictError('A user with this email already exists');
-  }
-
-  // Hash password
-  const hashedPassword = await bcrypt.hash(password, config.BCRYPT_SALT_ROUNDS);
+async function handleGithubCallback(githubUser, githubToken) {
+  const { id: githubId, login: githubUsername, email, name, avatar_url } = githubUser;
 
   const thirtyDaysFromNow = new Date();
   thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
-  // Create user and start free trial
-  const user = await prisma.user.create({
-    data: {
-      email: email.toLowerCase(),
-      password: hashedPassword,
-      name,
+  const userEmail = email || `${githubUsername}@users.noreply.github.com`;
+
+  const user = await prisma.user.upsert({
+    where: { githubId },
+    update: {
+      githubUsername,
+      name: name || githubUsername,
+      email: userEmail,
+      avatarUrl: avatar_url,
+      githubAccessToken: githubToken,
+    },
+    create: {
+      githubId,
+      githubUsername,
+      name: name || githubUsername,
+      email: userEmail,
+      avatarUrl: avatar_url,
+      githubAccessToken: githubToken,
       subscription: {
         create: {
           plan: 'FREE',
@@ -39,44 +34,8 @@ async function register({ email, password, name }) {
         },
       },
     },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      createdAt: true,
-    },
   });
 
-  // Generate tokens
-  const accessToken = generateAccessToken({ id: user.id, email: user.email });
-  const refreshToken = generateRefreshToken({ id: user.id });
-
-  return { user, accessToken, refreshToken };
-}
-
-/**
- * Login an existing user.
- * @param {object} data - { email, password }
- * @returns {object} { user, accessToken, refreshToken }
- */
-async function login({ email, password }) {
-  // Find user
-  const user = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-  });
-
-  if (!user) {
-    throw new UnauthorizedError('Invalid email or password');
-  }
-
-  // Verify password
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-
-  if (!isPasswordValid) {
-    throw new UnauthorizedError('Invalid email or password');
-  }
-
-  // Generate tokens
   const accessToken = generateAccessToken({ id: user.id, email: user.email });
   const refreshToken = generateRefreshToken({ id: user.id });
 
@@ -85,18 +44,14 @@ async function login({ email, password }) {
       id: user.id,
       email: user.email,
       name: user.name,
-      createdAt: user.createdAt,
+      avatarUrl: user.avatarUrl,
+      githubUsername: user.githubUsername,
     },
     accessToken,
     refreshToken,
   };
 }
 
-/**
- * Refresh an access token.
- * @param {string} refreshToken - The refresh token
- * @returns {object} { accessToken }
- */
 async function refreshAccessToken(refreshToken) {
   const decoded = verifyToken(refreshToken);
 
@@ -115,7 +70,6 @@ async function refreshAccessToken(refreshToken) {
 }
 
 module.exports = {
-  register,
-  login,
+  handleGithubCallback,
   refreshAccessToken,
 };

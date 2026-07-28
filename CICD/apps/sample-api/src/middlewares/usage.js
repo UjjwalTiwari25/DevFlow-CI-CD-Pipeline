@@ -6,14 +6,27 @@ const enforceUsageLimits = async (req, res, next) => {
     const userId = req.user.id;
 
     // 1. Fetch user's subscription
-    const sub = await prisma.subscription.findUnique({
+    let sub = await prisma.subscription.findUnique({
       where: { userId },
     });
 
+    // ── Fix #8: Don't silently bypass limits for users without a subscription ──
+    // If no subscription exists (e.g. data migration gap, deleted row), create a
+    // FREE trial instead of letting them through with no limits.
     if (!sub) {
-      // For legacy users without a subscription, let them pass or handle it.
-      // We will assume they are on FREE trial if missing for now.
-      return next();
+      logger.warn(`User ${userId} has no subscription — backfilling FREE trial`);
+
+      const thirtyDaysFromNow = new Date();
+      thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+
+      sub = await prisma.subscription.create({
+        data: {
+          userId,
+          plan: 'FREE',
+          status: 'TRIAL',
+          trialEndsAt: thirtyDaysFromNow,
+        },
+      });
     }
 
     // 2. Check Trial Expiry

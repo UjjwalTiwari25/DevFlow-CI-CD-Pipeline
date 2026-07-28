@@ -1,45 +1,67 @@
 const authService = require('../services/authService');
+const { config } = require('../config');
 
-/**
- * POST /api/auth/register
- */
-async function register(req, res, next) {
+const REFRESH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax',
+  path: '/api/auth/refresh',
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+};
+
+async function githubLogin(req, res) {
+  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${config.GITHUB_CLIENT_ID}&scope=repo,user:email`;
+  res.redirect(redirectUri);
+}
+
+async function githubCallback(req, res, next) {
   try {
-    const result = await authService.register(req.body);
+    const { code } = req.query;
+    if (!code) {
+      return res.redirect(`${config.FRONTEND_URL}/login?error=MissingCode`);
+    }
 
-    res.status(201).json({
-      status: 'success',
-      message: 'User registered successfully',
-      data: result,
+    const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: config.GITHUB_CLIENT_ID,
+        client_secret: config.GITHUB_CLIENT_SECRET,
+        code,
+      }),
     });
+    
+    const tokenData = await tokenRes.json();
+    const accessToken = tokenData.access_token;
+    
+    if (!accessToken) {
+      return res.redirect(`${config.FRONTEND_URL}/login?error=TokenExchangeFailed`);
+    }
+
+    const userRes = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    
+    const userData = await userRes.json();
+
+    const result = await authService.handleGithubCallback(userData, accessToken);
+
+    res.cookie('refreshToken', result.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+    const userStr = encodeURIComponent(JSON.stringify(result.user));
+    res.redirect(`${config.FRONTEND_URL}/login?token=${result.accessToken}&user=${userStr}`);
   } catch (error) {
-    next(error);
+    console.error('GitHub Auth Error:', error.message);
+    res.redirect(`${config.FRONTEND_URL}/login?error=OAuthFailed`);
   }
 }
 
-/**
- * POST /api/auth/login
- */
-async function login(req, res, next) {
-  try {
-    const result = await authService.login(req.body);
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Login successful',
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-}
-
-/**
- * POST /api/auth/refresh
- */
 async function refresh(req, res, next) {
   try {
-    const { refreshToken } = req.body;
+    const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
 
     if (!refreshToken) {
       return res.status(400).json({
@@ -59,4 +81,14 @@ async function refresh(req, res, next) {
   }
 }
 
-module.exports = { register, login, refresh };
+async function logout(req, res) {
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/api/auth/refresh',
+  });
+  res.json({ status: 'success', message: 'Logged out' });
+}
+
+module.exports = { githubLogin, githubCallback, refresh, logout };

@@ -21,6 +21,13 @@ router.get(
     res.json({ status: 'success', data: await ds.getRepositories(req.user.id) });
   })
 );
+
+router.get(
+  '/github/repos',
+  wrap(async (req, res) => {
+    res.json({ status: 'success', data: await ds.getGithubRepositories(req.user.id) });
+  })
+);
 router.post(
   '/repositories',
   enforceUsageLimits,

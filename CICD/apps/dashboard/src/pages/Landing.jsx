@@ -171,7 +171,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="footer-bottom">
-            © 2025 DevFlow AI. All rights reserved.
+            © 2026 DevFlow AI. All rights reserved.
           </div>
         </div>
       </footer>

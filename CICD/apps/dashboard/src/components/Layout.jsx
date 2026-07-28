@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, GitBranch, Rocket, Shield, FolderGit2, Activity, Settings, LogOut, Menu, X, Zap } from 'lucide-react';
-import { clearToken } from '../api/client';
+import { clearToken, logout } from '../api/client';
 
 const links = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -20,7 +20,7 @@ export default function Layout() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('devflow_user') || '{}');
 
-  const handleLogout = () => { clearToken(); navigate('/'); };
+  const handleLogout = async () => { try { await logout(); } catch {} clearToken(); navigate('/'); };
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Layout() {
         </header>
         <main className="page-content"><Outlet /></main>
         <footer className="app-footer">
-          <span>© 2025 DevFlow AI — Built by Saloni Ambatkar</span>
+          <span>© 2026 DevFlow AI — Built by Saloni Ambatkar</span>
           <span>v1.4.2</span>
         </footer>
       </div>

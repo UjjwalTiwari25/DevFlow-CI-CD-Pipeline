@@ -9,10 +9,44 @@ services:
       NODE_ENV: development
       DATABASE_URL: postgresql://postgres:postgres@db:5432/devflow
       JWT_SECRET: devflow-local-development-secret-min-32-characters-long
+      GITHUB_WEBHOOK_SECRET: devflow-local-webhook-secret-change-me
+      REDIS_URL: redis://redis:6379
+      LOG_LEVEL: debug
+      CORS_ORIGIN: http://localhost:5173
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - devflow-network
+
+  # ─── Pipeline Worker (#7) ──────────────────────────────────────────────────
+  # Separate service that processes BullMQ pipeline jobs.
+  # In production, deploy as a Render background worker or ECS task.
+  worker:
+    build:
+      context: ../apps/sample-api
+      dockerfile: Dockerfile.worker
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/devflow
+      REDIS_URL: redis://redis:6379
       LOG_LEVEL: debug
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+    # ── SECURITY NOTE (#3) ────────────────────────────────────────────────────
+    # The Docker socket is mounted here ONLY for local development.
+    # In production, use a sandboxed runner (Firecracker, gVisor, or a managed
+    # CI runner API) instead of docker-in-docker via the host socket.
+    # This volume mount gives root-equivalent host access — never deploy this
+    # on the same node as the API in production.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
       - devflow-network

@@ -1,9 +1,10 @@
 const express = require('express');
 const { handleGithubPush } = require('../controllers/webhookController');
+const { verifyGithubWebhook } = require('../middlewares/webhookAuth');
 
 const router = express.Router();
 
-// Public webhook endpoint for GitHub to hit
-router.post('/github', handleGithubPush);
+// GitHub webhook endpoint — HMAC signature verification runs first
+router.post('/github', verifyGithubWebhook, handleGithubPush);
 
 module.exports = router;

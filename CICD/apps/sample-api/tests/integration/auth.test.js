@@ -58,7 +58,10 @@ describe('Auth Endpoints', () => {
       expect(res.body.status).toBe('success');
       expect(res.body.data.user).toBeDefined();
       expect(res.body.data.accessToken).toBeDefined();
-      expect(res.body.data.refreshToken).toBeDefined();
+      // Refresh token is now in an httpOnly cookie, not the JSON body
+      const cookies = res.headers['set-cookie'];
+      expect(cookies).toBeDefined();
+      expect(cookies.some(c => c.startsWith('refreshToken='))).toBe(true);
     });
 
     it('should reject duplicate email', async () => {
@@ -118,7 +121,10 @@ describe('Auth Endpoints', () => {
       expect(res.status).toBe(200);
       expect(res.body.status).toBe('success');
       expect(res.body.data.accessToken).toBeDefined();
-      expect(res.body.data.refreshToken).toBeDefined();
+      // Refresh token is now in an httpOnly cookie, not the JSON body
+      const cookies = res.headers['set-cookie'];
+      expect(cookies).toBeDefined();
+      expect(cookies.some(c => c.startsWith('refreshToken='))).toBe(true);
     });
 
     it('should reject invalid password', async () => {

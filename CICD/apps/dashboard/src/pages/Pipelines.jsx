@@ -12,13 +12,17 @@ export default function Pipelines() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const load = (page = 1) => {
-    setLoading(true);
+  const load = (page = 1, silently = false) => {
+    if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 15, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
-    getPipelines(q.toString()).then((r) => setData(r.data)).finally(() => setLoading(false));
+    getPipelines(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 
-  useEffect(() => { load(); }, [filter]);
+  useEffect(() => { 
+    load(); 
+    const interval = setInterval(() => load(data.pagination.page || 1, true), 5000);
+    return () => clearInterval(interval);
+  }, [filter, data.pagination.page]);
 
   const handleRerun = async (e, id) => {
     e.stopPropagation();

@@ -12,7 +12,12 @@ export default function PipelineDetail() {
   const [p, setP] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => { getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); }, [id]);
+  const load = () => { getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); };
+  useEffect(() => { 
+    load();
+    const interval = setInterval(() => load(), 5000);
+    return () => clearInterval(interval);
+  }, [id]);
 
   if (!p) return <div className="page-loading">Loading...</div>;
 

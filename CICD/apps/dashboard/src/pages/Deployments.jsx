@@ -8,13 +8,18 @@ export default function Deployments() {
   const [filter, setFilter] = useState({ status: '', environment: '' });
   const [loading, setLoading] = useState(true);
 
-  const load = (page = 1) => {
-    setLoading(true);
+  const load = (page = 1, silently = false) => {
+    if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 15, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
-    getDeployments(q.toString()).then((r) => setData(r.data)).finally(() => setLoading(false));
+    getDeployments(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 
-  useEffect(() => { load(); getRepos().then((r) => setRepos(r.data)); }, [filter]);
+  useEffect(() => { 
+    load(); 
+    getRepos().then((r) => setRepos(r.data)); 
+    const interval = setInterval(() => load(data.pagination.page || 1, true), 5000);
+    return () => clearInterval(interval);
+  }, [filter, data.pagination.page]);
 
   const handleDeploy = async (repoId) => { await triggerDeploy(repoId); load(); };
   const handleRollback = async (e, id) => { e.stopPropagation(); await rollbackDeploy(id); load(); };

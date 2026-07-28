@@ -13,14 +13,21 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const load = (silently = false) => {
+    if (!silently) setLoading(true);
     Promise.all([
       getStats().then((r) => setStats(r.data)),
       getPipelines('limit=5').then((r) => setPipelines(r.data.pipelines)),
       getDeployments('limit=5').then((r) => setDeploys(r.data.deployments)),
     ]).catch((err) => {
       setError(err.message || 'Failed to load dashboard data. Please try again.');
-    }).finally(() => setLoading(false));
+    }).finally(() => { if (!silently) setLoading(false); });
+  };
+
+  useEffect(() => {
+    load();
+    const interval = setInterval(() => load(true), 5000);
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <div className="page-loading">Loading dashboard...</div>;

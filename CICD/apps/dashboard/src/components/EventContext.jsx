@@ -15,8 +15,11 @@ export function EventProvider({ children }) {
     let reconnectTimer;
 
     const connect = () => {
+      const currentToken = getToken();
+      if (!currentToken) return;
+
       // Pass token in URL for SSE since EventSource doesn't support custom headers natively in browsers
-      eventSource = new EventSource(`${API_BASE}/api/dashboard/events?token=${token}`, {
+      eventSource = new EventSource(`${API_BASE}/api/dashboard/events?token=${currentToken}`, {
         withCredentials: true
       });
 

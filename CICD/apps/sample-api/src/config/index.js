@@ -8,7 +8,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
   DATABASE_URL: z.string().url().default('postgresql://postgres:postgres@localhost:5432/devflow'),
   JWT_SECRET: z.string().min(32).default('devflow-ai-jwt-secret-change-in-production-min32chars'),
-  JWT_EXPIRES_IN: z.string().default('15m'),
+  JWT_EXPIRES_IN: z.string().default('30d'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
   BCRYPT_SALT_ROUNDS: z.coerce.number().default(12),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),

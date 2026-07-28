@@ -3,6 +3,7 @@ const { config } = require('./config');
 const { logger } = require('./utils/logger');
 const { disconnectDB } = require('./models/prisma');
 require('./workers/pipelineWorker');
+require('./workers/deploymentWorker');
 
 const server = app.listen(config.PORT, () => {
   logger.info(

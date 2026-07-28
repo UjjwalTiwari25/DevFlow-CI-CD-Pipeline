@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, GitBranch, RefreshCw, CheckCircle2, XCircle, Clock, FileText, Copy } from 'lucide-react';
+import { ArrowLeft, GitBranch, RefreshCw, CheckCircle2, XCircle, Clock, FileText, Copy, AlertTriangle } from 'lucide-react';
 import { getPipeline, rerunPipeline, getPipelineLogs } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
 import { useToast } from '../components/ToastContext';
@@ -91,6 +91,42 @@ export default function PipelineDetail() {
           </div>
         </div>
       </div>
+
+      {logs.some(l => l.status === 'FAILED') && (
+        <div className="panel" style={{ marginTop: 20, border: '1px solid #ef4444', background: 'rgba(239,68,68,0.05)' }}>
+          <div className="panel-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#ef4444' }}>
+            <span><AlertTriangle size={18} style={{ display: 'inline', marginRight: 8, verticalAlign: 'middle' }}/> Actionable Failure</span>
+          </div>
+          {logs.filter(l => l.status === 'FAILED').map(log => (
+            <div key={log.name} style={{ marginTop: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ fontWeight: 'bold' }}>Step: {log.name}</div>
+                <button 
+                  className="btn sm" 
+                  style={{ padding: '2px 8px', fontSize: '12px', border: '1px solid rgba(239,68,68,0.5)', color: '#ef4444', background: 'transparent' }}
+                  onClick={() => navigator.clipboard.writeText(log.logChunk || '')}
+                >
+                  <Copy size={12} style={{ marginRight: 4 }} /> Copy error
+                </button>
+              </div>
+              <div style={{
+                background: '#111827', 
+                color: '#fca5a5',
+                padding: '16px',
+                borderRadius: '6px',
+                maxHeight: '300px',
+                overflowY: 'auto',
+                fontFamily: 'monospace',
+                whiteSpace: 'pre-wrap',
+                fontSize: '13px',
+                borderLeft: '4px solid #ef4444'
+              }}>
+                {log.logChunk || 'No error output available.'}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {logs.length > 0 && (
         <div className="panel" style={{ marginTop: 20 }}>

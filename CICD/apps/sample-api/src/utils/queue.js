@@ -37,7 +37,18 @@ const pipelineQueue = new Queue('pipeline-queue', {
   }
 });
 
+const deploymentQueue = new Queue('deployment-queue', { 
+  connection,
+  defaultJobOptions: {
+    attempts: 3,
+    backoff: { type: 'exponential', delay: 2000 },
+    removeOnComplete: true,
+    removeOnFail: false
+  }
+});
+
 module.exports = {
   pipelineQueue,
+  deploymentQueue,
   connection,
 };

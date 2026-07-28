@@ -21,6 +21,17 @@ export default function Layout() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('devflow_user') || '{}');
 
+  const match = location.pathname.match(/^\/dashboard\/repos\/([^/]+)/);
+  const activeRepoId = match ? match[1] : null;
+
+  const repoLinks = [
+    { to: `/dashboard/repos/${activeRepoId}/pipelines`, icon: GitBranch, label: 'Pipelines' },
+    { to: `/dashboard/repos/${activeRepoId}/deployments`, icon: Rocket, label: 'Deployments' },
+    { to: `/dashboard/repos/${activeRepoId}/security`, icon: Shield, label: 'Security' },
+  ];
+
+  const currentLinks = activeRepoId ? repoLinks : links;
+
   const handleLogout = async () => { try { await logout(); } catch {} clearToken(); navigate('/'); };
 
   // Close mobile sidebar on route change
@@ -42,7 +53,18 @@ export default function Layout() {
           </button>
         </div>
         <nav className="sidebar-nav">
-          {links.map((l) => (
+          {activeRepoId && (
+            <NavLink to="/dashboard/repositories" className="sidebar-link" end style={{ marginBottom: 16, opacity: 0.8 }}>
+              <FolderGit2 size={20} />
+              {!collapsed && <span>← All Repositories</span>}
+            </NavLink>
+          )}
+          {activeRepoId && !collapsed && (
+            <div style={{ padding: '0 16px 8px', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, color: 'var(--text-secondary)' }}>
+              Repository Context
+            </div>
+          )}
+          {currentLinks.map((l) => (
             <NavLink key={l.to} to={l.to} end={l.to === '/dashboard'} className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
               <l.icon size={20} />
               {!collapsed && <span>{l.label}</span>}

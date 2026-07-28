@@ -36,6 +36,7 @@ async function verifyGithubWebhook(req, res, next) {
   try {
     payload = JSON.parse(rawBody.toString('utf8'));
   } catch (e) {
+    logger.error('Error parsing JSON payload', { error: e.message });
     return res.status(400).json({ error: 'Invalid JSON payload' });
   }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Shield, RefreshCw, Filter, AlertTriangle } from 'lucide-react';
 import { getSecurityScans } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
@@ -8,9 +9,11 @@ export default function Security() {
   const [filter, setFilter] = useState({ status: '', scanType: '' });
   const [loading, setLoading] = useState(true);
 
+  const { repoId } = useParams();
   const load = (page = 1, silently = false) => {
     if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 20, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
+    if (repoId) q.append('repoId', repoId);
     getSecurityScans(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 

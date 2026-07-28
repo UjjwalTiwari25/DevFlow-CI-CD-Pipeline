@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Rocket, RefreshCw, RotateCcw, Filter } from 'lucide-react';
 import { getDeployments, triggerDeploy, rollbackDeploy, getRepos } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
@@ -12,9 +13,11 @@ export default function Deployments() {
   const [actionLoading, setActionLoading] = useState(null);
   const { addToast } = useToast();
 
+  const { repoId } = useParams();
   const load = (page = 1, silently = false) => {
     if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 15, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
+    if (repoId) q.append('repoId', repoId);
     getDeployments(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 

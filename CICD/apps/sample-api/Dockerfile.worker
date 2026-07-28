@@ -24,6 +24,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Install git
+RUN apk add --no-cache git
+
 # Copy built artifacts from builder
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./

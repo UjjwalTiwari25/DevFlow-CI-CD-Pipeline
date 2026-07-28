@@ -1,5 +1,5 @@
 const { prisma } = require('../models/prisma');
-const { pipelineQueue } = require('../utils/queue');
+const { pipelineQueue, deploymentQueue } = require('../utils/queue');
 const crypto = require('crypto');
 
 async function getGithubRepositories(userId) {
@@ -144,8 +144,14 @@ async function getPipelines(userId, query = {}) {
     select: { id: true },
   });
   const repoIds = repos.map((r) => r.id);
-  const { status, branch, page = 1, limit = 20 } = query;
+  const { status, branch, page = 1, limit = 20, repoId } = query;
   const where = { repoId: { in: repoIds } };
+  
+  if (repoId) {
+    if (!repoIds.includes(repoId)) throw new Error('Repository not found or access denied');
+    where.repoId = repoId;
+  }
+
   if (status) where.status = status;
   if (branch) where.branch = { contains: branch, mode: 'insensitive' };
 
@@ -221,8 +227,14 @@ async function getDeployments(userId, query = {}) {
     select: { id: true },
   });
   const repoIds = repos.map((r) => r.id);
-  const { status, environment, page = 1, limit = 20 } = query;
+  const { status, environment, page = 1, limit = 20, repoId } = query;
   const where = { repoId: { in: repoIds } };
+  
+  if (repoId) {
+    if (!repoIds.includes(repoId)) throw new Error('Repository not found or access denied');
+    where.repoId = repoId;
+  }
+
   if (status) where.status = status;
   if (environment) where.environment = environment;
 
@@ -264,20 +276,56 @@ async function triggerDeployment(repoId) {
   const parts = (lastDeploy?.version || 'v1.0.0').replace('v', '').split('.').map(Number);
   parts[2]++;
   const version = `v${parts.join('.')}`;
-  return prisma.deployment.create({
+  const deployment = await prisma.deployment.create({
     data: {
       version,
       commitSha: lastPipeline.commitSha,
       environment: 'production',
-      status: 'DEPLOYING',
+      status: 'QUEUED',
       triggeredBy: 'manual',
       repoId,
     },
   });
+
+  await deploymentQueue.add('run-deployment', {
+    deploymentId: deployment.id,
+    repoUrl: repo.url,
+    commitSha: lastPipeline.commitSha,
+  });
+
+  return deployment;
 }
 
 async function rollbackDeployment(deploymentId) {
-  return prisma.deployment.update({ where: { id: deploymentId }, data: { status: 'ROLLED_BACK' } });
+  const currentDeploy = await prisma.deployment.findUnique({ where: { id: deploymentId }});
+  if (!currentDeploy) throw new Error('Deployment not found');
+
+  const prevDeploy = await prisma.deployment.findFirst({
+    where: { repoId: currentDeploy.repoId, status: 'LIVE', id: { not: deploymentId } },
+    orderBy: { createdAt: 'desc' }
+  });
+  if (!prevDeploy) throw new Error('No previous successful deployment found');
+  
+  const repo = await prisma.repository.findUnique({ where: { id: currentDeploy.repoId }});
+
+  const rollback = await prisma.deployment.create({
+    data: {
+      version: `${currentDeploy.version}-rollback`,
+      commitSha: prevDeploy.commitSha,
+      environment: 'production',
+      status: 'QUEUED',
+      triggeredBy: 'rollback',
+      repoId: currentDeploy.repoId,
+    }
+  });
+
+  await deploymentQueue.add('run-deployment', {
+    deploymentId: rollback.id,
+    repoUrl: repo.url,
+    commitSha: prevDeploy.commitSha,
+  });
+
+  return rollback;
 }
 
 async function getSecurityScans(userId, query = {}) {
@@ -286,8 +334,14 @@ async function getSecurityScans(userId, query = {}) {
     select: { id: true },
   });
   const repoIds = repos.map((r) => r.id);
-  const { status, scanType, page = 1, limit = 20 } = query;
+  const { status, scanType, page = 1, limit = 20, repoId } = query;
   const where = { repoId: { in: repoIds } };
+  
+  if (repoId) {
+    if (!repoIds.includes(repoId)) throw new Error('Repository not found or access denied');
+    where.repoId = repoId;
+  }
+
   if (status) where.status = status;
   if (scanType) where.scanType = scanType;
 

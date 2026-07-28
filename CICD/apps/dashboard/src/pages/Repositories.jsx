@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FolderGit2, Plus, Trash2, ExternalLink, RefreshCw } from 'lucide-react';
 
 const GithubIcon = ({ size = 14 }) => (
@@ -12,6 +13,7 @@ import { useToast } from '../components/ToastContext';
 export default function Repositories() {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [githubRepos, setGithubRepos] = useState([]);
   const [loadingGithub, setLoadingGithub] = useState(false);
@@ -128,13 +130,13 @@ export default function Repositories() {
       {loading ? <div className="page-loading">Loading...</div> : (
         <div className="repo-grid">
           {repos.map((r) => (
-            <div className="repo-card" key={r.id}>
+            <div className="repo-card" key={r.id} onClick={() => navigate(`/dashboard/repos/${r.id}/pipelines`)} style={{ cursor: 'pointer' }}>
               <div className="repo-header">
                 <div className="repo-icon"><FolderGit2 size={20} /></div>
                 <div className="repo-actions">
-                  {r.lastWebhookReceivedAt && <span title={`Last Webhook: ${new Date(r.lastWebhookReceivedAt).toLocaleString()}`} style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#10b981', marginRight: 8 }} />}
-                  <a href={r.url} target="_blank" rel="noreferrer" className="btn sm"><ExternalLink size={12} /></a>
-                  <button className="btn sm danger" disabled={deletingId === r.id} onClick={() => handleDelete(r.id)}><Trash2 size={12} className={deletingId === r.id ? 'spin' : ''} /></button>
+                  {r.lastWebhookReceivedAt && <span title={`Last Webhook: ${new Date(r.lastWebhookReceivedAt).toLocaleString()}`} style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', marginRight: 8, background: '#10b981' }} />}
+                  <a href={r.url} target="_blank" rel="noreferrer" className="btn sm" onClick={(e) => e.stopPropagation()}><ExternalLink size={12} /></a>
+                  <button className="btn sm danger" disabled={deletingId === r.id} onClick={(e) => { e.stopPropagation(); handleDelete(r.id); }}><Trash2 size={12} className={deletingId === r.id ? 'spin' : ''} /></button>
                 </div>
               </div>
               <h3 className="repo-name">{r.name}</h3>

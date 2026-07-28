@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GitBranch, RefreshCw, Filter } from 'lucide-react';
 import { getPipelines, rerunPipeline } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
@@ -16,9 +16,11 @@ export default function Pipelines() {
   const navigate = useNavigate();
   const { addToast } = useToast();
 
+  const { repoId } = useParams();
   const load = (page = 1, silently = false) => {
     if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 15, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
+    if (repoId) q.append('repoId', repoId);
     getPipelines(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 

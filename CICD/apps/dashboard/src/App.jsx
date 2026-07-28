@@ -36,6 +36,11 @@ export default function App() {
           <Route path="repositories" element={<Repositories />} />
           <Route path="health" element={<Health />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="repos/:repoId">
+            <Route path="pipelines" element={<Pipelines />} />
+            <Route path="deployments" element={<Deployments />} />
+            <Route path="security" element={<Security />} />
+          </Route>
         </Route>
         </Routes>
       </ToastProvider>

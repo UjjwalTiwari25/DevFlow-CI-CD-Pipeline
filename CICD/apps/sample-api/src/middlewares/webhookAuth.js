@@ -46,6 +46,7 @@ async function verifyGithubWebhook(req, res, next) {
 
   const repo = await prisma.repository.findFirst({
     where: { fullName: repoFullName, isActive: true },
+    include: { owner: true },
   });
 
   if (!repo) {

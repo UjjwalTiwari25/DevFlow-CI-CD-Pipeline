@@ -54,13 +54,13 @@ app.use(globalLimiter);
 // verification middleware (#2) can compute the signature over the original bytes.
 app.use(
   express.json({
-    limit: '10kb',
+    limit: '2mb',
     verify: (req, _res, buf) => {
       req.rawBody = buf;
     },
   })
 );
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/health', healthRoutes);

@@ -4,6 +4,7 @@ const { logger } = require('../utils/logger');
 const prisma = new PrismaClient();
 
 const { pipelineQueue } = require('../utils/queue');
+const { reportCommitStatus } = require('../utils/github');
 
 const handleGithubPush = async (req, res, next) => {
   try {
@@ -58,6 +59,19 @@ const handleGithubPush = async (req, res, next) => {
       repoUrl: repo.url,
       commitSha: headCommit.id,
     });
+
+    // 4. Report Commit Status to GitHub
+    if (repo.owner?.githubAccessToken) {
+      const targetUrl = `${config.FRONTEND_URL}/dashboard/pipelines/${pipelineRun.id}`;
+      await reportCommitStatus(
+        repo.owner.githubAccessToken,
+        repoFullName,
+        headCommit.id,
+        'pending',
+        'Pipeline queued for execution',
+        targetUrl
+      );
+    }
 
     logger.info(`Pipeline ${pipelineRun.id} added to BullMQ for execution`);
 

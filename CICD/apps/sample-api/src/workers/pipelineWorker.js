@@ -9,6 +9,8 @@ const path = require('path');
 const prisma = new PrismaClient();
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 const { publishEvent } = require('../utils/pubsub');
+const { reportCommitStatus } = require('../utils/github');
+const { config } = require('../config');
 
 // ─── Input Validation ────────────────────────────────────────────────────────
 const COMMIT_SHA_REGEX = /^[a-f0-9]{40}$/;
@@ -34,7 +36,7 @@ const pipelineWorker = new Worker(
 
       const pipelineRun = await prisma.pipelineRun.findUnique({
         where: { id: pipelineId },
-        include: { repository: true }
+        include: { repository: { include: { owner: true } } }
       });
       const userId = pipelineRun.repository.ownerId;
 
@@ -43,6 +45,17 @@ const pipelineWorker = new Worker(
         data: { status: 'RUNNING' },
       });
       publishEvent(userId, 'pipeline_updated', { pipelineId });
+      
+      if (pipelineRun.repository.owner?.githubAccessToken) {
+        await reportCommitStatus(
+          pipelineRun.repository.owner.githubAccessToken,
+          pipelineRun.repository.fullName,
+          commitSha,
+          'pending',
+          'Pipeline is currently running',
+          `${config.FRONTEND_URL}/dashboard/pipelines/${pipelineId}`
+        );
+      }
 
       const setupStep = await prisma.pipelineStep.create({
         data: {
@@ -169,6 +182,17 @@ const pipelineWorker = new Worker(
       });
       publishEvent(userId, 'pipeline_updated', { pipelineId });
 
+      if (pipelineRun.repository.owner?.githubAccessToken) {
+        await reportCommitStatus(
+          pipelineRun.repository.owner.githubAccessToken,
+          pipelineRun.repository.fullName,
+          commitSha,
+          buildPassed ? 'success' : 'failure',
+          buildPassed ? 'Pipeline completed successfully' : 'Pipeline failed',
+          `${config.FRONTEND_URL}/dashboard/pipelines/${pipelineId}`
+        );
+      }
+
       logger.info(
         `Pipeline ${pipelineId} finished inside Docker with status ${buildPassed ? 'SUCCESS' : 'FAILED'}`
       );
@@ -184,8 +208,20 @@ const pipelineWorker = new Worker(
         },
       });
       
-      const p = await prisma.pipelineRun.findUnique({ where: { id: pipelineId }, include: { repository: true } });
-      if (p) publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId });
+      const p = await prisma.pipelineRun.findUnique({ where: { id: pipelineId }, include: { repository: { include: { owner: true } } } });
+      if (p) {
+        publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId });
+        if (p.repository.owner?.githubAccessToken) {
+          await reportCommitStatus(
+            p.repository.owner.githubAccessToken,
+            p.repository.fullName,
+            commitSha,
+            'error',
+            'Pipeline crashed',
+            `${config.FRONTEND_URL}/dashboard/pipelines/${pipelineId}`
+          );
+        }
+      }
     }
   },
   { 

@@ -21,7 +21,7 @@ const envSchema = z.object({
   // ─── GitHub OAuth ────────────────────────────────────────────────────────────
   GITHUB_CLIENT_ID: z.string().optional(),
   GITHUB_CLIENT_SECRET: z.string().optional(),
-  FRONTEND_URL: z.string().default('http://localhost:5173'),
+  FRONTEND_URL: z.string().default('https://cicd-two-smoky.vercel.app'),
 
   // ─── Redis (#6) ────────────────────────────────────────────────────────────
   // Environment-driven Redis connection instead of hardcoded localhost:16379

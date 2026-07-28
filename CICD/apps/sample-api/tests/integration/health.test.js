@@ -1,3 +1,7 @@
+jest.mock('@prisma/client', () => ({
+  PrismaClient: jest.fn().mockImplementation(() => ({}))
+}));
+
 const request = require('supertest');
 const app = require('../../src/app');
 

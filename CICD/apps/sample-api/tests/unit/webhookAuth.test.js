@@ -20,6 +20,18 @@ jest.mock('../../src/utils/logger', () => ({
   },
 }));
 
+// Mock PrismaClient
+jest.mock('@prisma/client', () => {
+  return {
+    PrismaClient: class {
+      repository = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'repo1', webhookSecret: 'test-webhook-secret-for-hmac-verification' }),
+        update: jest.fn().mockResolvedValue({})
+      }
+    }
+  };
+});
+
 const { verifyGithubWebhook } = require('../../src/middlewares/webhookAuth');
 
 function createMockReqResNext() {
@@ -41,24 +53,24 @@ function signPayload(body, secret) {
 
 describe('verifyGithubWebhook', () => {
   const SECRET = 'test-webhook-secret-for-hmac-verification';
-  const PAYLOAD = JSON.stringify({ action: 'push', ref: 'refs/heads/main' });
+  const PAYLOAD = JSON.stringify({ action: 'push', ref: 'refs/heads/main', repository: { full_name: 'user/repo' } });
 
-  it('should call next() when signature is valid', () => {
+  it('should call next() when signature is valid', async () => {
     const { req, res, next } = createMockReqResNext();
     req.rawBody = Buffer.from(PAYLOAD);
     req.headers['x-hub-signature-256'] = signPayload(req.rawBody, SECRET);
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(res.status).not.toHaveBeenCalled();
   });
 
-  it('should reject when no signature header is present', () => {
+  it('should reject when no signature header is present', async () => {
     const { req, res, next } = createMockReqResNext();
     req.rawBody = Buffer.from(PAYLOAD);
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith(
@@ -67,12 +79,12 @@ describe('verifyGithubWebhook', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('should reject when signature is invalid (tampered payload)', () => {
+  it('should reject when signature is invalid (tampered payload)', async () => {
     const { req, res, next } = createMockReqResNext();
     req.rawBody = Buffer.from(PAYLOAD);
     req.headers['x-hub-signature-256'] = signPayload(Buffer.from('tampered'), SECRET);
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith(
@@ -81,22 +93,22 @@ describe('verifyGithubWebhook', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('should reject when signature uses wrong secret', () => {
+  it('should reject when signature uses wrong secret', async () => {
     const { req, res, next } = createMockReqResNext();
     req.rawBody = Buffer.from(PAYLOAD);
     req.headers['x-hub-signature-256'] = signPayload(req.rawBody, 'wrong-secret');
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('should reject when rawBody is missing', () => {
+  it('should reject when rawBody is missing', async () => {
     const { req, res, next } = createMockReqResNext();
     req.headers['x-hub-signature-256'] = 'sha256=abc123';
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith(
@@ -105,7 +117,7 @@ describe('verifyGithubWebhook', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('should return 500 when GITHUB_WEBHOOK_SECRET is not configured', () => {
+  it('should return 500 when GITHUB_WEBHOOK_SECRET is not configured', async () => {
     // Override the config for this test
     const configModule = require('../../src/config');
     const originalSecret = configModule.config.GITHUB_WEBHOOK_SECRET;
@@ -115,7 +127,7 @@ describe('verifyGithubWebhook', () => {
     req.rawBody = Buffer.from(PAYLOAD);
     req.headers['x-hub-signature-256'] = signPayload(req.rawBody, SECRET);
 
-    verifyGithubWebhook(req, res, next);
+    await verifyGithubWebhook(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(next).not.toHaveBeenCalled();

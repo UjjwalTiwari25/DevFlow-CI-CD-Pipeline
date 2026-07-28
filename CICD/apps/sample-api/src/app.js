@@ -19,7 +19,7 @@ app.use(helmet());
 // ─── CORS — explicit origin allowlist in production (#9) ──────────────────────
 const corsOrigin =
   config.NODE_ENV === 'production'
-    ? config.CORS_ORIGIN.split(',').map((o) => o.trim())
+    ? (config.CORS_ORIGIN === '*' ? config.FRONTEND_URL : config.CORS_ORIGIN).split(',').map((o) => o.trim())
     : config.CORS_ORIGIN;
 
 app.use(

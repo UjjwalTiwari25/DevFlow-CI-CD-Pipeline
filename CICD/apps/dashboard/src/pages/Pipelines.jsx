@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { GitBranch, RefreshCw, Filter } from 'lucide-react';
 import { getPipelines, rerunPipeline } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
+import { useToast } from '../components/ToastContext';
 
 function formatDuration(s) { return s ? `${Math.floor(s / 60)}m ${s % 60}s` : '—'; }
 function timeAgo(d) { const s = Math.floor((Date.now() - new Date(d)) / 1000); if (s < 60) return `${s}s ago`; if (s < 3600) return `${Math.floor(s / 60)}m ago`; if (s < 86400) return `${Math.floor(s / 3600)}h ago`; return `${Math.floor(s / 86400)}d ago`; }
@@ -11,7 +12,9 @@ export default function Pipelines() {
   const [data, setData] = useState({ pipelines: [], pagination: {} });
   const [filter, setFilter] = useState({ status: '', branch: '' });
   const [loading, setLoading] = useState(true);
+  const [rerunningId, setRerunningId] = useState(null);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const load = (page = 1, silently = false) => {
     if (!silently) setLoading(true);
@@ -31,8 +34,17 @@ export default function Pipelines() {
 
   const handleRerun = async (e, id) => {
     e.stopPropagation();
-    await rerunPipeline(id);
-    load();
+    if (rerunningId) return;
+    setRerunningId(id);
+    try {
+      await rerunPipeline(id);
+      addToast('Pipeline queued for re-run', 'success');
+      load();
+    } catch (err) {
+      addToast(err.message || 'Failed to re-run pipeline', 'error');
+    } finally {
+      setRerunningId(null);
+    }
   };
 
   return (
@@ -62,7 +74,7 @@ export default function Pipelines() {
                 <div><span className="branch-badge"><GitBranch size={12} /> {p.branch}</span></div>
                 <div><span className={`status-badge ${p.status.toLowerCase()}`}><span className="dot" />{p.status}</span></div>
                 <div className="cell-mono">{formatDuration(p.duration)}</div>
-                <div><button className="btn sm" onClick={(e) => handleRerun(e, p.id)}><RefreshCw size={12} /> Re-run</button></div>
+                <div><button className="btn sm" disabled={rerunningId === p.id} onClick={(e) => handleRerun(e, p.id)}><RefreshCw size={12} className={rerunningId === p.id ? 'spin' : ''} /> {rerunningId === p.id ? 'Queuing...' : 'Re-run'}</button></div>
               </div>
             ))}
           </div>

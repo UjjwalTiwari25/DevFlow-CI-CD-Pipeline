@@ -7,6 +7,7 @@ const GithubIcon = ({ size = 14 }) => (
   </svg>
 );
 import { getRepos, getGithubRepos, createRepo, deleteRepo } from '../api/client';
+import { useToast } from '../components/ToastContext';
 
 export default function Repositories() {
   const [repos, setRepos] = useState([]);
@@ -16,6 +17,9 @@ export default function Repositories() {
   const [loadingGithub, setLoadingGithub] = useState(false);
   const [form, setForm] = useState(null);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const { addToast } = useToast();
 
   const load = () => { setLoading(true); setError(null); getRepos().then((r) => setRepos(r.data)).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
@@ -41,19 +45,36 @@ export default function Repositories() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    if (!form) return;
+    if (!form || actionLoading) return;
+    setActionLoading(true);
     setError(null);
     try {
       await createRepo(form);
+      addToast('Repository connected successfully', 'success');
       setForm(null);
       setShowForm(false);
       load();
     } catch (err) {
-      setError(err.message || 'Failed to create repository');
+      setError(err.message || 'Failed to connect repository');
+      addToast('Failed to connect repository', 'error');
+    } finally {
+      setActionLoading(false);
     }
   };
 
-  const handleDelete = async (id) => { await deleteRepo(id); load(); };
+  const handleDelete = async (id) => { 
+    if (deletingId) return;
+    setDeletingId(id);
+    try {
+      await deleteRepo(id); 
+      addToast('Repository deleted', 'success');
+      load(); 
+    } catch (err) {
+      addToast('Failed to delete repository', 'error');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <div className="page">
@@ -93,8 +114,9 @@ export default function Repositories() {
                       <option key={r.fullName} value={r.fullName}>{r.fullName}</option>
                     ))}
                   </select>
-                  <button type="submit" className="btn btn-primary" disabled={!form} style={{ padding: '12px 24px', height: '45px' }}>
-                    <Plus size={16} /> Connect Repo
+                  <button type="submit" className="btn btn-primary" disabled={!form || actionLoading} style={{ padding: '12px 24px', height: '45px' }}>
+                    {actionLoading ? <RefreshCw size={16} className="spin" /> : <Plus size={16} />} 
+                    {actionLoading ? 'Connecting...' : 'Connect Repo'}
                   </button>
                 </div>
               </div>
@@ -110,8 +132,9 @@ export default function Repositories() {
               <div className="repo-header">
                 <div className="repo-icon"><FolderGit2 size={20} /></div>
                 <div className="repo-actions">
+                  {r.lastWebhookReceivedAt && <span title={`Last Webhook: ${new Date(r.lastWebhookReceivedAt).toLocaleString()}`} style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#10b981', marginRight: 8 }} />}
                   <a href={r.url} target="_blank" rel="noreferrer" className="btn sm"><ExternalLink size={12} /></a>
-                  <button className="btn sm danger" onClick={() => handleDelete(r.id)}><Trash2 size={12} /></button>
+                  <button className="btn sm danger" disabled={deletingId === r.id} onClick={() => handleDelete(r.id)}><Trash2 size={12} className={deletingId === r.id ? 'spin' : ''} /></button>
                 </div>
               </div>
               <h3 className="repo-name">{r.name}</h3>

@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
 import { Rocket, RefreshCw, RotateCcw, Filter } from 'lucide-react';
 import { getDeployments, triggerDeploy, rollbackDeploy, getRepos } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
+import { useToast } from '../components/ToastContext';
 
 export default function Deployments() {
   const [data, setData] = useState({ deployments: [], pagination: {} });
   const [repos, setRepos] = useState([]);
   const [filter, setFilter] = useState({ status: '', environment: '' });
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(null);
+  const { addToast } = useToast();
 
   const load = (page = 1, silently = false) => {
     if (!silently) setLoading(true);
@@ -26,8 +28,34 @@ export default function Deployments() {
     if (lastEvent) load(data.pagination.page || 1, true);
   }, [lastEvent]);
 
-  const handleDeploy = async (repoId) => { await triggerDeploy(repoId); load(); };
-  const handleRollback = async (e, id) => { e.stopPropagation(); await rollbackDeploy(id); load(); };
+  const handleDeploy = async (repoId) => {
+    if (actionLoading) return;
+    setActionLoading('deploy');
+    try {
+      await triggerDeploy(repoId);
+      addToast('Deployment triggered successfully', 'success');
+      load();
+    } catch (err) {
+      addToast(err.message || 'Failed to trigger deployment', 'error');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRollback = async (e, id) => {
+    e.stopPropagation();
+    if (actionLoading) return;
+    setActionLoading(id);
+    try {
+      await rollbackDeploy(id);
+      addToast('Rollback initiated', 'success');
+      load();
+    } catch (err) {
+      addToast(err.message || 'Failed to rollback deployment', 'error');
+    } finally {
+      setActionLoading(null);
+    }
+  };
 
   const statusColors = { LIVE: 'success', DEPLOYING: 'running', FAILED: 'failed', ROLLED_BACK: 'queued', PENDING: 'queued' };
 
@@ -36,7 +64,7 @@ export default function Deployments() {
       <div className="page-header">
         <div><h1>Deployments</h1><p className="subtitle">{data.pagination.total || 0} total deployments</p></div>
         <div style={{ display: 'flex', gap: 8 }}>
-          {repos[0] && <button className="btn btn-primary" onClick={() => handleDeploy(repos[0].id)}><Rocket size={14} /> Deploy Now</button>}
+          {repos[0] && <button className="btn btn-primary" disabled={actionLoading === 'deploy'} onClick={() => handleDeploy(repos[0].id)}><Rocket size={14} className={actionLoading === 'deploy' ? 'spin' : ''} /> Deploy Now</button>}
           <button className="btn" onClick={() => load()}><RefreshCw size={14} /> Refresh</button>
         </div>
       </div>
@@ -61,7 +89,7 @@ export default function Deployments() {
                 <div><span className={`status-badge ${statusColors[d.status]}`}><span className="dot" />{d.status}</span></div>
                 <div className="cell-sub">{d.triggeredBy} · {new Date(d.createdAt).toLocaleString()}</div>
                 <div>
-                  {d.status === 'LIVE' && <button className="btn sm danger" onClick={(e) => handleRollback(e, d.id)}><RotateCcw size={12} /> Rollback</button>}
+                  {d.status === 'LIVE' && <button className="btn sm danger" disabled={actionLoading === d.id} onClick={(e) => handleRollback(e, d.id)}><RotateCcw size={12} className={actionLoading === d.id ? 'spin' : ''} /> {actionLoading === d.id ? '...' : 'Rollback'}</button>}
                 </div>
               </div>
             ))}

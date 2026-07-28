@@ -70,6 +70,8 @@ model Repository {
   pipelines   PipelineRun[]
   deployments Deployment[]
   scans       SecurityScan[]
+  webhookSecret String?       @map("webhook_secret")
+  lastWebhookReceivedAt DateTime? @map("last_webhook_received_at")
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
   @@index([ownerId])
@@ -96,6 +98,7 @@ model PipelineRun {
   steps        PipelineStep[]
   @@index([repoId])
   @@index([status])
+  @@unique([repoId, commitSha, trigger])
   @@map("pipeline_runs")
 }
 

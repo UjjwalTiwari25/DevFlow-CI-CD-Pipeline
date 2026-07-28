@@ -1,5 +1,6 @@
 const { prisma } = require('../models/prisma');
 const { pipelineQueue } = require('../utils/queue');
+const crypto = require('crypto');
 
 async function getGithubRepositories(userId) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -94,7 +95,41 @@ async function getRepositories(userId) {
 
 async function createRepository(userId, data) {
   const { id, ...repoData } = data; // Strip GitHub's numeric ID
-  return prisma.repository.create({ data: { ...repoData, ownerId: userId } });
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  
+  const webhookSecret = crypto.randomBytes(32).toString('hex');
+  const apiUrl = process.env.API_URL || process.env.RENDER_EXTERNAL_URL || 'https://api.devflow.app';
+
+  if (user && user.githubAccessToken) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repoData.fullName}/hooks`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user.githubAccessToken}`,
+          Accept: 'application/vnd.github.v3+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: 'web',
+          active: true,
+          events: ['push'],
+          config: {
+            url: `${apiUrl}/api/webhooks/github`,
+            content_type: 'json',
+            secret: webhookSecret
+          }
+        })
+      });
+      if (!res.ok) {
+        console.error('Failed to register webhook:', await res.text());
+      }
+    } catch (e) {
+      console.error('Webhook registration error:', e);
+    }
+  }
+
+  return prisma.repository.create({ data: { ...repoData, ownerId: userId, webhookSecret } });
 }
 
 async function deleteRepository(repoId, userId) {
@@ -215,6 +250,13 @@ async function getDeployments(userId, query = {}) {
 async function triggerDeployment(repoId) {
   const repo = await prisma.repository.findUnique({ where: { id: repoId } });
   if (!repo) throw new Error('Repository not found');
+  
+  const lastPipeline = await prisma.pipelineRun.findFirst({
+    where: { repoId, status: 'SUCCESS' },
+    orderBy: { startedAt: 'desc' }
+  });
+  if (!lastPipeline) throw new Error('No successful pipeline run found to deploy');
+
   const lastDeploy = await prisma.deployment.findFirst({
     where: { repoId },
     orderBy: { createdAt: 'desc' },
@@ -225,7 +267,7 @@ async function triggerDeployment(repoId) {
   return prisma.deployment.create({
     data: {
       version,
-      commitSha: Math.random().toString(16).slice(2, 9),
+      commitSha: lastPipeline.commitSha,
       environment: 'production',
       status: 'DEPLOYING',
       triggeredBy: 'manual',

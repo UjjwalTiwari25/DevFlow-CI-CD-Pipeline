@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Shield, RefreshCw, Filter, AlertTriangle } from 'lucide-react';
 import { getSecurityScans } from '../api/client';
+import { useAppEvents } from '../components/EventContext';
 
 export default function Security() {
   const [data, setData] = useState({ scans: [], pagination: {} });
   const [filter, setFilter] = useState({ status: '', scanType: '' });
   const [loading, setLoading] = useState(true);
 
-  const load = (page = 1) => {
-    setLoading(true);
+  const load = (page = 1, silently = false) => {
+    if (!silently) setLoading(true);
     const q = new URLSearchParams({ page, limit: 20, ...Object.fromEntries(Object.entries(filter).filter(([, v]) => v)) });
-    getSecurityScans(q.toString()).then((r) => setData(r.data)).finally(() => setLoading(false));
+    getSecurityScans(q.toString()).then((r) => setData(r.data)).finally(() => { if (!silently) setLoading(false); });
   };
 
+  const { lastEvent } = useAppEvents();
+
   useEffect(() => { load(); }, [filter]);
+
+  useEffect(() => {
+    if (lastEvent) load(1, true);
+  }, [lastEvent]);
 
   const scanIcons = { dependency: '📦', filesystem: '🔍', container: '🐳', sast: '🛡️', secrets: '🔑' };
   const totals = data.scans.reduce((a, s) => ({ c: a.c + s.criticalCount, h: a.h + s.highCount, m: a.m + s.mediumCount, l: a.l + s.lowCount }), { c: 0, h: 0, m: 0, l: 0 });

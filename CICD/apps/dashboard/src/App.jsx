@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { getToken } from './api/client';
 import { EventProvider } from './components/EventContext';
+import { ToastProvider } from './components/ToastContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -21,10 +23,11 @@ function PrivateRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
+      <ToastProvider>
+        <Routes>
+          <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<PrivateRoute><EventProvider><Layout /></EventProvider></PrivateRoute>}>
+        <Route path="/dashboard" element={<PrivateRoute><EventProvider><ErrorBoundary><Layout /></ErrorBoundary></EventProvider></PrivateRoute>}>
           <Route index element={<Dashboard />} />
           <Route path="pipelines" element={<Pipelines />} />
           <Route path="pipelines/:id" element={<PipelineDetail />} />
@@ -34,7 +37,8 @@ export default function App() {
           <Route path="health" element={<Health />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
-      </Routes>
+        </Routes>
+      </ToastProvider>
     </BrowserRouter>
   );
 }

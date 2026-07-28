@@ -14,15 +14,25 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Trigger Render deploy hook
+      - name: Trigger Render deploy hook (API)
         run: |
-          echo "🚀 Triggering deployment for commit ${{ github.event.workflow_run.head_sha }}"
+          echo "🚀 Triggering API deployment for commit ${{ github.event.workflow_run.head_sha }}"
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}")
           if [ "$response" != "200" ] && [ "$response" != "201" ]; then
-            echo "❌ Deploy hook returned HTTP $response"
+            echo "❌ API Deploy hook returned HTTP $response"
             exit 1
           fi
-          echo "✅ Deploy hook triggered successfully"
+          echo "✅ API Deploy hook triggered successfully"
+
+      - name: Trigger Render deploy hook (Worker)
+        run: |
+          echo "🚀 Triggering Worker deployment for commit ${{ github.event.workflow_run.head_sha }}"
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.RENDER_WORKER_DEPLOY_HOOK }}")
+          if [ "$response" != "200" ] && [ "$response" != "201" ]; then
+            echo "❌ Worker Deploy hook returned HTTP $response"
+            exit 1
+          fi
+          echo "✅ Worker Deploy hook triggered successfully"
 
       - name: Wait for deployment health check
         run: |
@@ -80,11 +90,20 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' }}
 
     steps:
-      - name: Trigger Render rollback
+      - name: Trigger Render rollback (API)
         run: |
-          echo "🔄 Rolling back deployment..."
+          echo "🔄 Rolling back API deployment..."
           curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/rollback"
-          echo "✅ Rollback initiated"
+          echo "✅ API Rollback initiated"
+
+      - name: Trigger Render rollback (Worker)
+        run: |
+          echo "🔄 Rolling back Worker deployment..."
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            "https://api.render.com/v1/services/${{ secrets.RENDER_WORKER_SERVICE_ID }}/rollback"
+          echo "✅ Worker Rollback initiated"

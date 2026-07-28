@@ -25,27 +25,30 @@ const handleGithubPush = async (req, res, next) => {
       return res.status(200).json({ message: 'No head commit found, ignoring' });
     }
 
-    // 1. Find the registered repository in our database
-    const repo = await prisma.repository.findFirst({
-      where: { fullName: repoFullName, isActive: true },
-    });
-
-    if (!repo) {
-      logger.warn(`Webhook received for unregistered repository: ${repoFullName}`);
-      return res.status(404).json({ error: 'Repository not registered in DevFlow' });
-    }
+    // 1. Get the repository (attached by verifyGithubWebhook middleware)
+    const repo = req.repo;
 
     // 2. Create a new PipelineRun
-    const pipelineRun = await prisma.pipelineRun.create({
-      data: {
-        repoId: repo.id,
-        commitMsg: headCommit.message.split('\n')[0].substring(0, 255), // Use first line of commit
-        commitSha: headCommit.id,
-        branch: branch,
-        status: 'QUEUED',
-        trigger: 'webhook',
-      },
-    });
+    let pipelineRun;
+    try {
+      pipelineRun = await prisma.pipelineRun.create({
+        data: {
+          repoId: repo.id,
+          commitMsg: headCommit.message.split('\n')[0].substring(0, 255), // Use first line of commit
+          commitSha: headCommit.id,
+          branch: branch,
+          status: 'QUEUED',
+          trigger: 'webhook',
+        },
+      });
+    } catch (e) {
+      // Idempotency: Ignore duplicate webhooks for the same push
+      if (e.code === 'P2002') {
+        logger.info(`Pipeline already queued for ${repoFullName} commit ${headCommit.id}`);
+        return res.status(200).json({ message: 'Pipeline already queued' });
+      }
+      throw e;
+    }
 
     logger.info(`Pipeline ${pipelineRun.id} queued for ${repoFullName} in database`);
 

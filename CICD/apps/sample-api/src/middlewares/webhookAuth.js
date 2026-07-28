@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const { config } = require('../config');
 const { logger } = require('../utils/logger');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 /**
  * Middleware to verify GitHub webhook HMAC-SHA256 signatures.
@@ -15,14 +17,7 @@ const { logger } = require('../utils/logger');
  * IMPORTANT: This middleware requires the raw request body. Express's default
  * json() parser consumes the body, so we configure a raw body buffer in app.js.
  */
-function verifyGithubWebhook(req, res, next) {
-  const secret = config.GITHUB_WEBHOOK_SECRET;
-
-  if (!secret) {
-    logger.error('GITHUB_WEBHOOK_SECRET is not configured — rejecting all webhooks');
-    return res.status(500).json({ error: 'Webhook secret not configured on server' });
-  }
-
+async function verifyGithubWebhook(req, res, next) {
   const signature = req.headers['x-hub-signature-256'];
 
   if (!signature) {
@@ -30,7 +25,6 @@ function verifyGithubWebhook(req, res, next) {
     return res.status(401).json({ error: 'Missing webhook signature' });
   }
 
-  // req.rawBody is set by the express.json({ verify }) callback in app.js
   const rawBody = req.rawBody;
 
   if (!rawBody) {
@@ -38,21 +32,55 @@ function verifyGithubWebhook(req, res, next) {
     return res.status(500).json({ error: 'Unable to verify webhook signature' });
   }
 
+  let payload;
+  try {
+    payload = JSON.parse(rawBody.toString('utf8'));
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid JSON payload' });
+  }
+
+  const repoFullName = payload?.repository?.full_name;
+  if (!repoFullName) {
+    return res.status(400).json({ error: 'Missing repository.full_name in payload' });
+  }
+
+  const repo = await prisma.repository.findFirst({
+    where: { fullName: repoFullName, isActive: true },
+  });
+
+  if (!repo) {
+    return res.status(404).json({ error: 'Repository not registered' });
+  }
+
+  const secret = repo.webhookSecret || config.GITHUB_WEBHOOK_SECRET;
+
+  if (!secret) {
+    logger.error('No webhook secret configured for repo or globally');
+    return res.status(500).json({ error: 'Webhook secret not configured' });
+  }
+
   const expectedSignature =
     'sha256=' + crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
 
-  // Use timingSafeEqual to prevent timing attacks
   const sigBuffer = Buffer.from(signature, 'utf8');
   const expectedBuffer = Buffer.from(expectedSignature, 'utf8');
 
   if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
-    logger.warn('Webhook signature verification failed', {
-      received: signature.substring(0, 20) + '...',
-    });
+    logger.warn('Webhook signature verification failed');
     return res.status(401).json({ error: 'Invalid webhook signature' });
   }
 
+  // Update last received at
+  await prisma.repository.update({
+    where: { id: repo.id },
+    data: { lastWebhookReceivedAt: new Date() }
+  });
+
   logger.debug('Webhook signature verified successfully');
+  
+  // Attach repo to req so controller doesn't have to look it up again
+  req.repo = repo;
+  
   next();
 }
 

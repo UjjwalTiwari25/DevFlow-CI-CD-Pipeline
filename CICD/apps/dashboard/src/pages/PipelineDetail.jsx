@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, GitBranch, RefreshCw, CheckCircle2, XCircle, Clock, FileText, Copy } from 'lucide-react';
 import { getPipeline, rerunPipeline, getPipelineLogs } from '../api/client';
 import { useAppEvents } from '../components/EventContext';
+import { useToast } from '../components/ToastContext';
 
 function formatDuration(s) { return s ? `${Math.floor(s / 60)}m ${s % 60}s` : '—'; }
 
@@ -14,6 +15,8 @@ export default function PipelineDetail() {
   const navigate = useNavigate();
 
   const [logs, setLogs] = useState([]);
+  const [rerunning, setRerunning] = useState(false);
+  const { addToast } = useToast();
 
   const load = () => { 
     getPipeline(id).then((r) => setP(r.data)).catch(() => navigate('/dashboard/pipelines')); 
@@ -31,7 +34,18 @@ export default function PipelineDetail() {
 
   if (!p) return <div className="page-loading">Loading...</div>;
 
-  const handleRerun = async () => { await rerunPipeline(id); navigate('/dashboard/pipelines'); };
+  const handleRerun = async () => {
+    if (rerunning) return;
+    setRerunning(true);
+    try {
+      await rerunPipeline(id);
+      addToast('Pipeline queued for re-run', 'success');
+      navigate('/dashboard/pipelines');
+    } catch (err) {
+      addToast(err.message || 'Failed to re-run pipeline', 'error');
+      setRerunning(false);
+    }
+  };
 
   return (
     <div className="page">
@@ -40,7 +54,7 @@ export default function PipelineDetail() {
           <button className="btn icon-btn" onClick={() => navigate('/dashboard/pipelines')}><ArrowLeft size={18} /></button>
           <div><h1>Pipeline Detail</h1><p className="subtitle">{p.commitSha.slice(0, 7)} · {p.repository?.name}</p></div>
         </div>
-        <button className="btn btn-primary" onClick={handleRerun}><RefreshCw size={14} /> Re-run Pipeline</button>
+          <div><button className="btn" disabled={rerunning} onClick={handleRerun}><RefreshCw size={14} className={rerunning ? 'spin' : ''} /> {rerunning ? 'Queuing...' : 'Re-run Pipeline'}</button></div>
       </div>
 
       <div className="detail-grid">

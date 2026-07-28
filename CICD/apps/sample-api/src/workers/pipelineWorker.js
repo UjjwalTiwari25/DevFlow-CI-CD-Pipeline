@@ -188,15 +188,34 @@ const pipelineWorker = new Worker(
       if (p) publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId });
     }
   },
-  { connection }
+  { 
+    connection,
+    stalledInterval: 30000 // Check for stalled jobs every 30s
+  }
 );
+
+pipelineWorker.on('stalled', (jobId) => {
+  logger.warn(`Job ${jobId} has stalled and will be re-processed or failed by BullMQ`);
+});
 
 pipelineWorker.on('completed', (job) => {
   logger.info(`Job ${job.id} has completed!`);
 });
 
-pipelineWorker.on('failed', (job, err) => {
-  logger.error(`Job ${job.id} has failed with ${err.message}`);
+pipelineWorker.on('failed', async (job, err) => {
+  logger.error(`Job ${job?.id} has failed with ${err.message}`);
+  if (job && job.data && job.data.pipelineId) {
+    try {
+      await prisma.pipelineRun.updateMany({
+        where: { id: job.data.pipelineId, status: 'RUNNING' },
+        data: { status: 'FAILED', finishedAt: new Date() }
+      });
+      const p = await prisma.pipelineRun.findUnique({ where: { id: job.data.pipelineId }, include: { repository: true } });
+      if (p) publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId: p.id });
+    } catch (e) {
+      logger.error('Failed to update DB on job failure', e);
+    }
+  }
 });
 
 module.exports = { pipelineWorker };

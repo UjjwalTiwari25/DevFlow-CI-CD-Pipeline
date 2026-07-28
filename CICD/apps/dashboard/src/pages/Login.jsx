@@ -18,6 +18,7 @@ export default function Login() {
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
     const userParam = params.get('user');
+    const refreshTokenParam = params.get('refreshToken');
     const errorParam = params.get('error');
 
     if (errorParam) {
@@ -29,6 +30,7 @@ export default function Login() {
       try {
         const user = JSON.parse(decodeURIComponent(userParam));
         setToken(token);
+        if (refreshTokenParam) localStorage.setItem('devflow_refresh_token', refreshTokenParam);
         localStorage.setItem('devflow_user', JSON.stringify(user));
         navigate('/dashboard');
       } catch (err) {

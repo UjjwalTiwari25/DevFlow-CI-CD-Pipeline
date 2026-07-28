@@ -55,7 +55,7 @@ async function githubCallback(req, res, next) {
     res.cookie('refreshToken', result.refreshToken, REFRESH_COOKIE_OPTIONS);
 
     const userStr = encodeURIComponent(JSON.stringify(result.user));
-    res.redirect(`${config.FRONTEND_URL}/login?token=${result.accessToken}&user=${userStr}`);
+    res.redirect(`${config.FRONTEND_URL}/login?token=${result.accessToken}&refreshToken=${result.refreshToken}&user=${userStr}`);
   } catch (error) {
     console.error('GitHub Auth Error:', error.message);
     res.redirect(`${config.FRONTEND_URL}/login?error=OAuthFailed`);

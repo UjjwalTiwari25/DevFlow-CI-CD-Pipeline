@@ -11,6 +11,7 @@ export function getToken() { return authToken; }
 export function clearToken() {
   authToken = null;
   localStorage.removeItem('devflow_token');
+  localStorage.removeItem('devflow_refresh_token');
   localStorage.removeItem('devflow_user');
 }
 
@@ -29,10 +30,12 @@ async function refreshAccessToken() {
   isRefreshing = true;
   refreshPromise = (async () => {
     try {
+      const storedRefreshToken = localStorage.getItem('devflow_refresh_token');
       const res = await fetch(`${API_BASE}/api/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Send the httpOnly refresh token cookie
+        credentials: 'include', // Send the httpOnly refresh token cookie as fallback
+        body: storedRefreshToken ? JSON.stringify({ refreshToken: storedRefreshToken }) : undefined
       });
       if (!res.ok) throw new Error('Refresh failed');
       const data = await res.json();

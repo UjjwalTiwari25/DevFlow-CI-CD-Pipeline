@@ -202,6 +202,39 @@ const pipelineWorker = new Worker(
         );
       }
 
+      if (buildPassed) {
+        try {
+          const { deploymentQueue } = require('../utils/queue');
+          const lastDeploy = await prisma.deployment.findFirst({
+            where: { repoId: pipelineRun.repository.id },
+            orderBy: { createdAt: 'desc' },
+          });
+          const parts = (lastDeploy?.version || 'v1.0.0').replace('v', '').split('.').map(Number);
+          parts[2]++;
+          const version = `v${parts.join('.')}`;
+          
+          const deployment = await prisma.deployment.create({
+            data: {
+              version,
+              commitSha,
+              environment: 'production',
+              status: 'QUEUED',
+              triggeredBy: 'auto',
+              repoId: pipelineRun.repository.id,
+            },
+          });
+          
+          await deploymentQueue.add('run-deployment', {
+            deploymentId: deployment.id,
+            repoUrl: repoUrl,
+            commitSha: commitSha,
+          });
+          logger.info(`Auto-deployment queued for pipeline ${pipelineId}`);
+        } catch (depErr) {
+          logger.error(`Failed to trigger auto-deployment for ${pipelineId}`, { error: depErr.message });
+        }
+      }
+
       logger.info(`Pipeline ${pipelineId} finished locally with status ${buildPassed ? 'SUCCESS' : 'FAILED'}`);
     } catch (err) {
       logger.error(`Pipeline ${pipelineId} crashed`, { error: err.message });

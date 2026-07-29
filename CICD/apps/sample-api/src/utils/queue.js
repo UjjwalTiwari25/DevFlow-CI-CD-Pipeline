@@ -1,56 +1,31 @@
 const { Queue } = require('bullmq');
 
-// ─── Fix #6: Environment-driven Redis connection ─────────────────────────────
-// Parse REDIS_URL from environment (works with Render, ECS, etc.)
-// Falls back to localhost for docker-compose local development.
-function parseRedisConnection() {
-  const redisUrl = process.env.REDIS_URL;
+// MOCK QUEUE SYSTEM TO BYPASS REDIS ISSUES FOR SIMULATION
+const EventEmitter = require('events');
+const queueEmitter = new EventEmitter();
 
-  if (redisUrl) {
-    const url = new URL(redisUrl);
-    return {
-      host: url.hostname,
-      port: Number(url.port) || 6379,
-      password: url.password || undefined,
-      username: url.username || undefined,
-      maxRetriesPerRequest: null,
-      // Render and other providers often require TLS
-      ...(url.protocol === 'rediss:' ? { tls: {} } : {}),
-    };
+const pipelineQueue = {
+  add: async (name, data) => {
+    // Asynchronously trigger the worker logic without blocking the web request
+    setTimeout(() => {
+      queueEmitter.emit('pipeline-job', { data });
+    }, 100);
+    return { id: 'mock-job-' + Date.now() };
   }
+};
 
-  // Default for local docker-compose development
-  return {
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: Number(process.env.REDIS_PORT) || 16379,
-    maxRetriesPerRequest: null,
-  };
-}
-
-const connection = parseRedisConnection();
-
-const pipelineQueue = new Queue('pipeline-queue', { 
-  connection,
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: { type: 'exponential', delay: 2000 },
-    removeOnComplete: true,
-    removeOnFail: false
+const deploymentQueue = {
+  add: async (name, data) => {
+    setTimeout(() => {
+      queueEmitter.emit('deployment-job', { data });
+    }, 100);
+    return { id: 'mock-job-' + Date.now() };
   }
-});
-
-const deploymentQueue = new Queue('deployment-queue', { 
-  connection,
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: { type: 'exponential', delay: 2000 },
-    removeOnComplete: true,
-    removeOnFail: false
-  }
-});
+};
 
 module.exports = {
   pipelineQueue,
   deploymentQueue,
-  connection,
+  connection: {},
+  queueEmitter
 };

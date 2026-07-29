@@ -1,5 +1,4 @@
-const { Worker } = require('bullmq');
-const { connection } = require('../utils/queue');
+const { queueEmitter } = require('../utils/queue');
 const { PrismaClient } = require('@prisma/client');
 const { logger } = require('../utils/logger');
 const { spawn } = require('child_process');
@@ -25,9 +24,7 @@ function validatePipelineInputs(repoUrl, commitSha) {
   }
 }
 
-const pipelineWorker = new Worker(
-  'pipeline-queue',
-  async (job) => {
+const pipelineProcessor = async (job) => {
     const { pipelineId, repoUrl, commitSha } = job.data;
     const startTime = Date.now();
 
@@ -212,35 +209,14 @@ const pipelineWorker = new Worker(
         }
       }
     }
-  },
-  { 
-    connection,
-    stalledInterval: 30000
-  }
-);
+  };
 
-pipelineWorker.on('stalled', (jobId) => {
-  logger.warn(`Job ${jobId} has stalled and will be re-processed or failed by BullMQ`);
+queueEmitter.on('pipeline-job', (job) => {
+  pipelineProcessor(job).catch(err => {
+    logger.error('Pipeline job completely failed', err);
+  });
 });
 
-pipelineWorker.on('completed', (job) => {
-  logger.info(`Job ${job.id} has completed!`);
-});
 
-pipelineWorker.on('failed', async (job, err) => {
-  logger.error(`Job ${job?.id} has failed with ${err.message}`);
-  if (job && job.data && job.data.pipelineId) {
-    try {
-      await prisma.pipelineRun.updateMany({
-        where: { id: job.data.pipelineId, status: 'RUNNING' },
-        data: { status: 'FAILED', finishedAt: new Date() }
-      });
-      const p = await prisma.pipelineRun.findUnique({ where: { id: job.data.pipelineId }, include: { repository: true } });
-      if (p) publishEvent(p.repository.ownerId, 'pipeline_updated', { pipelineId: p.id });
-    } catch (e) {
-      logger.error('Failed to update DB on job failure', e);
-    }
-  }
-});
 
-module.exports = { pipelineWorker };
+module.exports = { pipelineWorker: null };

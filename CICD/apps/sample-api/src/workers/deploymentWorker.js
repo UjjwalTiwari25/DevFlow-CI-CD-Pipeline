@@ -1,5 +1,4 @@
-const { Worker } = require('bullmq');
-const { connection } = require('../utils/queue');
+const { queueEmitter } = require('../utils/queue');
 const { PrismaClient } = require('@prisma/client');
 const { logger } = require('../utils/logger');
 const { spawn } = require('child_process');
@@ -22,9 +21,7 @@ function validateInputs(repoUrl, commitSha) {
   }
 }
 
-const deploymentWorker = new Worker(
-  'deployment-queue',
-  async (job) => {
+const deploymentProcessor = async (job) => {
     const { deploymentId, repoUrl, commitSha } = job.data;
     
     try {
@@ -83,27 +80,12 @@ const deploymentWorker = new Worker(
         publishEvent(d.repository.ownerId, 'deployment_updated', { deploymentId: d.id });
       }
     }
-  },
-  { 
-    connection,
-    stalledInterval: 30000
-  }
-);
+  };
 
-deploymentWorker.on('failed', async (job, err) => {
-  logger.error(`Deployment Job ${job?.id} has failed with ${err.message}`);
-  if (job && job.data && job.data.deploymentId) {
-    try {
-      await prisma.deployment.updateMany({
-        where: { id: job.data.deploymentId, status: 'DEPLOYING' },
-        data: { status: 'FAILED' }
-      });
-      const d = await prisma.deployment.findUnique({ where: { id: job.data.deploymentId }, include: { repository: true } });
-      if (d) publishEvent(d.repository.ownerId, 'deployment_updated', { deploymentId: d.id });
-    } catch (e) {
-      logger.error('Failed to update DB on deployment job failure', e);
-    }
-  }
+queueEmitter.on('deployment-job', (job) => {
+  deploymentProcessor(job).catch(err => {
+    logger.error('Deployment job completely failed', err);
+  });
 });
 
-module.exports = { deploymentWorker };
+module.exports = { deploymentWorker: null };

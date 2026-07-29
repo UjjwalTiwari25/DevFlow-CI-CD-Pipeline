@@ -1,8 +1,7 @@
 const crypto = require('crypto');
 const { config } = require('../config');
 const { logger } = require('../utils/logger');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const { prisma } = require('../models/prisma');
 
 /**
  * Middleware to verify GitHub webhook HMAC-SHA256 signatures.
@@ -49,6 +48,9 @@ async function verifyGithubWebhook(req, res, next) {
     where: { fullName: repoFullName, isActive: true },
     include: { owner: true },
   });
+  console.log('DEBUG: repoFullName =', repoFullName);
+  console.log('DEBUG: repo =', repo);
+
 
   if (!repo) {
     return res.status(404).json({ error: 'Repository not registered' });

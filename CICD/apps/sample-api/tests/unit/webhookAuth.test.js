@@ -20,19 +20,25 @@ jest.mock('../../src/utils/logger', () => ({
   },
 }));
 
-// Mock PrismaClient
-jest.mock('@prisma/client', () => {
+// Mock Prisma singleton
+jest.mock('../../src/models/prisma', () => {
   return {
-    PrismaClient: class {
-      repository = {
-        findFirst: jest.fn().mockResolvedValue({ id: 'repo1', webhookSecret: 'test-webhook-secret-for-hmac-verification' }),
-        update: jest.fn().mockResolvedValue({})
+    prisma: {
+      repository: {
+        findFirst: jest.fn(),
+        update: jest.fn()
       }
     }
   };
 });
 
 const { verifyGithubWebhook } = require('../../src/middlewares/webhookAuth');
+const { prisma } = require('../../src/models/prisma');
+
+beforeEach(() => {
+  prisma.repository.findFirst.mockResolvedValue({ id: 'repo1', webhookSecret: 'test-webhook-secret-for-hmac-verification' });
+  prisma.repository.update.mockResolvedValue({});
+});
 
 function createMockReqResNext() {
   const req = {
@@ -122,6 +128,9 @@ describe('verifyGithubWebhook', () => {
     const configModule = require('../../src/config');
     const originalSecret = configModule.config.GITHUB_WEBHOOK_SECRET;
     configModule.config.GITHUB_WEBHOOK_SECRET = '';
+
+    // Override the repo to NOT have a webhookSecret
+    prisma.repository.findFirst.mockResolvedValueOnce({ id: 'repo1', webhookSecret: null });
 
     const { req, res, next } = createMockReqResNext();
     req.rawBody = Buffer.from(PAYLOAD);

@@ -1,0 +1,210 @@
+
+> @devflow-ai/sample-api@1.0.0 test
+> jest --forceExit --detectOpenHandles
+
+FAIL tests/unit/webhookAuth.test.js
+  verifyGithubWebhook
+    ✕ should call next() when signature is valid (27 ms)
+    ✓ should reject when no signature header is present (12 ms)
+    ✕ should reject when signature is invalid (tampered payload) (10 ms)
+    ✕ should reject when signature uses wrong secret (7 ms)
+    ✓ should reject when rawBody is missing (17 ms)
+    ✕ should return 500 when GITHUB_WEBHOOK_SECRET is not configured (9 ms)
+
+  ● verifyGithubWebhook › should call next() when signature is valid
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 1
+    Received number of calls: 0
+
+      63 |     await verifyGithubWebhook(req, res, next);
+      64 |
+    > 65 |     expect(next).toHaveBeenCalledTimes(1);
+         |                  ^
+      66 |     expect(res.status).not.toHaveBeenCalled();
+      67 |   });
+      68 |
+
+      at Object.toHaveBeenCalledTimes (tests/unit/webhookAuth.test.js:65:18)
+
+  ● verifyGithubWebhook › should reject when signature is invalid (tampered payload)
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 401
+    Received: 404
+
+    Number of calls: 1
+
+      87 |     await verifyGithubWebhook(req, res, next);
+      88 |
+    > 89 |     expect(res.status).toHaveBeenCalledWith(401);
+         |                        ^
+      90 |     expect(res.json).toHaveBeenCalledWith(
+      91 |       expect.objectContaining({ error: 'Invalid webhook signature' })
+      92 |     );
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:89:24)
+
+  ● verifyGithubWebhook › should reject when signature uses wrong secret
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 401
+    Received: 404
+
+    Number of calls: 1
+
+      101 |     await verifyGithubWebhook(req, res, next);
+      102 |
+    > 103 |     expect(res.status).toHaveBeenCalledWith(401);
+          |                        ^
+      104 |     expect(next).not.toHaveBeenCalled();
+      105 |   });
+      106 |
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:103:24)
+
+  ● verifyGithubWebhook › should return 500 when GITHUB_WEBHOOK_SECRET is not configured
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 500
+    Received: 404
+
+    Number of calls: 1
+
+      130 |     await verifyGithubWebhook(req, res, next);
+      131 |
+    > 132 |     expect(res.status).toHaveBeenCalledWith(500);
+          |                        ^
+      133 |     expect(next).not.toHaveBeenCalled();
+      134 |
+      135 |     // Restore
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:132:24)
+
+{"level":40,"time":1785300732219,"service":"devflow-sample-api","env":"test","method":"GET","url":"/api/tasks","statusCode":401,"message":"Access token is required","msg":"Client error"}
+{"level":40,"time":1785300732307,"service":"devflow-sample-api","env":"test","method":"GET","url":"/api/tasks","statusCode":401,"message":"Invalid or expired token","msg":"Client error"}
+{"level":40,"time":1785300732465,"service":"devflow-sample-api","env":"test","method":"POST","url":"/api/tasks","statusCode":400,"message":"Validation failed","msg":"Client error"}
+{"level":40,"time":1785300732529,"service":"devflow-sample-api","env":"test","method":"POST","url":"/api/tasks","statusCode":400,"message":"Validation failed","msg":"Client error"}
+{"level":40,"time":1785300732627,"service":"devflow-sample-api","env":"test","method":"PATCH","url":"/api/tasks/nonexistent","statusCode":404,"message":"Task not found","msg":"Client error"}
+{"level":40,"time":1785300732684,"service":"devflow-sample-api","env":"test","method":"PATCH","url":"/api/tasks/task-001","statusCode":403,"message":"You do not have permission to access this task","msg":"Client error"}
+{"level":40,"time":1785300732777,"service":"devflow-sample-api","env":"test","method":"DELETE","url":"/api/tasks/nonexistent","statusCode":404,"message":"Task not found","msg":"Client error"}
+PASS tests/integration/tasks.test.js
+  Task Endpoints
+    GET /api/tasks
+      ✓ should return paginated tasks for authenticated user (229 ms)
+      ✓ should reject unauthenticated request (107 ms)
+      ✓ should reject invalid token (76 ms)
+    POST /api/tasks
+      ✓ should create a new task (87 ms)
+      ✓ should reject task without title (71 ms)
+      ✓ should reject task with invalid priority (57 ms)
+    PATCH /api/tasks/:id
+      ✓ should update a task (45 ms)
+      ✓ should return 404 for non-existent task (47 ms)
+      ✓ should return 403 for task owned by another user (55 ms)
+    DELETE /api/tasks/:id
+      ✓ should delete a task (51 ms)
+      ✓ should return 404 for non-existent task (43 ms)
+
+{"level":40,"time":1785300734248,"service":"devflow-sample-api","env":"test","method":"GET","url":"/api/nonexistent","statusCode":404,"message":"Route GET /api/nonexistent not found","msg":"Client error"}
+PASS tests/integration/health.test.js
+  Health Check Endpoint
+    GET /health
+      ✓ should return 200 with health status (139 ms)
+  404 Handler
+    ✓ should return 404 for unknown routes (64 ms)
+
+PASS tests/unit/pipelineWorker.test.js
+  Pipeline Worker Input Validation
+    commitSha validation
+      ✓ should reject commit SHA with shell injection payload (10 ms)
+      ✓ should reject commit SHA that is too short (6 ms)
+      ✓ should reject commit SHA with non-hex characters (4 ms)
+    repoUrl validation
+      ✓ should reject repo URL with command injection (4 ms)
+      ✓ should reject non-GitHub repo URLs (4 ms)
+      ✓ should reject repo URL with path traversal (4 ms)
+
+PASS tests/unit/validators.test.js
+  Validation Schemas
+    registerSchema
+      ✓ should validate a correct registration payload (17 ms)
+      ✓ should reject an invalid email (42 ms)
+      ✓ should reject a weak password (7 ms)
+      ✓ should reject a password without uppercase (5 ms)
+      ✓ should reject an empty name (6 ms)
+    loginSchema
+      ✓ should validate a correct login payload (3 ms)
+      ✓ should reject missing password (5 ms)
+    createTaskSchema
+      ✓ should validate a minimal task (5 ms)
+      ✓ should validate a full task (4 ms)
+      ✓ should reject an empty title (8 ms)
+      ✓ should reject an invalid priority (10 ms)
+    updateTaskSchema
+      ✓ should validate partial updates (6 ms)
+      ✓ should reject invalid status (8 ms)
+    taskQuerySchema
+      ✓ should provide defaults for an empty query (18 ms)
+      ✓ should validate custom query params (7 ms)
+      ✓ should reject a negative page number (8 ms)
+      ✓ should reject limit above 100 (7 ms)
+
+PASS tests/unit/usageLimits.test.js
+  enforceUsageLimits
+    ✓ should backfill a FREE trial for users without a subscription (fix #8) (16 ms)
+    ✓ should block expired trials (14 ms)
+    ✓ should block PAST_DUE subscriptions (7 ms)
+    ✓ should block CANCELED subscriptions (5 ms)
+    ✓ should block FREE users who exceed 5 repos (5 ms)
+    ✓ should allow FREE users under the repo limit (6 ms)
+    ✓ should allow PRO users without repo limits (5 ms)
+    ✓ should return 500 on unexpected errors (5 ms)
+
+PASS tests/unit/jwt.test.js
+  JWT Utilities
+    generateAccessToken
+      ✓ should generate a valid access token (19 ms)
+      ✓ should include the payload in the token (13 ms)
+    generateRefreshToken
+      ✓ should generate a valid refresh token (7 ms)
+      ✓ should include the user ID in the token (10 ms)
+    verifyToken
+      ✓ should verify a valid token (11 ms)
+      ✓ should throw on an invalid token (35 ms)
+      ✓ should throw on a tampered token (13 ms)
+
+PASS tests/unit/errors.test.js
+  Custom Error Classes
+    AppError
+      ✓ should create an error with status code and message (12 ms)
+      ✓ should set status to "fail" for 4xx errors (3 ms)
+      ✓ should accept optional errors array (5 ms)
+    NotFoundError
+      ✓ should default to 404 status (6 ms)
+      ✓ should accept a custom message (4 ms)
+    UnauthorizedError
+      ✓ should default to 401 status (4 ms)
+    ForbiddenError
+      ✓ should default to 403 status (5 ms)
+    ValidationError
+      ✓ should default to 400 status (4 ms)
+    ConflictError
+      ✓ should default to 409 status (3 ms)
+
+Test Suites: 1 failed, 7 passed, 8 total
+Tests:       4 failed, 62 passed, 66 total
+Snapshots:   0 total
+Time:        7.922 s, estimated 8 s
+Ran all test suites.
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /home/ujjwal/Personal/Aura/CICD/apps/sample-api
+npm error workspace @devflow-ai/sample-api@1.0.0
+npm error location /home/ujjwal/Personal/Aura/CICD/apps/sample-api
+npm error command failed
+npm error command sh -c jest --forceExit --detectOpenHandles

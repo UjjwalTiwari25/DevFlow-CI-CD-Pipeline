@@ -1,0 +1,129 @@
+  console.log
+    DEBUG: repoFullName = user/repo
+
+      at log (src/middlewares/webhookAuth.js:51:11)
+
+  console.log
+    DEBUG: repo = undefined
+
+      at log (src/middlewares/webhookAuth.js:52:11)
+
+  console.log
+    DEBUG: repoFullName = user/repo
+
+      at log (src/middlewares/webhookAuth.js:51:11)
+
+  console.log
+    DEBUG: repo = undefined
+
+      at log (src/middlewares/webhookAuth.js:52:11)
+
+  console.log
+    DEBUG: repoFullName = user/repo
+
+      at log (src/middlewares/webhookAuth.js:51:11)
+
+  console.log
+    DEBUG: repo = undefined
+
+      at log (src/middlewares/webhookAuth.js:52:11)
+
+  console.log
+    DEBUG: repoFullName = user/repo
+
+      at log (src/middlewares/webhookAuth.js:51:11)
+
+  console.log
+    DEBUG: repo = undefined
+
+      at log (src/middlewares/webhookAuth.js:52:11)
+
+FAIL tests/unit/webhookAuth.test.js
+  verifyGithubWebhook
+    ✕ should call next() when signature is valid (102 ms)
+    ✓ should reject when no signature header is present (8 ms)
+    ✕ should reject when signature is invalid (tampered payload) (11 ms)
+    ✕ should reject when signature uses wrong secret (11 ms)
+    ✓ should reject when rawBody is missing (15 ms)
+    ✕ should return 500 when GITHUB_WEBHOOK_SECRET is not configured (11 ms)
+
+  ● verifyGithubWebhook › should call next() when signature is valid
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 1
+    Received number of calls: 0
+
+      63 |     await verifyGithubWebhook(req, res, next);
+      64 |
+    > 65 |     expect(next).toHaveBeenCalledTimes(1);
+         |                  ^
+      66 |     expect(res.status).not.toHaveBeenCalled();
+      67 |   });
+      68 |
+
+      at Object.toHaveBeenCalledTimes (tests/unit/webhookAuth.test.js:65:18)
+
+  ● verifyGithubWebhook › should reject when signature is invalid (tampered payload)
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 401
+    Received: 404
+
+    Number of calls: 1
+
+      87 |     await verifyGithubWebhook(req, res, next);
+      88 |
+    > 89 |     expect(res.status).toHaveBeenCalledWith(401);
+         |                        ^
+      90 |     expect(res.json).toHaveBeenCalledWith(
+      91 |       expect.objectContaining({ error: 'Invalid webhook signature' })
+      92 |     );
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:89:24)
+
+  ● verifyGithubWebhook › should reject when signature uses wrong secret
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 401
+    Received: 404
+
+    Number of calls: 1
+
+      101 |     await verifyGithubWebhook(req, res, next);
+      102 |
+    > 103 |     expect(res.status).toHaveBeenCalledWith(401);
+          |                        ^
+      104 |     expect(next).not.toHaveBeenCalled();
+      105 |   });
+      106 |
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:103:24)
+
+  ● verifyGithubWebhook › should return 500 when GITHUB_WEBHOOK_SECRET is not configured
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 500
+    Received: 404
+
+    Number of calls: 1
+
+      130 |     await verifyGithubWebhook(req, res, next);
+      131 |
+    > 132 |     expect(res.status).toHaveBeenCalledWith(500);
+          |                        ^
+      133 |     expect(next).not.toHaveBeenCalled();
+      134 |
+      135 |     // Restore
+
+      at Object.toHaveBeenCalledWith (tests/unit/webhookAuth.test.js:132:24)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 2 passed, 6 total
+Snapshots:   0 total
+Time:        1.19 s, estimated 2 s
+Ran all test suites matching tests/unit/webhookAuth.test.js.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

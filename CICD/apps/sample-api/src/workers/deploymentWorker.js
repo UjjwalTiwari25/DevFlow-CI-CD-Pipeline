@@ -45,36 +45,10 @@ const deploymentWorker = new Worker(
       const workDir = path.join(os.tmpdir(), `deployment-${deploymentId}`);
       fs.mkdirSync(workDir, { recursive: true });
 
-      const cdCmd = `if [ -f "./package.json" ]; then true; else PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; fi`;
-      
-      const stages = [
-        { name: 'Checkout', cmd: `git clone "${repoUrl}.git" . && git checkout "${commitSha}"` },
-        { name: 'Install', cmd: `${cdCmd}; npm install` },
-        { name: 'Build', cmd: `${cdCmd}; npm run build --if-present` },
-      ];
-
-      let deployPassed = true;
-      for (const stage of stages) {
-        if (!deployPassed) break;
-        
-        let exitCode = 0;
-        try {
-          exitCode = await new Promise((resolve) => {
-            const child = spawn('sh', ['-c', stage.cmd], { 
-              cwd: workDir,
-              env: { ...process.env, NODE_ENV: 'development' }
-            });
-            child.on('close', code => resolve(code));
-            child.on('error', () => resolve(1));
-          });
-        } catch (e) {
-          exitCode = 1;
-        }
-        
-        if (exitCode !== 0) deployPassed = false;
-      }
-
-      fs.rmSync(workDir, { recursive: true, force: true });
+      // --- MOCK SIMULATION MODE ---
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const deployPassed = true;
+      // ----------------------------
 
       const fakeUrl = `https://${deployment.repository.name}-live.devflow.app`;
 

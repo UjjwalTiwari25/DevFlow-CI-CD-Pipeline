@@ -103,7 +103,10 @@ const pipelineWorker = new Worker(
         
         try {
           exitCode = await new Promise((resolve) => {
-            const child = spawn('sh', ['-c', stage.cmd], { cwd: workDir });
+            const child = spawn('sh', ['-c', stage.cmd], { 
+              cwd: workDir,
+              env: { ...process.env, NODE_ENV: 'development' }
+            });
             child.stdout.on('data', data => { stepLogs += data.toString(); });
             child.stderr.on('data', data => { stepLogs += data.toString(); });
             child.on('close', code => resolve(code));
@@ -145,7 +148,10 @@ const pipelineWorker = new Worker(
           await new Promise(resolve => {
             const cdCmd = `if [ -f "./package.json" ]; then true; else PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; fi`;
             const cmd = `${cdCmd}; npm audit --json || true`;
-            const child = spawn('sh', ['-c', cmd], { cwd: scanDir });
+            const child = spawn('sh', ['-c', cmd], { 
+              cwd: scanDir,
+              env: { ...process.env, NODE_ENV: 'development' }
+            });
             child.stdout.on('data', data => { auditJson += data.toString(); });
             child.on('close', code => resolve(code));
           });

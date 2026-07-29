@@ -60,7 +60,10 @@ const deploymentWorker = new Worker(
         let exitCode = 0;
         try {
           exitCode = await new Promise((resolve) => {
-            const child = spawn('sh', ['-c', stage.cmd], { cwd: workDir });
+            const child = spawn('sh', ['-c', stage.cmd], { 
+              cwd: workDir,
+              env: { ...process.env, NODE_ENV: 'development' }
+            });
             child.on('close', code => resolve(code));
             child.on('error', () => resolve(1));
           });

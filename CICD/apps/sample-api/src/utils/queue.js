@@ -13,6 +13,7 @@ function parseRedisConnection() {
       port: Number(url.port) || 6379,
       password: url.password || undefined,
       username: url.username || undefined,
+      maxRetriesPerRequest: null,
       // Render and other providers often require TLS
       ...(url.protocol === 'rediss:' ? { tls: {} } : {}),
     };
@@ -22,6 +23,7 @@ function parseRedisConnection() {
   return {
     host: process.env.REDIS_HOST || '127.0.0.1',
     port: Number(process.env.REDIS_PORT) || 16379,
+    maxRetriesPerRequest: null,
   };
 }
 

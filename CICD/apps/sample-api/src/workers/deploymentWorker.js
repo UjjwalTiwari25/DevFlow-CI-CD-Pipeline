@@ -45,7 +45,7 @@ const deploymentWorker = new Worker(
       const workDir = path.join(os.tmpdir(), `deployment-${deploymentId}`);
       fs.mkdirSync(workDir, { recursive: true });
 
-      const cdCmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"`;
+      const cdCmd = `if [ -f "./package.json" ]; then true; else PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; fi`;
       
       const stages = [
         { name: 'Checkout', cmd: `git clone "${repoUrl}.git" . && git checkout "${commitSha}"` },

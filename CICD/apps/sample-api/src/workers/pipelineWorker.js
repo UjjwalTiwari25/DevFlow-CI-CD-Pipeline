@@ -79,13 +79,14 @@ const pipelineWorker = new Worker(
         throw err;
       }
 
-      const cdCmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"`;
+      const cdCmd = `if [ -f "./package.json" ]; then true; else PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; fi`;
+      const prismaGenCmd = `if [ -f "apps/sample-api/prisma/schema.prisma" ]; then npx prisma generate --schema=apps/sample-api/prisma/schema.prisma; elif [ -f "prisma/schema.prisma" ]; then npx prisma generate; fi`;
       
       const stages = [
         { name: 'Checkout', cmd: `git clone "${repoUrl}.git" . && git checkout "${commitSha}"` },
         { name: 'Install', cmd: `${cdCmd}; npm install` },
         { name: 'Lint', cmd: `${cdCmd}; npm run lint --if-present` },
-        { name: 'Test', cmd: `${cdCmd}; npm run test --if-present` },
+        { name: 'Test', cmd: `${cdCmd}; ${prismaGenCmd}; npm run test --if-present` },
         { name: 'Build', cmd: `${cdCmd}; npm run build --if-present` },
       ];
 
@@ -142,7 +143,8 @@ const pipelineWorker = new Worker(
           
           let auditJson = '';
           await new Promise(resolve => {
-            const cmd = `PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; npm audit --json || true`;
+            const cdCmd = `if [ -f "./package.json" ]; then true; else PKG=$(find . -name "package.json" -not -path "*/node_modules/*" | head -n 1); [ -n "$PKG" ] && cd "$(dirname "$PKG")"; fi`;
+            const cmd = `${cdCmd}; npm audit --json || true`;
             const child = spawn('sh', ['-c', cmd], { cwd: scanDir });
             child.stdout.on('data', data => { auditJson += data.toString(); });
             child.on('close', code => resolve(code));

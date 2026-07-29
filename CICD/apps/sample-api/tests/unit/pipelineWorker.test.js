@@ -25,6 +25,7 @@ jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn().mockImplementation(() => ({
     pipelineRun: {
       update: mockPipelineRunUpdate,
+      findUnique: jest.fn().mockResolvedValue({ id: 'dummy', repository: { ownerId: 'user1' } }),
     },
   })),
 }));

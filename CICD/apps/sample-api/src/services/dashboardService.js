@@ -49,7 +49,8 @@ async function getStats(userId) {
       activeScans: 0,
     };
 
-  const [totalRuns, successRuns, allRuns, deploysToday] = await Promise.all([
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const [totalRuns, successRuns, allRuns, deploysToday, activeScans] = await Promise.all([
     prisma.pipelineRun.count({ where: { repoId: { in: repoIds } } }),
     prisma.pipelineRun.count({ where: { repoId: { in: repoIds }, status: 'SUCCESS' } }),
     prisma.pipelineRun.findMany({
@@ -59,8 +60,11 @@ async function getStats(userId) {
     prisma.deployment.count({
       where: {
         repoId: { in: repoIds },
-        createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+        createdAt: { gte: twentyFourHoursAgo },
       },
+    }),
+    prisma.securityScan.count({
+      where: { repoId: { in: repoIds } },
     }),
   ]);
 
@@ -75,7 +79,7 @@ async function getStats(userId) {
     avgDuration,
     deploysToday,
     totalRepos: repoIds.length,
-    activeScans: repoIds.length * 5,
+    activeScans,
   };
 }
 

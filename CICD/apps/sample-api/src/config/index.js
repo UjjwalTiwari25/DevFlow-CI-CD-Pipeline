@@ -13,7 +13,7 @@ const envSchema = z.object({
   JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
   BCRYPT_SALT_ROUNDS: z.coerce.number().default(12),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
-  RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100),
+  RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(10000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   CORS_ORIGIN: z.string().default('*'),
 

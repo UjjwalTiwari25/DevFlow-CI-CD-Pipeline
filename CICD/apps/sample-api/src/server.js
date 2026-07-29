@@ -5,7 +5,7 @@ const { disconnectDB } = require('./models/prisma');
 require('./workers/pipelineWorker');
 require('./workers/deploymentWorker');
 
-const server = app.listen(config.PORT, () => {
+const server = app.listen(config.PORT, async () => {
   logger.info(
     {
       port: config.PORT,
@@ -13,6 +13,20 @@ const server = app.listen(config.PORT, () => {
     },
     `🚀 DevFlow Sample API running on port ${config.PORT}`
   );
+
+  // Clean up any jobs stuck in RUNNING state from before server restart
+  try {
+    const prisma = require('./models/prisma').prisma;
+    const stuckPipelines = await prisma.pipelineRun.updateMany({
+      where: { status: 'RUNNING', startedAt: { lt: new Date(Date.now() - 60 * 60 * 1000) } },
+      data: { status: 'FAILED' }
+    });
+    if (stuckPipelines.count > 0) {
+      logger.info(`Cleaned up ${stuckPipelines.count} stuck pipeline runs.`);
+    }
+  } catch (e) {
+    logger.error('Failed to clean up stuck pipelines', e);
+  }
 });
 
 // ─── Graceful Shutdown ────────────────────────────────────────────────────────

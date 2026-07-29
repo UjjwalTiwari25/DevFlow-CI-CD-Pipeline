@@ -108,12 +108,12 @@ const pipelineProcessor = async (job) => {
               commitSha: commitSha,
               scanType: 'dependency',
               scanner: 'npm-audit',
-              status: 'COMPLETED',
+              status: 'PASSED', // Fixed: ScanStatus is PENDING | RUNNING | PASSED | FAILED
               criticalCount: 0,
               highCount: 0,
               mediumCount: 0,
               lowCount: 0,
-              report: { raw: "Mock security audit passed perfectly." },
+              report: JSON.stringify({ raw: "Mock security audit passed perfectly." }), // Fixed: Must be string for @db.Text
             }
           });
           publishEvent(userId, 'security_scan_completed', { repoId: pipelineRun.repository.id });
@@ -164,7 +164,7 @@ const pipelineProcessor = async (job) => {
               version,
               commitSha,
               environment: 'production',
-              status: 'QUEUED',
+              status: 'PENDING', // Fixed: DeployStatus doesn't have QUEUED
               triggeredBy: 'auto',
               repoId: pipelineRun.repository.id,
             },
